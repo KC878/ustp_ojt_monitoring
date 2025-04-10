@@ -4,28 +4,52 @@ import { LockOutlined, SafetyCertificateOutlined , UserOutlined, MailOutlined } 
 import { Button, Checkbox, Form, Input, Row, Col } from 'antd';
 
 import { useAuth } from '@src/store/useAuth';
-
+import { useGenerateID } from '@src/store/useGenerateID';
+import { timeStamp } from '@src/utils/timeStamp';
 
 const Signup: React.FC = () => {
 
   const [isDisabled, setIsDisabled] = useState(false);
   const { 
-    authAction, setAuthAction,
-    userID, setUserID,
+    setAuthAction,
+    setUserID, // didicated Global State for userID -> 
     name, setName,
     email, setEmail,
     password, setPassword,
     roleID, setRoleID,
-    created_at, setCreated_At
+    setCreated_At,
   } = useAuth();
   
+   // global  --> controls display of ID
+  const { id, setID } = useGenerateID();
+ 
+  // Values declared but not read 
+  // set it later
+  const onFinish = () => {
 
-  const onFinish = (values: any) => {
-    alert(`
-      Name: ${name}
-      Password: ${password}
-      Email: ${email}
-    `);
+    
+
+    setUserID(id);  // setID here
+    setRoleID(1); // set Role ID == student
+    setCreated_At(timeStamp()); // store timeStamp
+
+    setID(); // reset ID 
+    // if successful setID -> 
+    // setUserID(id);  // won't
+
+    
+    return (
+      alert(`
+        UserID: ${id}  // display directly the changed ID
+        RoleID: ${roleID}
+        TimeStamp: ${timeStamp()} // display current Time stamp 
+        Name: ${name}
+        Password: ${password}
+        Email: ${email}
+
+      `)
+    );
+    
   };
 
   return (

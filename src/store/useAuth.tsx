@@ -3,6 +3,7 @@ import { create } from 'zustand';
 interface GlobalState {
   authAction: string;
   setAuthAction: (action: string) => void;
+  
   // set wheter to use Login or Signup
   userID: string;
   setUserID: (id: string) => void;
@@ -37,7 +38,7 @@ export const useAuth = create<GlobalState>((set) => ({
   password: '',
   setPassword: (pass) => set({ password: pass }),
 
-  roleID: 0,
+  roleID: 1, // set Default 1 == Student
   setRoleID: (role) => set({ roleID: role }),
 
   created_at: '',
