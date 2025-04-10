@@ -1,9 +1,9 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware'
+
+
 
 interface GlobalState {
-  authAction: string;
-  setAuthAction: (action: string) => void;
-  
   // set wheter to use Login or Signup
   userID: string;
   setUserID: (id: string) => void;
@@ -44,9 +44,26 @@ export const useAuth = create<GlobalState>((set) => ({
   created_at: '',
   setCreated_At: (dateTime) => set({ created_at: dateTime }),
 
-  authAction: 'login',
-  setAuthAction: (action) => set({ authAction: action })
-
 }));
+
+
+interface AuthMiddleWare{
+  authAction: 'login' | 'signup';
+setAuthAction: (action: 'login' | 'signup') => void;
+}
+
+export const useAuthMiddleware = create<AuthMiddleWare>()(
+  persist(
+    (set) => ({
+      authAction: 'signup',
+      setAuthAction: (action) => set({ authAction: action }),
+    }),
+    {
+      name: 'auth-component', // localStorage key
+      partialize: (state) => ({ authAction: state.authAction }),
+    }
+  )
+);
+
 
 

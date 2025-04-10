@@ -3,16 +3,17 @@ import { useState } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Row, Col } from 'antd';
 
-import { useAuth } from '@src/store/useAuth';
+import { useAuth, useAuthMiddleware } from '@src/store/useAuth';
 
 
 const Login: React.FC = () => {
   const { 
     name, setName, 
-    password, setPassword,
-    setAuthAction
+    password, setPassword
   } = useAuth();
-  
+
+  const { setAuthAction } = useAuthMiddleware();
+
   const onFinish = (values: any) => {
     alert(`
       Name: ${name}
@@ -44,7 +45,7 @@ const Login: React.FC = () => {
           style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%' }}
         >
           <h2 style={{ textAlign: 'center', fontSize: 24, fontWeight: 'bold', marginBottom: 24 }}>
-            Login
+            Welcome Back!
           </h2>
 
           <Form.Item

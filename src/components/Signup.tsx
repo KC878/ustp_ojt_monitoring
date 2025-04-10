@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { LockOutlined, SafetyCertificateOutlined , UserOutlined, MailOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Row, Col } from 'antd';
 
-import { useAuth } from '@src/store/useAuth';
+import { useAuth, useAuthMiddleware } from '@src/store/useAuth';
 import { useGenerateID } from '@src/store/useGenerateID';
 import { timeStamp } from '@src/utils/timeStamp';
 
@@ -11,7 +11,6 @@ const Signup: React.FC = () => {
 
   const [isDisabled, setIsDisabled] = useState(false);
   const { 
-    setAuthAction,
     setUserID, // didicated Global State for userID -> 
     name, setName,
     email, setEmail,
@@ -19,6 +18,8 @@ const Signup: React.FC = () => {
     roleID, setRoleID,
     setCreated_At,
   } = useAuth();
+
+  const { setAuthAction } = useAuthMiddleware();
   
    // global  --> controls display of ID
   const { id, setID } = useGenerateID();

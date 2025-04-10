@@ -10,11 +10,11 @@ import Signup from '@src/components/Signup';
 
 import Loading from  '@src/components/Loading';
 
-import { useAuth } from '@src/store/useAuth';
+import { useAuthMiddleware } from '@src/store/useAuth';
 
 const LoginPage = () => {
 
-  const { authAction } = useAuth();
+  const { authAction } = useAuthMiddleware();
   
   const { loading } = useLoading();
 
