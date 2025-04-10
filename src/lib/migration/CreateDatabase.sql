@@ -1,3 +1,7 @@
+-- CREATE DATABASE logicbase_ojt_monitoring;
+CREATE DATABASE IF NOT EXISTS logicbase_ojt_monitoring;
+USE logicbase_ojt_monitoring;
+
 -- DROP EXISTING TABLES
 DROP TABLE IF EXISTS Announcements;
 DROP TABLE IF EXISTS Attendance;
@@ -6,7 +10,9 @@ DROP TABLE IF EXISTS Daily_Logs;
 DROP TABLE IF EXISTS OJT_Assignments;
 DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Roles;
-DROP TABLE IF EXISTS Status;
+DROP TABLE IF EXISTS Login_Status_Type;
+DROP TABLE IF EXISTS Attendance_Status_Types;
+DROP TABLE IF EXISTS User_Status;
 
 -- 1. Create Roles Table
 CREATE TABLE IF NOT EXISTS Roles (
@@ -14,15 +20,22 @@ CREATE TABLE IF NOT EXISTS Roles (
   role VARCHAR(25) UNIQUE NOT NULL
 );
 
--- 2. Create Status Table
-CREATE TABLE IF NOT EXISTS Status (
-  statusID INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  status VARCHAR(25)
+-- 2. Create Login_Status_Type Table
+CREATE TABLE IF NOT EXISTS Login_Status_Type (
+  loginStatusID INT AUTO_INCREMENT NOT NULL PRIMARY KEY, -- active, inactive
+  status VARCHAR(25) NOT NULL
 );
 
--- 3. Create Users Table with UUID as userID
+-- 3. Create Attendance_Status_Types Table
+CREATE TABLE IF NOT EXISTS Attendance_Status_Types (
+  attendanceStatusID INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  status VARCHAR(20) NOT NULL -- present, absent, late, on-leave, etc.
+);
+
+-- 4. Create Users Table with UUID as userID
 CREATE TABLE IF NOT EXISTS Users (
   userID CHAR(36) NOT NULL PRIMARY KEY, -- UUID for userID
+  name VARCHAR(50) NOT NULL, 
   email VARCHAR(100) UNIQUE NOT NULL,
   password TEXT NOT NULL,
   roleID INT NOT NULL, -- 'admin', 'student', 'supervisor'
@@ -30,7 +43,16 @@ CREATE TABLE IF NOT EXISTS Users (
   FOREIGN KEY (roleID) REFERENCES Roles(roleID) ON DELETE CASCADE 
 );
 
--- 4. Create OJT_Assignments Table with UUID as assignment_id and userID
+-- 5. Create User_Status Table
+CREATE TABLE IF NOT EXISTS User_Status ( 
+  userID CHAR(36) NOT NULL,    -- UUID for userID
+  loginStatusID INT NOT NULL,
+  PRIMARY KEY (userID), -- User is the primary key
+  FOREIGN KEY (userID) REFERENCES Users(userID) ON DELETE CASCADE,
+  FOREIGN KEY (loginStatusID) REFERENCES Login_Status_Type(loginStatusID) ON DELETE CASCADE
+);
+
+-- 6. Create OJT_Assignments Table with UUID as assignment_id and userID
 CREATE TABLE IF NOT EXISTS OJT_Assignments (
   assignment_id CHAR(36) NOT NULL PRIMARY KEY, -- UUID for assignment_id
   userID CHAR(36) NOT NULL, -- UUID for userID
@@ -43,7 +65,7 @@ CREATE TABLE IF NOT EXISTS OJT_Assignments (
   FOREIGN KEY (roleID) REFERENCES Roles(roleID) ON DELETE CASCADE
 );
 
--- 5. Create Daily_Logs Table with UUID for log_id and assignment_id
+-- 7. Create Daily_Logs Table with UUID for log_id and assignment_id
 CREATE TABLE IF NOT EXISTS Daily_Logs (
   log_id CHAR(36) NOT NULL PRIMARY KEY, -- UUID for log_id
   assignment_id CHAR(36) NOT NULL, -- UUID for assignment_id
@@ -56,7 +78,7 @@ CREATE TABLE IF NOT EXISTS Daily_Logs (
   FOREIGN KEY (assignment_id) REFERENCES OJT_Assignments(assignment_id) ON DELETE CASCADE
 );
 
--- 6. Create Evaluations Table with UUID for evaluation_id and assignment_id
+-- 8. Create Evaluations Table with UUID for evaluation_id and assignment_id
 CREATE TABLE IF NOT EXISTS Evaluations (
   evaluation_id CHAR(36) NOT NULL PRIMARY KEY, -- UUID for evaluation_id
   assignment_id CHAR(36) NOT NULL, -- UUID for assignment_id
@@ -68,16 +90,17 @@ CREATE TABLE IF NOT EXISTS Evaluations (
   FOREIGN KEY (evaluator_id) REFERENCES Users(userID) ON DELETE CASCADE
 );
 
--- 7. Create Attendance Table with UUID for attendance_id and assignment_id
+-- 9. Create Attendance Table with UUID for attendance_id and assignment_id
 CREATE TABLE IF NOT EXISTS Attendance (
   attendance_id CHAR(36) NOT NULL PRIMARY KEY, -- UUID for attendance_id
   assignment_id CHAR(36) NOT NULL, -- UUID for assignment_id
   date DATE,
-  status VARCHAR(10), -- 'present', 'absent', 'late'
-  FOREIGN KEY (assignment_id) REFERENCES OJT_Assignments(assignment_id) ON DELETE CASCADE
+  statusID INT NOT NULL, -- Foreign key to Attendance_Status_Types
+  FOREIGN KEY (assignment_id) REFERENCES OJT_Assignments(assignment_id) ON DELETE CASCADE,
+  FOREIGN KEY (statusID) REFERENCES Attendance_Status_Types(attendanceStatusID) ON DELETE CASCADE
 );
 
--- 8. Create Announcements Table with UUID for announcement_id and posted_by
+-- 10. Create Announcements Table with UUID for announcement_id and posted_by
 CREATE TABLE IF NOT EXISTS Announcements (
   announcement_id CHAR(36) NOT NULL PRIMARY KEY, -- UUID for announcement_id
   title VARCHAR(100),

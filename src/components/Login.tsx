@@ -3,10 +3,16 @@ import { useState } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Row, Col } from 'antd';
 
-const Login: React.FC = () => {
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
+import { useAuth } from '@src/store/useAuth';
 
+
+const Login: React.FC = () => {
+  const { 
+    name, setName, 
+    password, setPassword,
+    setAuthAction
+  } = useAuth();
+  
   const onFinish = (values: any) => {
     alert(`
       Name: ${name}
@@ -82,11 +88,16 @@ const Login: React.FC = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button block type="primary" htmlType="submit" style={{ padding: '8px', borderRadius: 4 }}>
+            <Button 
+              block 
+              type="primary" 
+              htmlType="submit" 
+              style={{ padding: '8px', borderRadius: 4 }}
+            >
               Log in
             </Button>
             <div style={{ textAlign: 'center', marginTop: 16 }}>
-              or <a href="">Register now!</a>
+              No account? <a onClick={() => setAuthAction('signup')}>Register now!</a>
             </div>
           </Form.Item>
         </Form>
