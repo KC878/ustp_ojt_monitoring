@@ -1,10 +1,17 @@
 import React from 'react';
+import { useState } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Row, Col } from 'antd';
 
 const Login: React.FC = () => {
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+
   const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
+    alert(`
+      Name: ${name}
+      Password: ${password}  
+    `);
   };
 
   return (
@@ -38,14 +45,27 @@ const Login: React.FC = () => {
             name="username"
             rules={[{ required: true, message: 'Please input your Username!' }]}
           >
-            <Input prefix={<UserOutlined />} placeholder="Username" />
+            <Input 
+              prefix={<UserOutlined />} 
+              placeholder="Username"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </Form.Item>
 
           <Form.Item
             name="password"
             rules={[{ required: true, message: 'Please input your Password!' }]}
           >
-            <Input prefix={<LockOutlined />} type="password" placeholder="Password" />
+            <Input 
+              prefix={<LockOutlined />} 
+              type="password" 
+              placeholder="Password"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value)
+              }}
+              />
           </Form.Item>
 
           <Form.Item>

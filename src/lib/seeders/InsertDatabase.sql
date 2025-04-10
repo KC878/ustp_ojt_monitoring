@@ -15,7 +15,8 @@ INSERT INTO Status (status) VALUES
 INSERT INTO Users (userID, email, password, roleID) VALUES 
   (UUID(), 'admin@example.com', 'admin_password', 1),  -- admin
   (UUID(), 'student1@example.com', 'student_password', 2),  -- student
-  (UUID(), 'supervisor1@example.com', 'supervisor_password', 3);  -- supervisor
+  (UUID(), 'supervisor1@example.com', 'supervisor_password', 3),  -- supervisor
+  (UUID(), 'kentcagadas19@gmail.com', '$2a$12$A/pMqTpmEUsqa.3IDkT6beemmaFCra/Pr6DiSjNielNNqCj0qekQq', 2)
 
 -- 4. Insert Dummy OJT_Assignments Data (Generate UUID for assignment_id and link to users)
 INSERT INTO OJT_Assignments (assignment_id, userID, roleID, start_date, end_date, total_hours_required, status) VALUES 

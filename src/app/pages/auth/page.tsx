@@ -1,18 +1,31 @@
 'use client';
 
 import React from 'react';
-import Login from  '@src/components/Login';
+import { useState, useEffect } from 'react';
+
+import { useLoading } from '@src/store/useLoading';
+
+import Login from '@src/components/Login';
+import Loading from  '@src/components/Loading';
 
 
-export default function Home() {
-  function handleClick() {
-    window.location.replace('/pages/dashboard');
-  }
+const LoginPage = () => {
+  
+  const { loading } = useLoading();
 
   return (
     <>
-      <Login />
+      {
+        loading ? (
+          <Loading />
+        ) : (
+          <Login /> 
+        )
+      }
 
     </>
   );
 }
+
+
+export default LoginPage;
