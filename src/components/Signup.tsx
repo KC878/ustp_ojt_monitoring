@@ -1,28 +1,49 @@
-import React from 'react';
-import { useState } from 'react';
-import { LockOutlined, SafetyCertificateOutlined , UserOutlined, MailOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, Row, Col } from 'antd';
-
+import React, { useEffect, useState } from 'react';
+import {
+  LockOutlined,
+  SafetyCertificateOutlined,
+  UserOutlined,
+  MailOutlined,
+} from '@ant-design/icons';
+import { Button, Form, Input, Row, Col } from 'antd';
 import { useAuth } from '@src/store/useAuth';
 
-
 const Signup: React.FC = () => {
-  const { 
+  const {
     authAction, setAuthAction,
-    userID, setUserID,
     name, setName,
     email, setEmail,
     password, setPassword,
-    roleID, setRoleID,
-    created_at, setCreated_At
   } = useAuth();
-  
 
-  const onFinish = (values: any) => {
-    alert(`
-      Name: ${name}
-      Password: ${password}  
-    `);
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [passwordMatch, setPasswordMatch] = useState<boolean | null>(null);
+
+  const onFinish = () => {
+    alert(`Name: ${name}\nEmail: ${email}\nPassword: ${password}`);
+  };
+
+  useEffect(() => {
+    if (password && confirmPassword) {
+      setPasswordMatch(password === confirmPassword);
+    } else {
+      setPasswordMatch(null); // No indication if one is empty
+    }
+  }, [password, confirmPassword]);
+
+  const renderMatchIcon = () => {
+    if (passwordMatch === null) return null;
+    return (
+      <span
+        style={{
+          marginLeft: 8,
+          color: passwordMatch ? 'green' : 'red',
+          fontWeight: 'bold',
+        }}
+      >
+        {passwordMatch ? '✔' : 'X'}
+      </span>
+    );
   };
 
   return (
@@ -34,7 +55,6 @@ const Signup: React.FC = () => {
       <Col
         style={{
           width: 400,
-          height: 450,
           backgroundColor: '#fff',
           padding: 24,
           borderRadius: 8,
@@ -46,9 +66,16 @@ const Signup: React.FC = () => {
           name="signup"
           initialValues={{ remember: true }}
           onFinish={onFinish}
-          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%' }}
+          layout="vertical"
         >
-          <h2 style={{ textAlign: 'center', fontSize: 24, fontWeight: 'bold', marginBottom: 24 }}>
+          <h2
+            style={{
+              textAlign: 'center',
+              fontSize: 24,
+              fontWeight: 'bold',
+              marginBottom: 24,
+            }}
+          >
             Signup
           </h2>
 
@@ -56,8 +83,8 @@ const Signup: React.FC = () => {
             name="name"
             rules={[{ required: true, message: 'Please input your name!' }]}
           >
-            <Input 
-              prefix={<UserOutlined />} 
+            <Input
+              prefix={<UserOutlined />}
               placeholder="Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -68,72 +95,58 @@ const Signup: React.FC = () => {
             name="email"
             rules={[{ required: true, message: 'Please input your Email!' }]}
           >
-            <Input 
-              prefix={<MailOutlined />} 
+            <Input
+              prefix={<MailOutlined />}
               placeholder="Email"
               value={email}
-              onChange={(e) => {
-                setEmail(e.target.value)
-              }}
-              />
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </Form.Item>
 
-          
-          {/* Password */}
           <Form.Item
             name="password"
             rules={[{ required: true, message: 'Please input your password!' }]}
           >
-            <Input 
-              type='password'
-              prefix={<LockOutlined />} 
-              placeholder="Password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value)
-              }}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Input.Password
+                prefix={<LockOutlined />}
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                style={{ flex: 1 }}
               />
+              {password && renderMatchIcon()}
+            </div>
           </Form.Item>
 
           <Form.Item
             name="confirm-password"
-
-            // simlutaenous check if password not match
-            rules={[
-              { required: true, message: 'Please confirm your password!' },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (!value || getFieldValue('password') === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(new Error('The two passwords that you entered do not match!'));
-                },
-              }),
-            ]}
+            rules={[{ required: true, message: 'Please confirm your password!' }]}
           >
-            <Input 
-              type='password'
-              prefix={<SafetyCertificateOutlined  />} 
-              placeholder="Confirm Password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value)
-              }}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Input.Password
+                prefix={<SafetyCertificateOutlined />}
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                style={{ flex: 1 }}
               />
+              {confirmPassword && renderMatchIcon()}
+            </div>
           </Form.Item>
 
           <Form.Item>
-            <Button 
-              block 
-              type="primary" 
+            <Button
+              block
+              type="primary"
               htmlType="submit"
               style={{ padding: '8px', borderRadius: 4 }}
+              disabled={passwordMatch !== true}
             >
               Signup
             </Button>
             <div style={{ textAlign: 'center', marginTop: 16 }}>
-             <a onClick={() => setAuthAction('login')}
-            >Login</a>
+              <a onClick={() => setAuthAction('login')}>Login</a>
             </div>
           </Form.Item>
         </Form>
