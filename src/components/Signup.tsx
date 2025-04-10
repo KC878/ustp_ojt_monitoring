@@ -7,6 +7,8 @@ import { useAuth } from '@src/store/useAuth';
 
 
 const Signup: React.FC = () => {
+
+  const [isDisabled, setIsDisabled] = useState(false);
   const { 
     authAction, setAuthAction,
     userID, setUserID,
@@ -55,19 +57,20 @@ const Signup: React.FC = () => {
 
           <Form.Item
             name="name"
-            rules={[{ required: true, message: 'Please input your name!' }]}
+            rules={[{ required: true, message: 'Input name!' }]}
           >
             <Input 
               prefix={<UserOutlined />} 
               placeholder="Name"
               value={name}
               onBlur={(e) => setName(e.target.value)}
+              allowClear
             />
           </Form.Item>
 
           <Form.Item
             name="email"
-            rules={[{ required: true, message: 'Please input your Email!' }]}
+            rules={[{ required: true, message: 'Input email!' }]}
           >
             <Input 
               prefix={<MailOutlined />} 
@@ -76,6 +79,7 @@ const Signup: React.FC = () => {
               onBlur={(e) => {
                 setEmail(e.target.value)
               }}
+              allowClear
               />
           </Form.Item>
 
@@ -83,7 +87,7 @@ const Signup: React.FC = () => {
           {/* Password */}
           <Form.Item
             name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
+            rules={[{ required: true, message: 'Input password' }]}
           >
             <Input.Password
               prefix={<LockOutlined />} 
@@ -92,6 +96,7 @@ const Signup: React.FC = () => {
               onBlur={(e) => {
                 setPassword(e.target.value)
               }}
+              allowClear
               />
           </Form.Item>
 
@@ -100,13 +105,18 @@ const Signup: React.FC = () => {
 
             // simlutaenous check if password not match
             rules={[
-              { required: true, message: 'Please confirm your password!' },
+              { required: true, message: 'Confirm password!' },
               ({ getFieldValue }) => ({
                 validator(_, value) {
                   if (!value || getFieldValue('password') === value) {
+                    setIsDisabled(false);
                     return Promise.resolve();
+                    
                   }
+
+                  setIsDisabled(true);
                   return Promise.reject(new Error('Password Does Not Match'));
+                 
                 },
               }),
             ]}
@@ -118,6 +128,7 @@ const Signup: React.FC = () => {
               onBlur={(e) => {
                 setPassword(e.target.value)
               }}
+              allowClear
               />
           </Form.Item>
 
@@ -127,8 +138,9 @@ const Signup: React.FC = () => {
               type="primary" 
               htmlType="submit"
               style={{ padding: '8px', borderRadius: 4 }}
+              disabled={isDisabled}
             >
-              Signup
+              Submit
             </Button>
             <div style={{ textAlign: 'center', marginTop: 16 }}>
              <a onClick={() => setAuthAction('login')}
