@@ -4,6 +4,7 @@ import { LockOutlined, SafetyCertificateOutlined , UserOutlined, MailOutlined } 
 import { Button, Checkbox, Form, Input, Row, Col } from 'antd';
 
 import { useAuth, useAuthMiddleware } from '@src/store/useAuth';
+import { useFinish } from '@src/store/useFinish';
 import { useGenerateID } from '@src/store/useGenerateID';
 import { timeStamp } from '@src/utils/timeStamp';
 
@@ -26,6 +27,10 @@ const Signup: React.FC = () => {
  
   // Values declared but not read 
   // set it later
+
+  const { setFinishSubmit } = useFinish();
+  
+
   const onFinish = () => {
 
     
@@ -38,7 +43,7 @@ const Signup: React.FC = () => {
     // if successful setID -> 
     // setUserID(id);  // won't
 
-    
+    setFinishSubmit(true);
     return (
       alert(`
         UserID: ${id}  // display directly the changed ID
@@ -54,6 +59,7 @@ const Signup: React.FC = () => {
   };
 
   return (
+
     <Row
       justify="center"
       align="middle"
