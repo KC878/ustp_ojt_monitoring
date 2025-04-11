@@ -95,7 +95,7 @@ const Login: React.FC = () => {
               htmlType="submit" 
               style={{ padding: '8px', borderRadius: 4 }}
             >
-              Log in
+              Login
             </Button>
             <div style={{ textAlign: 'center', marginTop: 16 }}>
               No account? <a onClick={() => setAuthAction('signup')}>Register now!</a>
