@@ -7,7 +7,8 @@ import { useAuth, useAuthMiddleware } from '@src/store/useAuth';
 import { useFinish } from '@src/store/useFinish';
 import { useGenerateID } from '@src/store/useGenerateID';
 import { timeStamp } from '@src/utils/timeStamp';
-import { messages } from '@src/utils/messages';
+
+import { checkEmail } from '@src/utils/checkEmail';
 
 const Signup: React.FC = () => {
 
@@ -20,7 +21,6 @@ const Signup: React.FC = () => {
     roleID, setRoleID,
     setCreated_At,
 
-    emailExist,
   } = useAuth();
 
   const { setAuthAction } = useAuthMiddleware();
@@ -56,8 +56,6 @@ const Signup: React.FC = () => {
         Name: ${name}
         Password: ${password}
         Email: ${email}
-
-        EmailExist: ${emailExist}
 
       `)
 
@@ -112,12 +110,7 @@ const Signup: React.FC = () => {
             rules={[
               { required: true, message: 'Input email!' },
               {
-                validator: async () => {
-                  if (!emailExist) {
-                    return Promise.reject(new Error(messages.ERROR.EMAIL_EXIST));
-                  }
-                  return Promise.resolve();
-                },
+                validator: checkEmail // now Updates simultaneously
               },
             
             ]}

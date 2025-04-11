@@ -8,7 +8,8 @@ export const messages = {
 
   SUCCESS: {
     LOGIN: "Login successful!",
-    CREATED: "User created successfully"
+    CREATED: "User created successfully",
+  
   }
 }
 

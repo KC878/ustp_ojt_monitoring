@@ -47,7 +47,7 @@ export const useAuth = create<GlobalState>((set) => ({
   created_at: '',
   setCreated_At: (dateTime) => set({ created_at: dateTime }),
 
-  emailExist: true,
+  emailExist: false,
   setEmailExist: (result) => set({ emailExist: result}),
 
 }));
@@ -55,7 +55,7 @@ export const useAuth = create<GlobalState>((set) => ({
 
 interface AuthMiddleWare{
   authAction: 'login' | 'signup';
-setAuthAction: (action: 'login' | 'signup') => void;
+  setAuthAction: (action: 'login' | 'signup') => void;
 }
 
 export const useAuthMiddleware = create<AuthMiddleWare>()(

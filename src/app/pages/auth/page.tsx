@@ -33,8 +33,6 @@ const LoginPage = () => {
       roleID,
       created_at,
 
-      emailExist,
-      setEmailExist,
 
     } = useAuth();
   
@@ -72,29 +70,21 @@ const LoginPage = () => {
         );
   
         if (response.ok) {
-          setEmailExist(false);
+        
           messageApi.success({
             message: 'User Added Succesfully Added',  // Title
             description: `User ID: ${userID} has been successfully added!`,  // Detailed message
             placement: 'topRight',  // Notification position
           });
-        } else if (response.status === 400 && response.message === messages.ERROR.EMAIL_EXIST) {
-          setEmailExist(true);
-          messageApi.error({
-            message: 'Signup Error',
-            description: 'Email already exists. Please use a different one.',
-            placement: 'topRight',
-          });
-
-        }
-
+        } 
       };
-  
+      
+    
       submit();
       setFinishSubmit(false);
 
       // loading first 
-      setAuthAction('login');
+      // setAuthAction('login'); // Forced to login after Successful Signup 
       
 
     }

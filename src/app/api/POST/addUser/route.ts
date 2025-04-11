@@ -3,7 +3,6 @@ import { RowDataPacket } from 'mysql2';
 import db from '../../../../lib/database/db';
 import { addUser } from '../../../../lib/querries/querries';
 
-import { checkEmailExist } from '@src/utils/checkEmailExist';
 import { hashPassword } from '@src/utils/hashPassword';
 import { messages } from '@src/utils/messages'
 
@@ -40,19 +39,6 @@ export async function POST(req: NextRequest){
       roleID,
       created_at,
     } = body; // receive the response
-    
-  
-    // validate Email Exist 
-    const emailExist = await checkEmailExist(email);
-
-    if(emailExist){
-      return NextResponse.json(
-        { message: messages.ERROR.EMAIL_EXIST},
-        { status: 400 }
-      )
-    }
-
-    // >>> 
 
 
     // hash password
