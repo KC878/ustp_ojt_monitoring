@@ -29,7 +29,7 @@ const Signup: React.FC = () => {
   // set it later
 
   const { setFinishSubmit } = useFinish();
-  
+  const [form] = Form.useForm(); // define form instance
 
   const onFinish = () => {
 
@@ -44,6 +44,7 @@ const Signup: React.FC = () => {
     // setUserID(id);  // won't
 
     setFinishSubmit(true);
+    form.resetFields();
     return (
       alert(`
         UserID: ${id}  // display directly the changed ID
@@ -54,6 +55,7 @@ const Signup: React.FC = () => {
         Email: ${email}
 
       `)
+
     );
     
   };
@@ -77,6 +79,7 @@ const Signup: React.FC = () => {
         }}
       >
         <Form
+          form={form}
           name="signup"
           initialValues={{ remember: true }}
           onFinish={onFinish}
