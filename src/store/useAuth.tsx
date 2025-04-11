@@ -23,6 +23,9 @@ interface GlobalState {
   created_at: string;
   setCreated_At: (dateTime: string) => void;
 
+  emailExist: boolean;
+  setEmailExist: (result: boolean) => void; 
+
 }
 
 export const useAuth = create<GlobalState>((set) => ({
@@ -43,6 +46,9 @@ export const useAuth = create<GlobalState>((set) => ({
 
   created_at: '',
   setCreated_At: (dateTime) => set({ created_at: dateTime }),
+
+  emailExist: true,
+  setEmailExist: (result) => set({ emailExist: result}),
 
 }));
 

@@ -16,6 +16,8 @@ import { notification } from 'antd';
 
 import { postData } from '@src/services/usePostData';
 
+import { messages } from '@src/utils/messages';
+
 const LoginPage = () => {
 
   const { authAction, setAuthAction } = useAuthMiddleware();
@@ -30,6 +32,10 @@ const LoginPage = () => {
       password,
       roleID,
       created_at,
+
+      emailExist,
+      setEmailExist,
+
     } = useAuth();
   
   const { finishSubmit, setFinishSubmit } = useFinish(); // declarer
@@ -66,14 +72,21 @@ const LoginPage = () => {
         );
   
         if (response.ok) {
-
+          setEmailExist(false);
           messageApi.success({
             message: 'User Added Succesfully Added',  // Title
             description: `User ID: ${userID} has been successfully added!`,  // Detailed message
             placement: 'topRight',  // Notification position
           });
-          
-        } // response show 
+        } else if (response.status === 400 && response.message === messages.ERROR.EMAIL_EXIST) {
+          setEmailExist(true);
+          messageApi.error({
+            message: 'Signup Error',
+            description: 'Email already exists. Please use a different one.',
+            placement: 'topRight',
+          });
+
+        }
 
       };
   

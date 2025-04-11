@@ -21,6 +21,7 @@ export const postData = async (
       ok: res.ok,
       message: responseData.message,
       data: responseData.data,
+      status: res.status,
     };
   } catch (error: any) {
     const errMsg = error.message || 'Unknown error';
@@ -28,6 +29,7 @@ export const postData = async (
       ok: false,
       message: errMsg,
       data: null,
+      status: 500,
     };
   }
 };
