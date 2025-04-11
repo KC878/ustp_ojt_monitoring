@@ -18,7 +18,7 @@ import { postData } from '@src/services/usePostData';
 
 const LoginPage = () => {
 
-  const { authAction } = useAuthMiddleware();
+  const { authAction, setAuthAction } = useAuthMiddleware();
   const { loading } = useLoading();
 
   const [messageApi, contextHolder] = notification.useNotification();
@@ -79,6 +79,10 @@ const LoginPage = () => {
   
       submit();
       setFinishSubmit(false);
+
+      // loading first 
+      setAuthAction('login');
+      
 
     }
   }, [finishSubmit]);
