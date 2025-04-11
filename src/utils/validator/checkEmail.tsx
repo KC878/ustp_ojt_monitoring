@@ -13,8 +13,12 @@ export const checkEmail: (_: RuleObject, value: string) => Promise<void> = async
     [email]
   );
 
+  const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/; // for gmail format
+
   if (response.status === 500) {
     return Promise.reject(new Error(messages.ERROR.EMAIL_EXIST));
+  }else if(!gmailRegex.test(email)){
+    return Promise.reject(new Error(messages.ERROR.EMAIL_FORMAT))
   }
 
   return Promise.resolve();

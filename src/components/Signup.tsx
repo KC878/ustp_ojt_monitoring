@@ -8,7 +8,8 @@ import { useFinish } from '@src/store/useFinish';
 import { useGenerateID } from '@src/store/useGenerateID';
 import { timeStamp } from '@src/utils/timeStamp';
 
-import { checkEmail } from '@src/utils/checkEmail';
+import { checkEmail } from '@src/utils/validator/checkEmail';
+import { checkPassword } from '@src/utils/validator/checkPassword';
 
 const Signup: React.FC = () => {
 
@@ -94,13 +95,22 @@ const Signup: React.FC = () => {
 
           <Form.Item
             name="name"
-            rules={[{ required: true, message: 'Input name!' }]}
+            rules={[
+              { required: true, message: 'Input name!' }
+
+            ]}
           >
             <Input 
               prefix={<UserOutlined />} 
               placeholder="Name"
               value={name}
               onBlur={(e) => setName(e.target.value)}
+              onKeyDown={(e) => {
+                const regex = /^[A-Za-z\s]+$/;
+                if (!regex.test(e.key)) {
+                  e.preventDefault();
+                }
+              }}
               allowClear
             />
           </Form.Item>
@@ -109,10 +119,7 @@ const Signup: React.FC = () => {
             name="email"
             rules={[
               { required: true, message: 'Input email!' },
-              {
-                validator: checkEmail // now Updates simultaneously
-              },
-            
+              { validator: checkEmail }, 
             ]}
           >
             <Input 
@@ -130,7 +137,12 @@ const Signup: React.FC = () => {
           {/* Password */}
           <Form.Item
             name="password"
-            rules={[{ required: true, message: 'Input password' }]}
+            rules={[
+              { required: true, message: 'Input password' },
+              { validator: checkPassword}
+
+            ]}
+            validateTrigger='onChange'
           >
             <Input.Password
               prefix={<LockOutlined />} 
