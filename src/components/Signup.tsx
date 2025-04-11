@@ -8,8 +8,8 @@ import { useFinish } from '@src/store/useFinish';
 import { useGenerateID } from '@src/store/useGenerateID';
 import { timeStamp } from '@src/utils/timeStamp';
 
-import { checkEmail } from '@src/utils/validator/checkEmail';
-import { checkPassword } from '@src/utils/validator/checkPassword';
+import { checkEmail } from '@src/utils/validator/Signup/checkEmail';
+import { checkPassword } from '@src/utils/validator/Signup/checkPassword';
 
 const Signup: React.FC = () => {
 
