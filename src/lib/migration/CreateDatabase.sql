@@ -2,28 +2,23 @@
 CREATE DATABASE IF NOT EXISTS logicbase_ojt_monitoring;
 USE logicbase_ojt_monitoring;
 
--- DROP EXISTING TABLES
+-- DROP CHILD TABLES FIRST
 DROP TABLE IF EXISTS Announcements;
 DROP TABLE IF EXISTS Attendance;
 DROP TABLE IF EXISTS Evaluations;
 DROP TABLE IF EXISTS Daily_Logs;
 DROP TABLE IF EXISTS OJT_Assignments;
-DROP TABLE IF EXISTS Users;
-DROP TABLE IF EXISTS Roles;
-DROP TABLE IF EXISTS Login_Status_Type;
-DROP TABLE IF EXISTS Attendance_Status_Types;
 DROP TABLE IF EXISTS User_Status;
+DROP TABLE IF EXISTS Users;
+
+-- DROP PARENT TABLES LAST
+DROP TABLE IF EXISTS Attendance_Status_Types;
+DROP TABLE IF EXISTS Roles;
 
 -- 1. Create Roles Table
 CREATE TABLE IF NOT EXISTS Roles (
   roleID INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   role VARCHAR(25) UNIQUE NOT NULL
-);
-
--- 2. Create Login_Status_Type Table
-CREATE TABLE IF NOT EXISTS Login_Status_Type (
-  loginStatusID INT AUTO_INCREMENT NOT NULL PRIMARY KEY, -- active, inactive
-  status VARCHAR(25) NOT NULL
 );
 
 -- 3. Create Attendance_Status_Types Table
@@ -45,11 +40,12 @@ CREATE TABLE IF NOT EXISTS Users (
 
 -- 5. Create User_Status Table
 CREATE TABLE IF NOT EXISTS User_Status ( 
-  userID CHAR(36) NOT NULL,    -- UUID for userID
-  loginStatusID INT NOT NULL,
+  userID CHAR(36) NOT NULL,    -- UUID for userID,
+  name VARCHAR(50) NOT NULL,
+  status VARCHAR(10) NOT NULL,
+  
   PRIMARY KEY (userID), -- User is the primary key
-  FOREIGN KEY (userID) REFERENCES Users(userID) ON DELETE CASCADE,
-  FOREIGN KEY (loginStatusID) REFERENCES Login_Status_Type(loginStatusID) ON DELETE CASCADE
+  FOREIGN KEY (userID) REFERENCES Users(userID) ON DELETE CASCADE
 );
 
 -- 6. Create OJT_Assignments Table with UUID as assignment_id and userID

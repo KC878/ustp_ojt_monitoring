@@ -82,7 +82,7 @@ const LoginPage = () => {
               });
 
               form?.resetFields();
-              // setAuthAction('login'); // Forced to login after Successful Signup 
+              setAuthAction('login'); // Forced to login after Successful Signup 
             }  ////// signup 
 
 

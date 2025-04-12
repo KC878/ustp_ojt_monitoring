@@ -4,11 +4,6 @@ INSERT INTO Roles (role) VALUES
   ('student'),
   ('supervisor');
 
--- Insert data into Login_Status_Type table
-INSERT INTO Login_Status_Type (status) VALUES
-  ('active'),
-  ('inactive');
-
 -- Insert data into Attendance_Status_Types table
 INSERT INTO Attendance_Status_Types (status) VALUES
   ('present'),
@@ -22,11 +17,6 @@ INSERT INTO Users (userID, name, email, password, roleID) VALUES
   ('123e4567-e89b-12d3-a456-426614174001', 'Jane Smith', 'janesmith@example.com', 'password456', 3),
   ('123e4567-e89b-12d3-a456-426614174002', 'Alice Johnson', 'alicejohnson@example.com', 'password789', 1);
 
--- Insert data into User_Status table
-INSERT INTO User_Status (userID, loginStatusID) VALUES
-  ('123e4567-e89b-12d3-a456-426614174000', 1), -- John Doe is active
-  ('123e4567-e89b-12d3-a456-426614174001', 2), -- Jane Smith is inactive
-  ('123e4567-e89b-12d3-a456-426614174002', 1); -- Alice Johnson is active
 
 -- Insert data into OJT_Assignments table
 INSERT INTO OJT_Assignments (assignment_id, userID, roleID, start_date, end_date, total_hours_required, status) VALUES

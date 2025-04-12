@@ -1,9 +1,12 @@
-
-
 export const useMiddleware = () => {
-  const token = localStorage.getItem('token');
+  let token = null;
 
-  const isAuthenticated = !!token; // token checker --> organize this later 
+  if (typeof window !== 'undefined') {
+    // Access localStorage only on the client side
+    token = localStorage.getItem('token');
+  }
 
-  return { isAuthenticated, token};
+  const isAuthenticated = !!token; // token checker
+
+  return { isAuthenticated, token };
 };

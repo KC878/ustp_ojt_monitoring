@@ -14,6 +14,7 @@ import ProtectedRoute from '@src/middleware/ProtectedRoute';
 
 import React, { useState } from 'react';
 
+
 const DashboardPage = () => {
   const [headerContent, setHeaderContent] = useState<string>('Dashboard'); // type string and default Dashboard
 
@@ -39,6 +40,7 @@ const DashboardPage = () => {
   // useStates 
   return(
     <ProtectedRoute>
+
       <Dashboard 
         menuItems={menuItems} 
         
