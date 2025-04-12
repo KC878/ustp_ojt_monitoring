@@ -67,12 +67,13 @@ const LoginPage = () => {
             );
       
             if (response.ok) {
-            
               messageApi.success({
                 message: 'User Added Succesfully Added',  // Title
                 description: `User ID: ${userID} has been successfully added!`,  // Detailed message
                 placement: 'topRight',  // Notification position
               });
+
+              setAuthAction('login'); // Forced to login after Successful Signup 
             }  ////// signup 
           } else if (authAction === 'login'){
               const response = await postData(

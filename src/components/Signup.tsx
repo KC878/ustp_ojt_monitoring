@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { LockOutlined, SafetyCertificateOutlined , UserOutlined, MailOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Row, Col } from 'antd';
 
+import Spinner from './Spinner';
+
 import { useAuth, useAuthMiddleware } from '@src/store/useAuth';
 import { useFinish } from '@src/store/useFinish';
 import { useGenerateID } from '@src/store/useGenerateID';
@@ -32,7 +34,7 @@ const Signup: React.FC = () => {
   // Values declared but not read 
   // set it later
 
-  const { setFinishSubmit } = useFinish();
+  const { finishSubmit, setFinishSubmit } = useFinish();
   const [form] = Form.useForm(); // define form instance
 
   const onFinish = () => {
@@ -49,18 +51,20 @@ const Signup: React.FC = () => {
 
     setFinishSubmit(true);
     form.resetFields();
-    return (
-      alert(`
-        UserID: ${id}  // display directly the changed ID
-        RoleID: ${roleID}
-        TimeStamp: ${timeStamp()} // display current Time stamp 
-        Name: ${name}
-        Password: ${password}
-        Email: ${email}
+    
 
-      `)
+    // return (
+    //   // alert(`
+    //   //   UserID: ${id}  // display directly the changed ID
+    //   //   RoleID: ${roleID}
+    //   //   TimeStamp: ${timeStamp()} // display current Time stamp 
+    //   //   Name: ${name}
+    //   //   Password: ${password}
+    //   //   Email: ${email}
 
-    );
+    //   // `)
+
+    // )
     
   };
 
@@ -196,7 +200,7 @@ const Signup: React.FC = () => {
               disabled={isDisabled}
               onClick={() => setAuthAction('signup')}
             >
-              Submit
+              { finishSubmit ? <Spinner /> : 'Submit'}
             </Button>
             <div style={{ textAlign: 'center', marginTop: 16 }}>
              <a onClick={() => setAuthAction('login')}
