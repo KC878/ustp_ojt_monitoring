@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { LockOutlined, SafetyCertificateOutlined , UserOutlined, MailOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Row, Col } from 'antd';
@@ -7,6 +7,8 @@ import Spinner from './Spinner';
 
 import { useAuth, useAuthMiddleware } from '@src/store/useAuth';
 import { useFinish } from '@src/store/useFinish';
+import { useForm } from '@src/store/useForm';
+
 import { useGenerateID } from '@src/store/useGenerateID';
 import { timeStamp } from '@src/utils/timeStamp';
 
@@ -27,20 +29,14 @@ const Signup: React.FC = () => {
   } = useAuth();
 
   const { setAuthAction } = useAuthMiddleware();
-  
-   // global  --> controls display of ID
   const { id, setID } = useGenerateID();
- 
-  // Values declared but not read 
-  // set it later
-
   const { finishSubmit, setFinishSubmit } = useFinish();
-  const [form] = Form.useForm(); // define form instance
+
+  const { form, setForm } = useForm();
+
+  const [signupForm] = Form.useForm();
 
   const onFinish = () => {
-
-    
-
     setUserID(id);  // setID here
     setRoleID(1); // set Role ID == student
     setCreated_At(timeStamp()); // store timeStamp
@@ -50,8 +46,7 @@ const Signup: React.FC = () => {
     // setUserID(id);  // won't
 
     setFinishSubmit(true);
-    form.resetFields();
-    
+    setForm(signupForm);
 
     // return (
     //   // alert(`
@@ -87,7 +82,7 @@ const Signup: React.FC = () => {
         }}
       >
         <Form
-          form={form}
+          form={signupForm}
           name="signup"
           initialValues={{ remember: true }}
           onFinish={onFinish}

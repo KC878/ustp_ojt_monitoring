@@ -13,6 +13,7 @@ import Loading from  '@src/components/Loading';
 import { useAuth, useAuthMiddleware } from '@src/store/useAuth';
 import { useFinish } from '@src/store/useFinish';
 import { notification } from 'antd';
+import { useForm } from '@src/store/useForm';
 
 import { postData } from '@src/services/usePostData';
 
@@ -22,6 +23,8 @@ const LoginPage = () => {
 
   const { authAction, setAuthAction } = useAuthMiddleware();
   const { loading, setLoading } = useLoading();
+
+  const { form } = useForm(); 
 
   const [messageApi, contextHolder] = notification.useNotification();
 
@@ -72,9 +75,12 @@ const LoginPage = () => {
                 description: `User ID: ${userID} has been successfully added!`,  // Detailed message
                 placement: 'topRight',  // Notification position
               });
-
-              setAuthAction('login'); // Forced to login after Successful Signup 
+              
+              form?.resetFields();
+              // setAuthAction('login'); // Forced to login after Successful Signup 
             }  ////// signup 
+
+
           } else if (authAction === 'login'){
               const response = await postData(
                 '/api/AUTH/login',
