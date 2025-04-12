@@ -21,7 +21,7 @@ import { messages } from '@src/utils/messages';
 const LoginPage = () => {
 
   const { authAction, setAuthAction } = useAuthMiddleware();
-  const { loading } = useLoading();
+  const { loading, setLoading } = useLoading();
 
   const [messageApi, contextHolder] = notification.useNotification();
 
@@ -42,46 +42,81 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (finishSubmit) {
-
-
-      alert(` API - Insert --> User
-        
-      `); // before insert current time 
-
       const submit = async () => {
-        const response = await postData(
-          '/api/POST/addUser',
-          [
-            'userID',
-            'name',
-            'email',
-            'password',
-            'roleID',
-            'created_at',
-          ], // columns
-          [
-            userID, // didicated Global State for userID -> 
-            name,
-            email,
-            password,
-            roleID,
-            created_at,
-          ],  // values
-        );
+
+        try{
+          if(authAction === 'signup') {
+            const response = await postData(
+              '/api/AUTH/signup',
+              [
+                'userID',
+                'name',
+                'email',
+                'password',
+                'roleID',
+                'created_at',
+              ], // columns
+              [
+                userID, // didicated Global State for userID -> 
+                name,
+                email,
+                password,
+                roleID,
+                created_at,
+              ],  // values
+            );
+      
+            if (response.ok) {
+            
+              messageApi.success({
+                message: 'User Added Succesfully Added',  // Title
+                description: `User ID: ${userID} has been successfully added!`,  // Detailed message
+                placement: 'topRight',  // Notification position
+              });
+            }  ////// signup 
+          } else if (authAction === 'login'){
+              const response = await postData(
+                '/api/AUTH/login',
+                ['email', 'password'],
+                [email, password],
+              )
   
-        if (response.ok) {
-        
-          messageApi.success({
-            message: 'User Added Succesfully Added',  // Title
-            description: `User ID: ${userID} has been successfully added!`,  // Detailed message
-            placement: 'topRight',  // Notification position
+              if (response.ok) {
+                messageApi.success({
+                  message: messages.SUCCESS.LOGIN,  // Title
+                  placement: 'topRight',  // Notification position
+                });
+              } else if (response.message === messages.ERROR.INVALID_EMAIL){
+                  messageApi.error({
+                    message: messages.ERROR.INVALID_EMAIL,
+                    placement: 'topRight',
+                  })
+              } else if (response.message === messages.ERROR.INVALID_PASSWORD){
+                messageApi.error({
+                  message: messages.ERROR.INVALID_PASSWORD,
+                  placement: 'topRight',
+                })
+              } else {
+                // Fallback in case no message is provided
+                messageApi.error({
+                  message: 'An unexpected error occurred.',
+                  placement: 'topRight',
+                }); //////
+              }
+          } 
+        }catch (error){
+          messageApi.error({
+            message: 'Something went wrong during submission.',
+            placement: 'topRight',
           });
-        } 
+        }finally {
+          setFinishSubmit(false);
+        }
       };
       
     
       submit();
-      setFinishSubmit(false);
+      
 
       // loading first 
       // setAuthAction('login'); // Forced to login after Successful Signup 
@@ -94,6 +129,7 @@ const LoginPage = () => {
 
   return (
     <>
+
       {contextHolder}
       {
         loading ? (

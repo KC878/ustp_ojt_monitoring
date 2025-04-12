@@ -17,13 +17,13 @@ export async function POST(req: NextRequest) {
 
     if(exists){
       return NextResponse.json(
-        { message: messages.ERROR.EMAIL_EXIST},
-        { status: 500 } // the api is successful 
+        { message: messages.AUTH.EMAIL_EXIST},
+        { status: 200 } // the api is successful 
         // but custom error for this 
       )
     }else{
       return NextResponse.json(
-        { message: messages.SUCCESS.UNIQUE_EMAIL},
+        { message: messages.AUTH.UNIQUE_EMAIL},
         { status: 200 }
       )
     }

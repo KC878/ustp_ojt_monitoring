@@ -9,7 +9,7 @@ export const checkPassword: (_: RuleObject, value: string) => Promise<void> = as
 )  => {
 
   if (password !== undefined && password.length < 8) {
-    return Promise.reject(new Error(messages.ERROR.PASSWORD_LENGTH));
+    return Promise.reject(new Error(messages.AUTH.PASSWORD_LENGTH));
   }
 
   return Promise.resolve();

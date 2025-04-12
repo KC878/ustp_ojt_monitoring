@@ -1,24 +1,26 @@
 import React from 'react';
 import { useState } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
+
+import Spinner from '@src/components/Spinner'; 
+
 import { Button, Checkbox, Form, Input, Row, Col } from 'antd';
 
 import { useAuth, useAuthMiddleware } from '@src/store/useAuth';
+import { useFinish } from '@src/store/useFinish';
 
 
 const Login: React.FC = () => {
   const { 
-    name, setName, 
+    email, setEmail, 
     password, setPassword
   } = useAuth();
 
   const { setAuthAction } = useAuthMiddleware();
+  const { finishSubmit, setFinishSubmit } = useFinish();
 
   const onFinish = (values: any) => {
-    alert(`
-      Name: ${name}
-      Password: ${password}  
-    `);
+    setFinishSubmit(true);
   };
 
   return (
@@ -55,8 +57,8 @@ const Login: React.FC = () => {
             <Input 
               prefix={<UserOutlined />} 
               placeholder="Username"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Item>
 
@@ -94,8 +96,9 @@ const Login: React.FC = () => {
               type="primary" 
               htmlType="submit" 
               style={{ padding: '8px', borderRadius: 4 }}
+              onClick={() => setAuthAction('login')}
             >
-              Login
+              {finishSubmit ? <Spinner /> : 'Login'}
             </Button>
             <div style={{ textAlign: 'center', marginTop: 16 }}>
               No account? <a onClick={() => setAuthAction('signup')}>Register now!</a>

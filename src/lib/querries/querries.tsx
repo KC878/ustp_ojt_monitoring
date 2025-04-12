@@ -9,3 +9,9 @@ export const addUser = "INSERT INTO Users (userID, name, email, password, roleID
 // VALIDATOR 
 
 export const checkEmailExist = 'SELECT email FROM Users WHERE email = ?';
+
+
+
+//// auth login 
+
+export const loginQuery = 'SELECT userID, name, email, password, roleID FROM Users WHERE email = ?';

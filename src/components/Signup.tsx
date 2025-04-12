@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { LockOutlined, SafetyCertificateOutlined , UserOutlined, MailOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, Row, Col } from 'antd';
+import { Button, Form, Input, Row, Col } from 'antd';
 
 import { useAuth, useAuthMiddleware } from '@src/store/useAuth';
 import { useFinish } from '@src/store/useFinish';
@@ -194,6 +194,7 @@ const Signup: React.FC = () => {
               htmlType="submit"
               style={{ padding: '8px', borderRadius: 4 }}
               disabled={isDisabled}
+              onClick={() => setAuthAction('signup')}
             >
               Submit
             </Button>

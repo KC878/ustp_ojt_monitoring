@@ -1,17 +1,23 @@
 
 
 export const messages = {
-  ERROR: {
+  AUTH: {
     EMAIL_EXIST: "Email already exist",
     PASSWORD_LENGTH: "Password must be at least 8 characters",
-    EMAIL_FORMAT: 'Invalid email format. Refer: "any@gmail.com"'
+    EMAIL_FORMAT: 'Invalid email format. Refer: "any@gmail.com"',
+    UNIQUE_EMAIL: 'Email is unique.',
 
   },
 
   SUCCESS: {
     LOGIN: "Login successful!",
     CREATED: "User created successfully",
-    UNIQUE_EMAIL: 'Email is unique.'
+  },
+
+  ERROR: {
+    INVALID_EMAIL: 'Invalid Credential: User not found!',
+    INVALID_PASSWORD: 'Invalid Credential: Wrong password!',
+
   }
 }
 
