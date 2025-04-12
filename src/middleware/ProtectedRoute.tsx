@@ -37,14 +37,15 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
       router.push('/pages/dashboard'); 
     }
 
+    
     if (logout){
-
+      // alert(`LogoutComponent: ${logout}`)
       // remove item then re direct
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
+      localStorage.clear();
+
       
       setLogout(false); // restart logout state
-      window.location.replace('/pages/auth'); 
+      router.push('/pages/auth'); 
 
       
 
@@ -52,7 +53,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
 
 
-  }, [isAuthenticated, pathName, router]);
+  }, [isAuthenticated, pathName, router, logout]);
 
   if (!isAuthenticated && pathName !== '/pages/auth') return null; // for authentication
 
