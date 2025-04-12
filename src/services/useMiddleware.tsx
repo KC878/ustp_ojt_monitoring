@@ -1,6 +1,6 @@
 
 
-export const useAuthMiddleware = () => {
+export const useMiddleware = () => {
   const token = localStorage.getItem('token');
 
   const isAuthenticated = !!token;
@@ -11,5 +11,5 @@ export const useAuthMiddleware = () => {
     // optionally: redirect to login
   };
 
-  return { isAuthenticated, logout };
+  return { isAuthenticated, token, logout };
 };

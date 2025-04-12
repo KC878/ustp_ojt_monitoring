@@ -4,6 +4,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 
 import { useLoading } from '@src/store/useLoading';
+import { useRouter } from 'next/navigation';
 
 import Login from '@src/components/Login';
 import Signup from '@src/components/Signup';
@@ -18,12 +19,13 @@ import { useForm } from '@src/store/useForm';
 import { postData } from '@src/services/usePostData';
 
 import { messages } from '@src/utils/messages';
+import ProtectedRoute from '@src/middleware/ProtectedRoute';
+
+
 
 const LoginPage = () => {
-
   const { authAction, setAuthAction } = useAuthMiddleware();
   const { loading, setLoading } = useLoading();
-
   const { form } = useForm(); 
 
   const [messageApi, contextHolder] = notification.useNotification();
@@ -40,12 +42,15 @@ const LoginPage = () => {
     } = useAuth();
   
   const { finishSubmit, setFinishSubmit } = useFinish(); // declarer
-
+  
+  const router = useRouter(); // initialize Router
 
 
   useEffect(() => {
     if (finishSubmit) {
       const submit = async () => {
+
+         
 
         try{
           if(authAction === 'signup') {
@@ -94,7 +99,7 @@ const LoginPage = () => {
                 // get the token and user from response data
                 const loginToken = response.data.token;
                 const user = response.data.user;
-                
+
                 messageApi.success({
                   message: messages.SUCCESS.LOGIN,  // Title
                   description: `
@@ -107,13 +112,12 @@ const LoginPage = () => {
                 // store result token and user to localStorage
                 localStorage.setItem('token', loginToken);
                 localStorage.setItem('user', JSON.stringify(user));
+
                 
-
-              
-
-
-
-
+                
+                
+                router.push('/pages/dashboard'); // redirect the page after login
+                
 
               } else if (response.message === messages.ERROR.INVALID_EMAIL){
                   messageApi.error({
@@ -158,19 +162,22 @@ const LoginPage = () => {
 
   return (
     <>
-
-      {contextHolder}
-      {
-        loading ? (
-          <Loading />
-        ) : (
-          authAction === 'login' ? (
-            <Login />
-          ) : authAction === 'signup' ? (
-            <Signup />
-          ) : null
-        )
-      }
+      <ProtectedRoute> 
+        {contextHolder}
+        {
+          loading ? (
+            <Loading />
+          ) : (
+            authAction === 'login' ? (
+              <Login />
+            ) : authAction === 'signup' ? (
+              <Signup />
+            ) : null
+          )
+        }
+      </ProtectedRoute>
+      {/* wrap it on a protected Route */}
+      
 
     </>
   );

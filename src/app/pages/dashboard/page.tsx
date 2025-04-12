@@ -3,7 +3,7 @@
 
 import Dashboard from '../../../components/Dashboard';
 
-
+import ProtectedRoute from '@src/middleware/ProtectedRoute';
 
 // importing pages
 // import CashiersPage from '../cashiers/page';
@@ -36,17 +36,19 @@ const DashboardPage = () => {
 
   // useStates 
   return(
-  
-    <Dashboard 
-      menuItems={menuItems} 
-      
-      headerContent={headerContent}
-      setHeaderContent={setHeaderContent}
+    <ProtectedRoute>
+      <Dashboard 
+        menuItems={menuItems} 
+        
+        headerContent={headerContent}
+        setHeaderContent={setHeaderContent}
 
-      menuPages={menuPages}
+        menuPages={menuPages}
 
-      footerContent={footerContent}
-    /> 
+        footerContent={footerContent}
+      /> 
+    </ProtectedRoute>
+    
   );
 }
 
