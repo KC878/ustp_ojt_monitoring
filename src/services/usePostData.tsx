@@ -20,7 +20,7 @@ export const postData = async (
     return {
       ok: res.ok,
       message: responseData.message,
-      data: responseData.data,
+      data: responseData,
       status: res.status,
     };
   } catch (error: any) {

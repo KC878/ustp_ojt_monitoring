@@ -75,7 +75,7 @@ const LoginPage = () => {
                 description: `User ID: ${userID} has been successfully added!`,  // Detailed message
                 placement: 'topRight',  // Notification position
               });
-              
+
               form?.resetFields();
               // setAuthAction('login'); // Forced to login after Successful Signup 
             }  ////// signup 
@@ -87,12 +87,34 @@ const LoginPage = () => {
                 ['email', 'password'],
                 [email, password],
               )
-  
+              
+              
+
               if (response.ok) {
+                // get the token and user from response data
+                const loginToken = response.data.token;
+                const user = response.data.user;
+                
                 messageApi.success({
                   message: messages.SUCCESS.LOGIN,  // Title
+                  description: `
+                    Token: ${loginToken}
+                    User: ${user.name}
+                  `,
                   placement: 'topRight',  // Notification position
                 });
+
+                // store result token and user to localStorage
+                localStorage.setItem('token', loginToken);
+                localStorage.setItem('user', JSON.stringify(user));
+                
+
+              
+
+
+
+
+
               } else if (response.message === messages.ERROR.INVALID_EMAIL){
                   messageApi.error({
                     message: messages.ERROR.INVALID_EMAIL,
