@@ -8,9 +8,6 @@ import LogoutPage from '@src/app/pages/logout/page';
 import ProtectedRoute from '@src/middleware/ProtectedRoute';
 
 
-// importing pages
-// import CashiersPage from '../cashiers/page';
-// import TransactionsPage from '../transactions/page';
 
 import React, { useState } from 'react';
 
