@@ -1,18 +1,13 @@
 'use client';
 
-import React from 'react';
-import Login from  '@src/components/Login';
-
+import { useEffect } from 'react';
 
 export default function Home() {
-  function handleClick() {
-    window.location.replace('/pages/dashboard');
-  }
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.location.replace('/pages/auth');
+    }
+  }, []);
 
-  return (
-    <>
-      <Login />
-
-    </>
-  );
+  return null; // or loading spinner while redirecting
 }

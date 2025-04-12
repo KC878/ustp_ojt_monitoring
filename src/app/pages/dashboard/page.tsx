@@ -3,7 +3,7 @@
 
 import Dashboard from '../../../components/Dashboard';
 
-import Logout from '@src/components/Logout';
+import LogoutPage from '@src/app/pages/logout/page';
 
 import ProtectedRoute from '@src/middleware/ProtectedRoute';
 
@@ -22,7 +22,7 @@ const DashboardPage = () => {
     <div key="student"><h1>Student </h1></div>,
     <div key="supervisor"> <h1> Supervisor </h1></div>,
     <div key="settings"><h1>Settings</h1></div>,
-    <Logout />
+    <LogoutPage />
   ];
   // pass Array of components
   const menuItems = [

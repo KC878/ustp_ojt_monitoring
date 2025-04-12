@@ -44,7 +44,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
       localStorage.removeItem('user');
       
       setLogout(false); // restart logout state
-      router.push('/pages/auth'); 
+      window.location.replace('/pages/auth'); 
 
       
 
