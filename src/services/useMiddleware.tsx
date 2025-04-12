@@ -3,13 +3,7 @@
 export const useMiddleware = () => {
   const token = localStorage.getItem('token');
 
-  const isAuthenticated = !!token;
+  const isAuthenticated = !!token; // token checker --> organize this later 
 
-  const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    // optionally: redirect to login
-  };
-
-  return { isAuthenticated, token, logout };
+  return { isAuthenticated, token};
 };

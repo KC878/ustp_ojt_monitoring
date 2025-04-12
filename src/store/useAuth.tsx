@@ -26,6 +26,9 @@ interface GlobalState {
   emailExist: boolean;
   setEmailExist: (result: boolean) => void; 
 
+  logout: boolean;
+  setLogout: (action: boolean) => void;
+
 }
 
 export const useAuth = create<GlobalState>((set) => ({
@@ -50,6 +53,8 @@ export const useAuth = create<GlobalState>((set) => ({
   emailExist: false,
   setEmailExist: (result) => set({ emailExist: result}),
 
+  logout: false,
+  setLogout: (action) => set({ logout: action }),
 }));
 
 
