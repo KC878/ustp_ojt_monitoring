@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import db from '../../../../lib/database/db'; // Adjust import 
+import db from '../../../../../lib/database/db'; // Adjust import 
 
-import { getRoles } from '../../../../lib/querries/querries'
+import { getRoles } from '../../../../../lib/querries/querries'
 
 
 
