@@ -17,13 +17,17 @@ app.prepare().then(() => {
 
   const io = new Server(httpServer); 
   io.on('connection', (socket) => {
-    console.log(`User connected this if from server.ts: ${socket.id}`);
+    console.log('A user has connected from Server: ', socket.id);
 
-    socket.on('disconnect', () => {
-      console.log(`User disconnected: ${socket.id}`);
+    socket.on('user_connected', (data) => {
+      console.log('User connected payload:', data); // 🧠 contains userId, name
     });
-    
+
   });
+
+    // socket.on('disconnect', () => {
+    //   console.log(`User disconnected from Server: ${socket.id}`);
+    // });
 
 
   httpServer.listen(port, () => {

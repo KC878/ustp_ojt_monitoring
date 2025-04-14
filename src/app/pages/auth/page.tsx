@@ -20,7 +20,7 @@ import { postData } from '@src/services/usePostData';
 
 import { messages } from '@src/utils/messages';
 import ProtectedRoute from '@src/middleware/ProtectedRoute';
-
+import { useSocketIO } from '@src/services/useSocketIO';
 
 
 const LoginPage = () => {
@@ -29,6 +29,7 @@ const LoginPage = () => {
   const { form } = useForm(); 
 
   const [messageApi, contextHolder] = notification.useNotification();
+  const { socket } = useSocketIO(); // this initializes and shares socket
 
   const { 
       userID, // didicated Global State for userID -> 
@@ -55,7 +56,7 @@ const LoginPage = () => {
         try{
           if(authAction === 'signup') {
             const response = await postData(
-              '/api/AUTH/signup',
+              '/api/auth/signup',
               [
                 'userID',
                 'name',
@@ -88,13 +89,11 @@ const LoginPage = () => {
 
           } else if (authAction === 'login'){
               const response = await postData(
-                '/api/AUTH/login',
+                '/api/auth/login',
                 ['email', 'password'],
                 [email, password],
               )
               
-              
-
               if (response.ok) {
                 // get the token and user from response data
                 const loginToken = response.data.token;
@@ -114,11 +113,13 @@ const LoginPage = () => {
                 localStorage.setItem('user', JSON.stringify(user));
 
                 
-                
-                
                 router.push('/pages/dashboard'); // redirect the page after login
+                // setLoading set loading logic in this part
                 
-
+                socket.emit('user_connected',{
+                  name: user.name,
+                });
+                
               } else if (response.message === messages.ERROR.INVALID_EMAIL){
                   messageApi.error({
                     message: messages.ERROR.INVALID_EMAIL,
