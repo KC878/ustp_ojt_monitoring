@@ -23,13 +23,14 @@ import ProtectedRoute from '@src/middleware/ProtectedRoute';
 import { useSocketIO } from '@src/services/useSocketIO';
 
 
+
 const LoginPage = () => {
   const { authAction, setAuthAction } = useAuthMiddleware();
   const { loading, setLoading } = useLoading();
   const { form } = useForm(); 
 
   const [messageApi, contextHolder] = notification.useNotification();
-  const { socket } = useSocketIO(); // this initializes and shares socket
+  const { socket } = useSocketIO();
 
   const { 
       userID, // didicated Global State for userID -> 
@@ -51,8 +52,7 @@ const LoginPage = () => {
     if (finishSubmit) {
       const submit = async () => {
 
-         
-
+        
         try{
           if(authAction === 'signup') {
             const response = await postData(
@@ -113,13 +113,11 @@ const LoginPage = () => {
                 localStorage.setItem('user', JSON.stringify(user));
 
                 
+                socket.emit('userOnline', user.name); // after successful login
+
                 router.push('/pages/dashboard'); // redirect the page after login
-                // setLoading set loading logic in this part
-                
-                socket.emit('user_connected',{
-                  name: user.name,
-                });
-                
+                // setLoading set loading logic in this par
+
               } else if (response.message === messages.ERROR.INVALID_EMAIL){
                   messageApi.error({
                     message: messages.ERROR.INVALID_EMAIL,

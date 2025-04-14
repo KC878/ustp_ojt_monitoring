@@ -19,7 +19,7 @@ app.prepare().then(() => {
   io.on('connection', (socket) => {
     console.log('A user has connected from Server: ', socket.id);
 
-    socket.on('user_connected', (data) => {
+    socket.on('userOnline', (data) => {
       console.log('User connected payload:', data); // 🧠 contains userId, name
     });
 
