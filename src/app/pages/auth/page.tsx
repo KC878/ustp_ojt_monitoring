@@ -68,8 +68,8 @@ const LoginPage = () => {
     }
     console.log("From AUTH: ", defaultRoom);
     return () => {
-      socket.off("user_joined");
-      socket.off("messages");
+      // socket.off("user_joined");
+      // socket.off("messages");
     }
   }, [isAuthenticated, hasJoined]);
 

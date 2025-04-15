@@ -15,20 +15,36 @@ const handle = app.getRequestHandler();
 app.prepare().then(() => {
 
   const httpServer = createServer(handle);
-  const io = new Server(httpServer); 
+  const io = new Server(httpServer);
+
+
+  // User type
+  interface User {
+    id: string;
+    name: string;
+  }
+
+
+  const usersInRooms: Record<string, User[]>= {};
 
   io.on('connection', (socket) => {
     console.log('User has connected @Lobby: ', socket.id);
     // Log how many clients are connected right now
 
     
-
     socket.on('join-room', ({room, name}) => {
       socket.join(room);
+      if (!usersInRooms[room]){
+        usersInRooms[room] = [];
+      }
+
+      usersInRooms[room].push({ id: socket.id, name });
+
       console.log(`User ${name} joined the room ${room}`);
       
       console.log('🔄 Current connected sockets:', Array.from(io.sockets.sockets.keys()));
-
+      console.log('📜 Users in rooms:', usersInRooms);
+      
       socket.to(room).emit('user-joined', `${name} has joined ${room}`)
     })
     socket.on('disconnect', () => {
