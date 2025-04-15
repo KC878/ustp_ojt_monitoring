@@ -2,8 +2,7 @@
 
 
 import Dashboard from '../../../components/Dashboard';
-
-import LogoutPage from '@src/app/pages/logout/page';
+import Userslist from '@src/components/UsersList';
 
 import ProtectedRoute from '@src/middleware/ProtectedRoute';
 import { useLoading } from '@src/store/useLoading';
@@ -18,7 +17,7 @@ const DashboardPage = () => {
 
   const menuPages = [
     <div key="dashboard"><h1>Dashboard </h1></div>,
-    <div key="student"><h1>Student </h1></div>,
+    <div key="student"><Userslist /></div>,
     <div key="supervisor"> <h1> Supervisor </h1></div>,
     <div key="settings"><h1>Settings</h1></div>,
   ];
