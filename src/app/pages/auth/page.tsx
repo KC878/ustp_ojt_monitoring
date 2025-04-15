@@ -59,6 +59,10 @@ const LoginPage = () => {
         name: userName
       })
 
+      socket.on('user-joined', (message: string) => {
+        alert(`${message}`);
+      })
+      
       setHasJoined(false); // reset it to false again
 
     }

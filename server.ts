@@ -29,17 +29,11 @@ app.prepare().then(() => {
       
       console.log('🔄 Current connected sockets:', Array.from(io.sockets.sockets.keys()));
 
-      socket.to(room).emit("user_joined", `${name} joined room`)
+      socket.to(room).emit('user-joined', `${name} has joined ${room}`)
     })
-
     socket.on('disconnect', () => {
       console.log(`User disconnected: ${socket.id}`);
     })
-
-    socket.on('userOnline', (data) => {
-      console.log('User connected payload:', data); // 🧠 contains userId, name
-    });
-
      
   });
 

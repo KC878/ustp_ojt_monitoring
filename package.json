@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "dev:app": "ts-node --project tsconfig.server.json server.ts",
+    "dev:app": "nodemon --exec ts-node --project tsconfig.server.json server.ts",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -31,6 +31,7 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.26",
+    "nodemon": "^3.1.9",
     "typescript": "^5"
   }
 }
