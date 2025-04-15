@@ -6,14 +6,15 @@ import Dashboard from '../../../components/Dashboard';
 import LogoutPage from '@src/app/pages/logout/page';
 
 import ProtectedRoute from '@src/middleware/ProtectedRoute';
+import { useLoading } from '@src/store/useLoading';
 
 
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 
 const DashboardPage = () => {
   const [headerContent, setHeaderContent] = useState<string>('Dashboard'); // type string and default Dashboard
+  const { setLoading } = useLoading(); // get loading state
 
   const menuPages = [
     <div key="dashboard"><h1>Dashboard </h1></div>,
@@ -32,7 +33,16 @@ const DashboardPage = () => {
   ]
  
   const footerContent = 'OJT Monitoring System - Cagadas USTP';
-  
+
+  // This runs once when dashboard is rendered
+  useEffect(() => {
+    // give slight delay to simulate "fully mounted"
+    const timeout = setTimeout(() => {
+      setLoading(false); // ✅ Hide the loading screen now
+    }, 500); // or adjust if needed
+
+    return () => clearTimeout(timeout); // cleanup
+  }, []);
 
   // useStates 
   return(

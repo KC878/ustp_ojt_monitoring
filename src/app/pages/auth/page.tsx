@@ -142,7 +142,8 @@ const LoginPage = () => {
                 
                 setHasJoined(true);
                 setUserName(user.name);
-
+                
+                setLoading(true);
                 router.push('/pages/dashboard'); // redirect the page after login
                 // setLoading set loading logic in this par
 
