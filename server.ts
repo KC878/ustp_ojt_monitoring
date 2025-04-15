@@ -39,7 +39,7 @@ app.prepare().then(() => {
       console.log(`✅ ${name} joined room ${room}`);
       console.log('🧍 Users in rooms:', usersInRooms);
 
-      socket.to(room).emit('user-joined', `${name} has joined ${room}`);
+      socket.to(room).emit('user-joined', `${name} has signed in @${room}`);
 
     
     });

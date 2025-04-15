@@ -29,7 +29,7 @@ const LoginPage = () => {
   const { authAction, setAuthAction } = useAuthMiddleware();
   const { 
     loading, setLoading,
-    refreshWindow, setRefreshWindow,
+    refreshWindow,
 
   } = useLoading();
   const { form } = useForm(); 

@@ -21,7 +21,6 @@ const DashboardPage = () => {
     <div key="student"><h1>Student </h1></div>,
     <div key="supervisor"> <h1> Supervisor </h1></div>,
     <div key="settings"><h1>Settings</h1></div>,
-    <LogoutPage />
   ];
   // pass Array of components
   const menuItems = [
@@ -29,7 +28,6 @@ const DashboardPage = () => {
     'Student',
     'Supervisor',
     'Settings',
-    'Logout'
   ]
  
   const footerContent = 'OJT Monitoring System - Cagadas USTP';

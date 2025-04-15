@@ -9,6 +9,10 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
+import Profile from "./Profile";
+import LogoutPage from "@src/app/pages/logout/page";
+import { useAuth } from "@src/store/useAuth";
+
 // import Clock from '@src/components/Clock'
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -21,7 +25,8 @@ interface DashboardProps {
   menuPages: React.ReactNode[];
 }
 
-let name: string, email: string;
+let name = '';
+let email = '';
 
 const userString = localStorage.getItem("user");
   if (userString) {
@@ -30,6 +35,29 @@ const userString = localStorage.getItem("user");
     email = user.email;
     
   }
+
+
+const popoverContent = (
+  <div className="compact-content" style={{ padding: 8, fontSize: 13 }}>
+    <p style={{ margin: "2px 0" }}>{name}</p>
+    <p style={{ margin: "2px 0" }}>{email}</p>
+
+
+    <Button 
+      type="primary" 
+      icon={<LogoutOutlined />} 
+      size="small" 
+      style={{ marginTop: 8, width: "100%", height: 30, color: 'white'}}
+      onClick={() => {
+        const setShowLogoutPage = useAuth.getState().setShowLogoutPage; // Access the setter directly
+        setShowLogoutPage(true);  // Set the state directly outside the component
+      }}
+    >
+    </Button> 
+    {/* onclick this button it will trigger the page is that possible?  */}
+</div>
+);
+
 
 
 const menuIcons = [
@@ -50,6 +78,8 @@ const Dashboard: React.FC<DashboardProps> = ({
   const [collapsed, setCollapsed] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
 
+  const { showLogoutPage } = useAuth(); 
+
   // Ensure `window.innerWidth` is accessed only on the client
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -62,13 +92,17 @@ const Dashboard: React.FC<DashboardProps> = ({
   } = theme.useToken();
   
   return (
+    
     <Layout style={{ minHeight: "100vh" }}>
+      {/* Conditionally render LogoutPage */}
+      {showLogoutPage && <LogoutPage />}
+
       {/* Sidebar */}
       <Sider
         trigger={null}
         collapsible
         collapsed={collapsed}
-        width={260}
+        width={160}
         collapsedWidth={80}
         style={{
           height: "100vh",
@@ -117,7 +151,8 @@ const Dashboard: React.FC<DashboardProps> = ({
         />
       </Sider>
 
-      <Layout style={{ marginLeft: collapsed ? 80 : 260, transition: "margin 0.3s ease" }}>
+  
+      <Layout style={{ marginLeft: collapsed ? 62 : 140, transition: "margin 0.3s ease" }}>
         {/* Header */}
         <Header
           style={{
@@ -126,6 +161,7 @@ const Dashboard: React.FC<DashboardProps> = ({
             height: "64px",
             padding: "0 24px",
             position: "relative",
+            width: '100%',
           }}
         >
           {/* Absolutely centered header content */}
@@ -157,20 +193,8 @@ const Dashboard: React.FC<DashboardProps> = ({
               lineHeight: 1,
             }}
           >
-            <Button
-              type="primary"
-              shape="circle"
-              style={{
-                backgroundColor: "#007bff",
-                border: "none",
-              }}
-              onClick={() => {
-                
-                alert(`${name}\n${email}`);
-              }}
-            >
-              {name[0]}
-            </Button>
+            <Profile name={name} popoverContent={popoverContent} />
+
             <span style={{ fontSize: "11px", marginTop: "2px", color: "#555" }}>
               {name}
             </span>

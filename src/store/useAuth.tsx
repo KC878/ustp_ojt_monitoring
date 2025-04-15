@@ -29,6 +29,9 @@ interface GlobalState {
   logout: boolean;
   setLogout: (action: boolean) => void;
 
+  showLogoutPage: boolean;
+  setShowLogoutPage: (action: boolean) => void;
+
 }
 
 export const useAuth = create<GlobalState>((set) => ({
@@ -55,6 +58,9 @@ export const useAuth = create<GlobalState>((set) => ({
 
   logout: false,
   setLogout: (action) => set({ logout: action }),
+
+  showLogoutPage: false,
+  setShowLogoutPage: (action) => set({ showLogoutPage: action }),
 }));
 
 
