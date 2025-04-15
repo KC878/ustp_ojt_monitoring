@@ -21,8 +21,15 @@ interface DashboardProps {
   menuPages: React.ReactNode[];
 }
 
+let name: string, email: string;
 
-
+const userString = localStorage.getItem("user");
+  if (userString) {
+    const user = JSON.parse(userString);
+    name = user.name;
+    email = user.email;
+    
+  }
 
 
 const menuIcons = [
@@ -114,18 +121,62 @@ const Dashboard: React.FC<DashboardProps> = ({
         {/* Header */}
         <Header
           style={{
-            display: "flex", 
-            alignItems: "center", 
-            justifyContent: "center", // Center horizontally
-            height: "64px", // Ensure full height usage
             background: "white",
             boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-            fontSize: "22px",
-            fontWeight: "bold",
+            height: "64px",
+            padding: "0 24px",
+            position: "relative",
           }}
-        > 
-          {headerContent}
+        >
+          {/* Absolutely centered header content */}
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              fontSize: "22px",
+              fontWeight: "bold",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {headerContent}
+          </div>
+
+          {/* Right-aligned profile button with name below */}
+          <div
+            style={{
+              position: "absolute",
+              right: 24,
+              top: "50%",
+              transform: "translateY(-50%)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              lineHeight: 1,
+            }}
+          >
+            <Button
+              type="primary"
+              shape="circle"
+              style={{
+                backgroundColor: "#007bff",
+                border: "none",
+              }}
+              onClick={() => {
+                
+                alert(`${name}\n${email}`);
+              }}
+            >
+              {name[0]}
+            </Button>
+            <span style={{ fontSize: "11px", marginTop: "2px", color: "#555" }}>
+              {name}
+            </span>
+          </div>
         </Header>
+
 
         {/* Content Area */}
         <Content

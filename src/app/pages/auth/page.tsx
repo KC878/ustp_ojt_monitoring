@@ -27,7 +27,11 @@ import { useMiddleware } from '@src/services/useMiddleware';
 
 const LoginPage = () => {
   const { authAction, setAuthAction } = useAuthMiddleware();
-  const { loading, setLoading } = useLoading();
+  const { 
+    loading, setLoading,
+    refreshWindow, setRefreshWindow,
+
+  } = useLoading();
   const { form } = useForm(); 
 
   const [messageApi, contextHolder] = notification.useNotification();
@@ -50,6 +54,17 @@ const LoginPage = () => {
   
   const { finishSubmit, setFinishSubmit } = useFinish(); // declarer
   const router = useRouter(); // initialize Router
+
+
+  useEffect(() => {
+    
+    if(refreshWindow){
+      
+      window.location.reload(); //
+    }
+    
+  }, [refreshWindow])
+
   
   useEffect(() => {
     const defaultRoom = "Logicbase";0

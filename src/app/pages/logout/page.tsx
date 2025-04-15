@@ -3,11 +3,11 @@ import ProtectedRoute from '@src/middleware/ProtectedRoute';
 import { useAuth } from '@src/store/useAuth';
 import { useEffect } from 'react';
 import { socket } from '@src/utils/socketClient';
-import { useMiddleware } from '@src/services/useMiddleware';
-
+import { useLoading } from '@src/store/useLoading';
 const LogoutPage = () => {
   const { logout, setLogout } = useAuth();
-  const { isAuthenticated } = useMiddleware();
+  const { setRefreshWindow } = useLoading();
+  
 
   useEffect(() => {
     if (logout) {
@@ -19,6 +19,7 @@ const LogoutPage = () => {
       })
 
       setLogout(false); // set it to false after emitting
+      setRefreshWindow(true);
     }
     return () => {
          // Cleanup if necessary
