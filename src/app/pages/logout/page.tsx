@@ -10,15 +10,20 @@ const LogoutPage = () => {
   const { isAuthenticated } = useMiddleware();
 
   useEffect(() => {
-    if (!isAuthenticated && logout) {
-      socket.emit('user-logout');
+    if (logout) {
+      socket.emit('logout');
+
+      socket.on('user-logout', (message: string) => {
+        console.log(message);
+      })
+
       setLogout(false); // set it to false after emitting
     }
     return () => {
          // Cleanup if necessary
       // socket.off('user-logout');
     };
-  }, [isAuthenticated, logout]);
+  }, [logout]);
 
   return (
     <>
