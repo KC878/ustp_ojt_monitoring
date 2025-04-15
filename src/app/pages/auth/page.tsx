@@ -20,9 +20,10 @@ import { postData } from '@src/services/usePostData';
 
 import { messages } from '@src/utils/messages';
 import ProtectedRoute from '@src/middleware/ProtectedRoute';
-import { useSocketIO } from '@src/services/useSocketIO';
+// import { useSocketIO } from '@src/services/useSocketIO';
 
-
+import { socket } from '@src/utils/socketClient';
+import { useMiddleware } from '@src/services/useMiddleware';
 
 const LoginPage = () => {
   const { authAction, setAuthAction } = useAuthMiddleware();
@@ -30,7 +31,11 @@ const LoginPage = () => {
   const { form } = useForm(); 
 
   const [messageApi, contextHolder] = notification.useNotification();
-  const { socket } = useSocketIO();
+  const { isAuthenticated } = useMiddleware();
+
+  const [hasJoined, setHasJoined ] = useState(false);
+  const [userName, setUserName] = useState('');
+  // const { socket } = useSocketIO();
 
   const { 
       userID, // didicated Global State for userID -> 
@@ -44,10 +49,28 @@ const LoginPage = () => {
     } = useAuth();
   
   const { finishSubmit, setFinishSubmit } = useFinish(); // declarer
-  
   const router = useRouter(); // initialize Router
+  
+  useEffect(() => {
+    const defaultRoom = "Logicbase";0
+    if(isAuthenticated && hasJoined) {
+      socket.emit('join-room', {
+        room: defaultRoom,
+        name: userName
+      })
+
+      setHasJoined(false); // reset it to false again
+
+    }
+    console.log("From AUTH: ", defaultRoom);
+    return () => {
+      socket.off("user_joined");
+      socket.off("messages");
+    }
+  }, [isAuthenticated, hasJoined]);
 
 
+  // submission form
   useEffect(() => {
     if (finishSubmit) {
       const submit = async () => {
@@ -113,10 +136,13 @@ const LoginPage = () => {
                 localStorage.setItem('user', JSON.stringify(user));
 
                 
-                socket.emit('userOnline', user.name); // after successful login
+                setHasJoined(true);
+                setUserName(user.name);
 
                 router.push('/pages/dashboard'); // redirect the page after login
                 // setLoading set loading logic in this par
+
+                
 
               } else if (response.message === messages.ERROR.INVALID_EMAIL){
                   messageApi.error({
