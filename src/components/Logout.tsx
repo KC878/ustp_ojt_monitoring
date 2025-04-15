@@ -8,7 +8,7 @@ const Logout: React.FC = () => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState('Are you sure you want to logout?');
 
-  const { logout, setLogout } = useAuth();
+  const { setLogout } = useAuth();
 
   const handleOk = () => {
 
