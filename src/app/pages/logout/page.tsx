@@ -15,6 +15,7 @@ const LogoutPage = () => {
 
       socket.on('user-logout', (message: string) => {
         console.log(message);
+        alert(message);
       })
 
       setLogout(false); // set it to false after emitting

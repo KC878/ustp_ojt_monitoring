@@ -21,7 +21,7 @@ app.prepare().then(() => {
   const usersInRooms: Record<string, User[]> = {};
 
   io.on('connection', (socket) => {
-    console.log('🔌 User connected:', socket.id);
+    console.log('User connected:', socket.id);
 
     socket.on('join-room', ({ room, name }) => {
       socket.join(room);
@@ -50,7 +50,7 @@ app.prepare().then(() => {
         const index = usersInRooms[room].findIndex(user => user.id === socket.id);
         if (index !== -1) {
           const removedUser = usersInRooms[room].splice(index, 1)[0];
-          console.log(`🚪 ${removedUser.name} logged out from room ${room}`);
+          console.log(`🛑 ${removedUser.name} logged out from room ${room}`);
           socket.to('Logicbase').emit('user-logout', `${removedUser.name} has left ${room}`);
           socket.leave('Logicbase');
           break;
@@ -58,21 +58,21 @@ app.prepare().then(() => {
       }
     });
 
-    // Disconnect handler
-    socket.on('disconnect', () => {
-      console.log(`❌ Disconnected: ${socket.id}`);
+    // // Disconnect handler
+    // socket.on('disconnect', () => {
+    //   console.log(`❌ Disconnected: ${socket.id}`);
 
-      for (const room in usersInRooms) {
-        const index = usersInRooms[room].findIndex(user => user.id === socket.id);
-        if (index !== -1) {
-          const removedUser = usersInRooms[room].splice(index, 1)[0];
-          console.log(`🛑 ${removedUser.name} disconnected from room ${room}`);
-          socket.to(room).emit('user-left', `${removedUser.name} has left ${room}`);
-        }
-      }
+    //   for (const room in usersInRooms) {
+    //     const index = usersInRooms[room].findIndex(user => user.id === socket.id);
+    //     if (index !== -1) {
+    //       const removedUser = usersInRooms[room].splice(index, 1)[0];
+    //       console.log(`🛑 ${removedUser.name} disconnected from room ${room}`);
+    //       socket.to(room).emit('user-left', `${removedUser.name} has left ${room}`);
+    //     }
+    //   }
 
-      socket.disconnect();
-    });
+    //   socket.disconnect();
+    // });
   });
 
   httpServer.listen(port, () => {
