@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS Users (
   password TEXT NOT NULL,
   roleID INT NOT NULL, -- 'admin', 'student', 'supervisor'
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  duration INT,
   FOREIGN KEY (roleID) REFERENCES Roles(roleID) ON DELETE CASCADE 
 );
 
@@ -42,8 +43,8 @@ CREATE TABLE IF NOT EXISTS Users (
 CREATE TABLE IF NOT EXISTS User_Status ( 
   userID CHAR(36) NOT NULL,    -- UUID for userID,
   name VARCHAR(50) NOT NULL,
-  status VARCHAR(10) NOT NULL,
-  
+  email VARCHAR(10) NOT NULL,
+  timeRendered INT,
   PRIMARY KEY (userID), -- User is the primary key
   FOREIGN KEY (userID) REFERENCES Users(userID) ON DELETE CASCADE
 );

@@ -2,21 +2,22 @@
 
 import Userslist from '@src/components/UsersList';
 import { useFetchData } from '@src/services/useFetchData';
+import Loading from '@src/components/Loading';
+import { useLoading } from '@src/store/useLoading';
 
-
-interface StudentType {
-  userID: string;
-  name: string;
-  email: string;
-}
-
-export default function SocketTestPage() {
-  const { data } = useFetchData<StudentType>('/api/tasks/GET/getUserStatus');
-
+export default function Students() {
+  const { data } = useFetchData<any>('/api/tasks/GET/getUserStatus');
+  const { loading } = useLoading();
 
   return (
-    <>
-      <Userslist data={data}/>
+    <> 
+      {loading ? (
+        <Loading />
+      ) : (
+        <Userslist data={data}/>
+      )
+    }
+      
     </>
   );
 }

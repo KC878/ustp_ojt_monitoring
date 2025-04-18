@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, List, Progress, Typography, Badge } from 'antd';
 import VirtualList from 'rc-virtual-list';
 import type { ProgressProps } from 'antd';
+import Item from 'antd/es/list/Item';
 
 const { Text } = Typography;
 
 interface StudentType {
   userID: string;
   name: string;
-  email: string;
+  status: string;
 }
+
 
 interface Props {
   data: StudentType[]
@@ -18,14 +20,9 @@ interface Props {
 
 
 const Userslist: React.FC<Props>= ( { data } ) => {
-  // const dummyData: DataType[] = [
-  //   { userID: '1', name: 'Kent Christian', email: 'Active' },
-  //   { userID: '2', name: 'Jane Doe', status: 'Inactive' },
-  //   { userID: '3', name: 'John Smith', status: 'Pending' },
-  //   { userID: '4', name: 'Alice Johnson', status: 'Active' },
-  //   { userID: '5', name: 'Bob Brown', status: 'Inactive' },
-  // ];
 
+
+  
   const [timeLeft, setTimeLeft] = useState(8 * 60 * 60); // 8 hours in seconds
 
   useEffect(() => {
@@ -62,8 +59,8 @@ const Userslist: React.FC<Props>= ( { data } ) => {
   return (
     <List>
       <VirtualList data={data} itemHeight={180} itemKey="userID">
-        {(item, index: number) => (
-          <List.Item key={item.email}>
+        {(_, index: number) => (
+          <List.Item key={data[index].userID}>
             <div style={{
               display: 'grid',
               gridTemplateColumns: '1fr auto 1fr',
@@ -80,11 +77,11 @@ const Userslist: React.FC<Props>= ( { data } ) => {
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <div style={{ position: 'relative', width: 'fit-content' }}>
                       <Avatar size={64} style={{ backgroundColor: '#3fa3da', fontSize: 35 }}>
-                        {item.name.charAt(0).toUpperCase()}
+                        {data[index].name.charAt(0).toUpperCase()}
                       </Avatar>
                       <Badge
                         dot
-                        status={item.email === 'Active' ? 'success' : 'error'} // error is for offline
+                        status={data[index].status === 'Active' ? 'success' : 'error'} // error is for offline
                         style={{
                           position: 'absolute',
                           bottom: -6,
@@ -96,15 +93,15 @@ const Userslist: React.FC<Props>= ( { data } ) => {
                         }}
                       />
                     </div>
-                  <Text type="secondary" style={{ marginTop: 8, color: item.email === 'Active' ? 'green' : 'red'}}>{item.email}</Text>
+                  <Text type="secondary" style={{ marginTop: 8, color: data[index].status === 'Active' ? 'green' : 'red'}}>{data[index].status}</Text>
                 </div>
 
                 {/* User Info */}
                 <div>
-                  <div style={{ fontSize: '20px', fontWeight: 'bold' }}>{item.name}</div>
+                  <div style={{ fontSize: '20px', fontWeight: 'bold' }}>{data[index].name}</div>
                   <div style={{ fontSize: '14px', color: 'gray' }}>
-                    <div>User ID: {item.userID}</div>
-                    <div>Email: {item.name.toLowerCase()}@example.com</div>
+                    <div>User ID: {data[index].userID}</div>
+                    <div>Email: {data[index].status.toLowerCase()}@example.com</div>
                   </div>
                 </div>
               </div>

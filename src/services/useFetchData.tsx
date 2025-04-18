@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 
+import { useLoading } from '@src/store/useLoading';
+
 export const useFetchData = <T,>(apiPage: string) => {
   const [data, setData] = useState<T[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const {loading, setLoading} = useLoading();
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -19,9 +21,7 @@ export const useFetchData = <T,>(apiPage: string) => {
       } catch (error) {
         console.error('Error fetching data:', error);
         setError(error instanceof Error ? error.message : 'An unknown error occurred');
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
 
     fetchData();
@@ -29,7 +29,6 @@ export const useFetchData = <T,>(apiPage: string) => {
 
   return {
     data,
-    loading,
     error,
   };
 };
