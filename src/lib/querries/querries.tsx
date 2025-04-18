@@ -1,8 +1,12 @@
 
+// get
+
 export const getRoles = "SELECT roleID, role FROM Roles";
 
+export const getUserStatus = `SELECT userID, name, status FROM User_Status`;
 
-// add
+
+// post
 export const addUser = "INSERT INTO Users (userID, name, email, password, roleID, created_at) VALUES (?, ?, ?, ?, ?, ?)";
 
 

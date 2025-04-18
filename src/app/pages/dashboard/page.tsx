@@ -36,7 +36,7 @@ const DashboardPage = () => {
     // give slight delay to simulate "fully mounted"
     const timeout = setTimeout(() => {
       setLoading(false); // ✅ Hide the loading screen now
-    }, 500); // or adjust if needed
+    }, 2000); // or adjust if needed
 
     return () => clearTimeout(timeout); // cleanup
   }, []);

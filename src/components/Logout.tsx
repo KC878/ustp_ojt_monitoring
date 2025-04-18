@@ -22,6 +22,10 @@ const Logout: React.FC = () => {
     }, 1000)
     setConfirmLoading(true);
 
+
+    // logout make it an api request --> store email -> 
+
+    // pass email to broadcast io
     
     
     setLogout(true); // 
