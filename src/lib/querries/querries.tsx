@@ -3,7 +3,7 @@
 
 export const getRoles = "SELECT roleID, role FROM Roles";
 
-export const getUserStatus = `SELECT userID, name, status FROM User_Status`;
+export const getUserStatus = `SELECT userID, name, email, timeRendered FROM User_Status`;
 
 
 // post

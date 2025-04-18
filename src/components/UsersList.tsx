@@ -9,7 +9,7 @@ const { Text } = Typography;
 interface StudentType {
   userID: string;
   name: string;
-  status: string;
+  email: string;
 }
 
 
@@ -49,7 +49,9 @@ const Userslist: React.FC<Props>= ( { data } ) => {
 
   const totalSeconds = 8 * 60 * 60;
   const renderedPercent = ((totalSeconds - timeLeft) / totalSeconds) * 100; // fetch from database -
+  
 
+  const status = 'Offline';
   // Get status color
   const getStatusColor = (status: string) => {
     if (status === 'Active') return 'green';
@@ -81,7 +83,8 @@ const Userslist: React.FC<Props>= ( { data } ) => {
                       </Avatar>
                       <Badge
                         dot
-                        status={data[index].status === 'Active' ? 'success' : 'error'} // error is for offline
+                        // fix that later 
+                        status={'Offline' === 'Active' ? 'success' : 'error'} // error is for offline
                         style={{
                           position: 'absolute',
                           bottom: -6,
@@ -93,7 +96,10 @@ const Userslist: React.FC<Props>= ( { data } ) => {
                         }}
                       />
                     </div>
-                  <Text type="secondary" style={{ marginTop: 8, color: data[index].status === 'Active' ? 'green' : 'red'}}>{data[index].status}</Text>
+                  <Text type="secondary" style={{ marginTop: 8, color: 'Offline' === 'Active' ? 'green' : 'red'}}>
+                        Offline
+                  </Text> 
+                  {/* Color text */}
                 </div>
 
                 {/* User Info */}
@@ -101,7 +107,7 @@ const Userslist: React.FC<Props>= ( { data } ) => {
                   <div style={{ fontSize: '20px', fontWeight: 'bold' }}>{data[index].name}</div>
                   <div style={{ fontSize: '14px', color: 'gray' }}>
                     <div>User ID: {data[index].userID}</div>
-                    <div>Email: {data[index].status.toLowerCase()}@example.com</div>
+                    <div>Email: {data[index].email.toLowerCase()}</div>
                   </div>
                 </div>
               </div>

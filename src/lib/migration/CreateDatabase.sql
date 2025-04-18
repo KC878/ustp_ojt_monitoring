@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS Users (
 CREATE TABLE IF NOT EXISTS User_Status ( 
   userID CHAR(36) NOT NULL,    -- UUID for userID,
   name VARCHAR(50) NOT NULL,
-  email VARCHAR(10) NOT NULL,
+  email VARCHAR(100) NOT NULL,
   timeRendered INT,
   PRIMARY KEY (userID), -- User is the primary key
   FOREIGN KEY (userID) REFERENCES Users(userID) ON DELETE CASCADE

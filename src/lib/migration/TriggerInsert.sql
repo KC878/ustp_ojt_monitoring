@@ -7,7 +7,7 @@ FOR EACH ROW
 BEGIN
     -- Insert a record into User_Status with the default 'inactive' loginStatusID
     INSERT INTO User_Status (userID, name, email, timeRendered)
-    VALUES (NEW.userID, NEW.name, NEW.email, NEW.duration);
+    VALUES (NEW.userID, NEW.name, NEW.email, 486);
 END $$
 
 DELIMITER ;
