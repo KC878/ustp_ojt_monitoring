@@ -1,24 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, List, Progress, Typography } from 'antd';
+import { Avatar, List, Progress, Typography, Badge } from 'antd';
 import VirtualList from 'rc-virtual-list';
 import type { ProgressProps } from 'antd';
 
 const { Text } = Typography;
 
-interface DataType {
+interface StudentType {
   userID: string;
   name: string;
-  status: string;
+  email: string;
 }
 
-const Userslist: React.FC = () => {
-  const dummyData: DataType[] = [
-    { userID: '1', name: 'Kent Christian', status: 'Active' },
-    { userID: '2', name: 'Jane Doe', status: 'Inactive' },
-    { userID: '3', name: 'John Smith', status: 'Pending' },
-    { userID: '4', name: 'Alice Johnson', status: 'Active' },
-    { userID: '5', name: 'Bob Brown', status: 'Inactive' },
-  ];
+interface Props {
+  data: StudentType[]
+}
+
+
+
+const Userslist: React.FC<Props>= ( { data } ) => {
+  // const dummyData: DataType[] = [
+  //   { userID: '1', name: 'Kent Christian', email: 'Active' },
+  //   { userID: '2', name: 'Jane Doe', status: 'Inactive' },
+  //   { userID: '3', name: 'John Smith', status: 'Pending' },
+  //   { userID: '4', name: 'Alice Johnson', status: 'Active' },
+  //   { userID: '5', name: 'Bob Brown', status: 'Inactive' },
+  // ];
 
   const [timeLeft, setTimeLeft] = useState(8 * 60 * 60); // 8 hours in seconds
 
@@ -46,13 +52,18 @@ const Userslist: React.FC = () => {
 
   const totalSeconds = 8 * 60 * 60;
   const renderedPercent = ((totalSeconds - timeLeft) / totalSeconds) * 100; // fetch from database -
-  // updates every hour --> 
+
+  // Get status color
+  const getStatusColor = (status: string) => {
+    if (status === 'Active') return 'green';
+    else return 'red';
+  };
 
   return (
     <List>
-      <VirtualList data={dummyData} itemHeight={180} itemKey="userID">
-        {(item: DataType, index: number) => (
-          <List.Item key={item.userID}>
+      <VirtualList data={data} itemHeight={180} itemKey="userID">
+        {(item, index: number) => (
+          <List.Item key={item.email}>
             <div style={{
               display: 'grid',
               gridTemplateColumns: '1fr auto 1fr',
@@ -61,38 +72,50 @@ const Userslist: React.FC = () => {
               gap: '30px',
               padding: '0 20px'
             }}>
-              
+
               {/* Left side: User Info */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                 {/* Avatar and Time Text wrapped in a column */}
-                  {/* set condition if online --> green else: red circle also show offlibe */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}> 
-                  <Avatar size={64} style={{ backgroundColor: 'forestgreen', fontSize: 35 }}>
-                    {item.name.charAt(0).toUpperCase()}
-                  </Avatar>
-                  <Text type="secondary" style={{ marginTop: 8 }}>Active</Text> {/* Placed below the Avatar */}
+                {/* set condition if online --> green else: red/orange circle and show status */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <div style={{ position: 'relative', width: 'fit-content' }}>
+                      <Avatar size={64} style={{ backgroundColor: '#3fa3da', fontSize: 35 }}>
+                        {item.name.charAt(0).toUpperCase()}
+                      </Avatar>
+                      <Badge
+                        dot
+                        status={item.email === 'Active' ? 'success' : 'error'} // error is for offline
+                        style={{
+                          position: 'absolute',
+                          bottom: -6,
+                          right: -6,
+                          width: 16,
+                          height: 16,
+                          borderRadius: '50%',
+                          boxShadow: '0 0 0 2px white',
+                        }}
+                      />
+                    </div>
+                  <Text type="secondary" style={{ marginTop: 8, color: item.email === 'Active' ? 'green' : 'red'}}>{item.email}</Text>
                 </div>
 
                 {/* User Info */}
                 <div>
                   <div style={{ fontSize: '20px', fontWeight: 'bold' }}>{item.name}</div>
-                    <div style={{ fontSize: '14px', color: 'gray' }}>
-                      <div>User ID: {item.userID}</div>
-                      <div>Email: {item.status}</div>
-                    </div>
-
+                  <div style={{ fontSize: '14px', color: 'gray' }}>
+                    <div>User ID: {item.userID}</div>
+                    <div>Email: {item.name.toLowerCase()}@example.com</div>
+                  </div>
                 </div>
               </div>
 
-
-                {/* ////////////////////////////////////////////////// */}
+              {/* ////////////////////////////////////////////////// */}
 
               {/* Center --> overall Progress bar */}
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '350px' }}>
                   {/* Labels */}
                   <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-                    {/* Labels */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#666', marginBottom: 4 }}>
                       <span>0%</span>
                       <span>25%</span>
@@ -111,33 +134,32 @@ const Userslist: React.FC = () => {
                       position: 'relative',
                       overflow: 'hidden'
                     }}>
-                      <div 
+                      <div
                         key={index} // unique identifier for Hrs Required
                         style={{
-                        position: 'absolute',
-                        left: 0,
-                        top: 0,
-                        height: '100%',
-                        width: `${50}%`, // TOTAL Hrs required--> Entire OJT duration 
-                        background: '#1890ff',
-                        transition: 'width 0.4s ease'
-                      }} />
+                          position: 'absolute',
+                          left: 0,
+                          top: 0,
+                          height: '100%',
+                          width: `${50}%`, // TOTAL Hrs required--> Entire OJT duration 
+                          background: '#1890ff',
+                          transition: 'width 0.4s ease'
+                        }}
+                      />
                     </div>
                   </div>
 
-                  <Text type="secondary" style={{ marginTop: 8 }}>Hrs Required: {486} Hrs </Text>
-                  <Text type="secondary" style={{ marginTop: 8 }}>Total Hrs rendered: {300} Hrs </Text>
+                  <Text type="secondary" style={{ marginTop: 8 }}>Hrs Required: 486 Hrs </Text>
+                  <Text type="secondary" style={{ marginTop: 8 }}>Total Hrs rendered: 300 Hrs </Text>
                 </div>
               </div>
-              
-
 
               {/* ////////////////////////////////////////////////// */}
+
               {/* Right side: Progress Circles */}
-              
               <div style={{ marginLeft: '120px', display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
                 {/* Display current date */}
-                <Text type="secondary">Today</Text> 
+                <Text type="secondary">Today</Text>
                 <div style={{ display: 'flex', gap: 20 }}>
                   <Progress type="circle" percent={30} size={80} strokeColor="#ff4d4f" />
                   <Progress
