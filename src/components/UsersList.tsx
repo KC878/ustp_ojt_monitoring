@@ -65,7 +65,7 @@ const Userslist: React.FC = () => {
               {/* Left side: User Info */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                 {/* Avatar and Time Text wrapped in a column */}
-                  {/* set condition if online --> green else: red circle also show offline */}
+                  {/* set condition if online --> green else: red circle also show offlibe */}
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}> 
                   <Avatar size={64} style={{ backgroundColor: 'forestgreen', fontSize: 35 }}>
                     {item.name.charAt(0).toUpperCase()}
@@ -76,9 +76,11 @@ const Userslist: React.FC = () => {
                 {/* User Info */}
                 <div>
                   <div style={{ fontSize: '20px', fontWeight: 'bold' }}>{item.name}</div>
-                  <div style={{ fontSize: '14px', color: 'gray' }}>
-                    User ID: {item.userID} | Status: {item.status}
-                  </div>
+                    <div style={{ fontSize: '14px', color: 'gray' }}>
+                      <div>User ID: {item.userID}</div>
+                      <div>Email: {item.status}</div>
+                    </div>
+
                 </div>
               </div>
 
