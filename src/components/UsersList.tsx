@@ -45,7 +45,8 @@ const Userslist: React.FC = () => {
   };
 
   const totalSeconds = 8 * 60 * 60;
-  const renderedPercent = ((totalSeconds - timeLeft) / totalSeconds) * 100;
+  const renderedPercent = ((totalSeconds - timeLeft) / totalSeconds) * 100; // fetch from database -
+  // updates every hour --> 
 
   return (
     <List>
@@ -63,9 +64,16 @@ const Userslist: React.FC = () => {
               
               {/* Left side: User Info */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                <Avatar size={64} style={{ backgroundColor: 'forestgreen', fontSize: 35 }}>
-                  {item.name.charAt(0).toUpperCase()}
-                </Avatar>
+                {/* Avatar and Time Text wrapped in a column */}
+                  {/* set condition if online --> green else: red circle also show offline */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}> 
+                  <Avatar size={64} style={{ backgroundColor: 'forestgreen', fontSize: 35 }}>
+                    {item.name.charAt(0).toUpperCase()}
+                  </Avatar>
+                  <Text type="secondary" style={{ marginTop: 8 }}>Active</Text> {/* Placed below the Avatar */}
+                </div>
+
+                {/* User Info */}
                 <div>
                   <div style={{ fontSize: '20px', fontWeight: 'bold' }}>{item.name}</div>
                   <div style={{ fontSize: '14px', color: 'gray' }}>
@@ -73,6 +81,7 @@ const Userslist: React.FC = () => {
                   </div>
                 </div>
               </div>
+
 
                 {/* ////////////////////////////////////////////////// */}
 
