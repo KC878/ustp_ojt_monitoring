@@ -1,3 +1,5 @@
+"use client"; // Only needed if you're in an app router
+
 import React, { useState, useEffect } from "react";
 import {
   MenuFoldOutlined,
@@ -13,10 +15,8 @@ import Profile from "./Profile";
 import LogoutPage from "@src/app/pages/logout/page";
 import { useAuth } from "@src/store/useAuth";
 
-// import Clock from '@src/components/Clock'
 const { Header, Footer, Sider, Content } = Layout;
 
-// Props Interface
 interface DashboardProps {
   menuItems: string[];
   footerContent: string;
@@ -25,45 +25,10 @@ interface DashboardProps {
   menuPages: React.ReactNode[];
 }
 
-let name = '';
-let email = '';
-
-const userString = localStorage.getItem("user");
-  if (userString) {
-    const user = JSON.parse(userString);
-    name = user.name;
-    email = user.email;
-    
-  }
-
-
-const popoverContent = (
-  <div className="compact-content" style={{ padding: 8, fontSize: 13 }}>
-    <p style={{ margin: "2px 0" }}>{name}</p>
-    <p style={{ margin: "2px 0" }}>{email}</p>
-
-
-    <Button 
-      type="primary" 
-      icon={<LogoutOutlined />} 
-      size="small" 
-      style={{ marginTop: 8, width: "100%", height: 30, color: 'white'}}
-      onClick={() => {
-        const setShowLogoutPage = useAuth.getState().setShowLogoutPage; // Access the setter directly
-        setShowLogoutPage(true);  // Set the state directly outside the component
-      }}
-    >
-    </Button> 
-    {/* onclick this button it will trigger the page is that possible?  */}
-</div>
-);
-
-
-
 const menuIcons = [
   <DashboardOutlined key={"dashboard"} />,
   <SolutionOutlined key={"student"} />,
-  <TeamOutlined key={'supervisor'} />,
+  <TeamOutlined key={"supervisor"} />,
   <SettingOutlined key={"settings"} />,
   <LogoutOutlined key={"logout"} />,
 ];
@@ -77,12 +42,20 @@ const Dashboard: React.FC<DashboardProps> = ({
 }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
+  const [mounted, setMounted] = useState(false); // Prevent hydration mismatch
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
 
-  const { showLogoutPage } = useAuth(); 
+  const { showLogoutPage } = useAuth();
 
-  // Ensure `window.innerWidth` is accessed only on the client
   useEffect(() => {
+    setMounted(true); // Mark the component as mounted
+
     if (typeof window !== "undefined") {
+      const storedName = localStorage.getItem("name") || "";
+      const storedEmail = localStorage.getItem("email") || "";
+      setName(storedName);
+      setEmail(storedEmail);
       setCollapsed(window.innerWidth < 600);
     }
   }, []);
@@ -90,14 +63,35 @@ const Dashboard: React.FC<DashboardProps> = ({
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-  
+
+  const popoverContent = mounted && (
+    <div className="compact-content" style={{ padding: 8, fontSize: 13 }}>
+      <p style={{ margin: "2px 0" }}>{name}</p>
+      <p style={{ margin: "2px 0" }}>{email}</p>
+      <Button
+        type="primary"
+        icon={<LogoutOutlined />}
+        size="small"
+        style={{
+          marginTop: 8,
+          width: "100%",
+          height: 30,
+          color: "white",
+        }}
+        onClick={() => {
+          const setShowLogoutPage = useAuth.getState().setShowLogoutPage;
+          setShowLogoutPage(true);
+        }}
+      />
+    </div>
+  );
+
+  if (!mounted) return null; // Avoid rendering until mounted to prevent hydration issues
+
   return (
-    
     <Layout style={{ minHeight: "100vh" }}>
-      {/* Conditionally render LogoutPage */}
       {showLogoutPage && <LogoutPage />}
 
-      {/* Sidebar */}
       <Sider
         trigger={null}
         collapsible
@@ -151,9 +145,12 @@ const Dashboard: React.FC<DashboardProps> = ({
         />
       </Sider>
 
-  
-      <Layout style={{ marginLeft: collapsed ? 62 : 140, transition: "margin 0.3s ease" }}>
-        {/* Header */}
+      <Layout
+        style={{
+          marginLeft: collapsed ? 62 : 140,
+          transition: "margin 0.3s ease",
+        }}
+      >
         <Header
           style={{
             background: "white",
@@ -161,10 +158,9 @@ const Dashboard: React.FC<DashboardProps> = ({
             height: "64px",
             padding: "0 24px",
             position: "relative",
-            width: '100%',
+            width: "100%",
           }}
         >
-          {/* Absolutely centered header content */}
           <div
             style={{
               position: "absolute",
@@ -179,7 +175,6 @@ const Dashboard: React.FC<DashboardProps> = ({
             {headerContent}
           </div>
 
-          {/* Right-aligned profile button with name below */}
           <div
             style={{
               position: "absolute",
@@ -194,15 +189,14 @@ const Dashboard: React.FC<DashboardProps> = ({
             }}
           >
             <Profile name={name} popoverContent={popoverContent} />
-
-            <span style={{ fontSize: "11px", marginTop: "2px", color: "#555" }}>
+            <span
+              style={{ fontSize: "11px", marginTop: "2px", color: "#555" }}
+            >
               {name}
             </span>
           </div>
         </Header>
 
-
-        {/* Content Area */}
         <Content
           style={{
             margin: "24px 16px",
@@ -215,9 +209,7 @@ const Dashboard: React.FC<DashboardProps> = ({
         >
           {menuPages[pageIndex]}
         </Content>
-      
 
-        {/* Footer */}
         <Footer
           style={{
             textAlign: "center",
@@ -227,7 +219,6 @@ const Dashboard: React.FC<DashboardProps> = ({
           }}
         >
           {footerContent}
-          {/* <Clock /> */}
         </Footer>
       </Layout>
     </Layout>

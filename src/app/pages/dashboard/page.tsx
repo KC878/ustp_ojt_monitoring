@@ -53,8 +53,6 @@ const DashboardPage = () => {
         description: message,  // Detailed message
         placement: 'topRight',  // Notification position
       });
-
-      
       // alert(message);
 
       setLogout(false);

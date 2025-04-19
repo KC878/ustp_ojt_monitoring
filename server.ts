@@ -52,7 +52,7 @@ app.prepare().then(() => {
 
       socket.to(room).emit('user-joined', `${name} has signed in ${room}`, activeUsers);
 
-      socket.to(room).emit('user-status', )
+      socket.to(room).emit('user-status', activeUsers) // ADD EMIT FOR ACTIVE USERS HERE sender
       
       
     });
@@ -70,7 +70,8 @@ app.prepare().then(() => {
           console.log(`🛑 ${removedUser.name} logged out from room ${room}
           Email: ${userEmail}`);
           socket.to(room).emit('user-logout', `${userEmail} has left ${room}`);
-
+          
+          // ADD EMIT FOR ACTIVE USERS HERE sender
           socket.leave(room);
           break;
         }

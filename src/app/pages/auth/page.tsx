@@ -36,10 +36,6 @@ const LoginPage = () => {
 
   const [messageApi, contextHolder] = notification.useNotification();
   const { isAuthenticated } = useMiddleware();
-
-  const [hasJoined, setHasJoined ] = useState(false);
-  const [userName, setUserName] = useState('');
-
   
 
   // const { socket } = useSocketIO();
@@ -70,18 +66,21 @@ const LoginPage = () => {
 
   
   useEffect(() => {
-    const defaultRoom = "Logicbase";
-    if(isAuthenticated && hasJoined) {
+    localStorage.setItem('room', "Logicbase"); // store the room to localStorage to persist
+
+    const defaultRoom = localStorage.getItem('room');
+    const userName = localStorage.getItem('name');
+    const userEmail = localStorage.getItem('email'); // store to localStorage to persist data even if refresh
+
+    if(isAuthenticated) {
       socket.emit('join-room', {
         room: defaultRoom,
         name: userName,
-        email: email,
+        email: userEmail,
       })
       
       // listener for user-joined
-      
-      
-      setHasJoined(false); // reset it to false again
+    
 
     }
     console.log("From AUTH: ", defaultRoom);
@@ -89,7 +88,7 @@ const LoginPage = () => {
       // socket.off("user_joined");
       // socket.off("messages");
     }
-  }, [isAuthenticated, hasJoined]);
+  }, [isAuthenticated]);
 
 
   // submission form
@@ -157,12 +156,10 @@ const LoginPage = () => {
                 // store result token and user to localStorage
                 localStorage.setItem('token', loginToken);
                 localStorage.setItem('user', JSON.stringify(user));
-                localStorage.setItem('email', user.email)
+                localStorage.setItem('email', user.email);
+                localStorage.setItem('name', user.name);
 
-                
-                setHasJoined(true);
-                setUserName(user.name);
-                
+              
                 setLoading(true);
                 router.push('/pages/dashboard'); // redirect the page after login
                 // setLoading set loading logic in this par
