@@ -8,17 +8,13 @@ const LogoutPage = () => {
   const { logout, setLogout } = useAuth();
   const { setRefreshWindow } = useLoading();
   
-
+  const email = localStorage.getItem('email')
   useEffect(() => {
+
     if (logout) {
-      socket.emit('logout');
+      socket.emit('logout', email); // refers to the curren email of user
 
-      socket.on('user-logout', (message: string) => {
-        console.log(message);
-        alert(message);
-      })
-
-      setLogout(false); // set it to false after emitting
+      
       setRefreshWindow(true);
     }
     return () => {
@@ -26,7 +22,11 @@ const LogoutPage = () => {
       // socket.off('user-logout');
     };
   }, [logout]);
+  
 
+  const handleLogout = (message: string) => {
+    alert(message);
+  }
   return (
     <>
       <ProtectedRoute>

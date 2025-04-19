@@ -9,11 +9,12 @@ import { useLoading } from '@src/store/useLoading';
 
 
 import React, { useState, useEffect } from 'react';
-
-
+import { socket } from '@src/utils/socketClient';
+import { useAuth } from '@src/store/useAuth';
 const DashboardPage = () => {
   const [headerContent, setHeaderContent] = useState<string>('Dashboard'); // type string and default Dashboard
   const { setLoading } = useLoading(); // get loading state
+  const { logout, setLogout } = useAuth();
 
   const menuPages = [
     <div key="dashboard"><h1>Dashboard </h1></div>,
@@ -40,6 +41,19 @@ const DashboardPage = () => {
 
     return () => clearTimeout(timeout); // cleanup
   }, []);
+
+  useEffect(() => {
+    socket.on('user-logout', (message: string) => { // receiver -> receives email in a message
+      console.log(`>>>>>>>>>>>> <<<<<<<<<<<<<<<`);
+      alert(message);
+
+      setLogout(false);
+    })
+
+    return () => {
+      socket.off('user-logout');
+    };
+  }, [logout])
 
   // useStates 
   return(

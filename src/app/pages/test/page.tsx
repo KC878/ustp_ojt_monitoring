@@ -11,7 +11,7 @@ interface StudentType {
 
 const StudentList: React.FC = () => {
   // Use the custom hook with the API endpoint
-  const { data, loading, error } = useFetchData<any>('/api/tasks/GET/getUserStatus');
+  const { data, error } = useFetchData<any>('/api/tasks/GET/getUserStatus');
 
   // Render loading state
   if (loading) {

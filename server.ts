@@ -9,6 +9,10 @@ const port = parseInt(process.env.PORT || '3000', 10);
 const app = next({ dev, hostname, port });
 const handle = app.getRequestHandler();
 
+
+const activeUsers = ['']; // for active Users
+
+
 app.prepare().then(() => {
   const httpServer = createServer(handle);
   const io = new Server(httpServer);
@@ -21,10 +25,12 @@ app.prepare().then(() => {
   const usersInRooms: Record<string, User[]> = {};
 
   io.on('connection', (socket) => {
-    console.log('User connected:', socket.id);
+    console.log('User connected @Auth-Lobby:', socket.id);
 
-    socket.on('join-room', ({ room, name }) => {
+    socket.on('join-room', ({ room, name, email }) => {
       socket.join(room);
+
+      socket.data.room = room; // save the room 
 
       // Initialize room if it doesn't exist
       if (!usersInRooms[room]) {
@@ -39,20 +45,33 @@ app.prepare().then(() => {
       console.log(`✅ ${name} joined room ${room}`);
       console.log('🧍 Users in rooms:', usersInRooms);
 
-      socket.to(room).emit('user-joined', `${name} has signed in @${room}`);
+
+      // push existing email to users //
+
+      activeUsers.push(email);
+
+      socket.to(room).emit('user-joined', `${name} has signed in @${room}`, activeUsers);
+
+      socket.to(room).emit('user-status', )
       
-    
+      
     });
 
       // Logout handler
-    socket.on('logout', () => {
+    socket.on('logout', (userEmail: string) => {
+      // socket.to('Logicbase').emit('logout');
       for (const room in usersInRooms) {
         const index = usersInRooms[room].findIndex(user => user.id === socket.id);
+
+        // const newUsers = users.filter(user => user.id !== idToRemove); syntax to remove
+
         if (index !== -1) {
           const removedUser = usersInRooms[room].splice(index, 1)[0];
-          console.log(`🛑 ${removedUser.name} logged out from room ${room}`);
-          socket.to('Logicbase').emit('user-logout', `${removedUser.name} has left ${room}`);
-          socket.leave('Logicbase');
+          console.log(`🛑 ${removedUser.name} logged out from room ${room}
+          Email: ${userEmail}`);
+          socket.to(room).emit('user-logout', `${userEmail} has left ${room}`);
+
+          socket.leave(room);
           break;
         }
       }

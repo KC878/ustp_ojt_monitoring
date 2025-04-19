@@ -39,6 +39,9 @@ const LoginPage = () => {
 
   const [hasJoined, setHasJoined ] = useState(false);
   const [userName, setUserName] = useState('');
+  
+  
+
   // const { socket } = useSocketIO();
 
   const { 
@@ -67,15 +70,20 @@ const LoginPage = () => {
 
   
   useEffect(() => {
-    const defaultRoom = "Logicbase";0
+    const defaultRoom = "Logicbase";
     if(isAuthenticated && hasJoined) {
       socket.emit('join-room', {
         room: defaultRoom,
-        name: userName
+        name: userName,
+        email: email,
       })
-
-      socket.on('user-joined', (message: string) => {
+      
+      // listener for user-joined
+      socket.on('user-joined', (message: string, activeUsers: string[]) => {
         alert(`${message}`);
+        alert(activeUsers);
+      
+        
       })
       
       setHasJoined(false); // reset it to false again
@@ -146,6 +154,7 @@ const LoginPage = () => {
                   description: `
                     Token: ${loginToken}
                     User: ${user.name}
+                    Email: ${user.email}
                   `,
                   placement: 'topRight',  // Notification position
                 });
@@ -153,6 +162,7 @@ const LoginPage = () => {
                 // store result token and user to localStorage
                 localStorage.setItem('token', loginToken);
                 localStorage.setItem('user', JSON.stringify(user));
+                localStorage.setItem('email', user.email)
 
                 
                 setHasJoined(true);
