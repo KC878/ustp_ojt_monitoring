@@ -39,7 +39,7 @@ const LoginPage = () => {
 
   const [hasJoined, setHasJoined ] = useState(false);
   const [userName, setUserName] = useState('');
-  
+
   
 
   // const { socket } = useSocketIO();
@@ -79,12 +79,7 @@ const LoginPage = () => {
       })
       
       // listener for user-joined
-      socket.on('user-joined', (message: string, activeUsers: string[]) => {
-        alert(`${message}`);
-        alert(activeUsers);
       
-        
-      })
       
       setHasJoined(false); // reset it to false again
 

@@ -50,7 +50,7 @@ app.prepare().then(() => {
 
       activeUsers.push(email);
 
-      socket.to(room).emit('user-joined', `${name} has signed in @${room}`, activeUsers);
+      socket.to(room).emit('user-joined', `${name} has signed in ${room}`, activeUsers);
 
       socket.to(room).emit('user-status', )
       

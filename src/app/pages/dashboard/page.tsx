@@ -6,16 +6,19 @@ import Students from '@src/app/pages/students/page';
 
 import ProtectedRoute from '@src/middleware/ProtectedRoute';
 import { useLoading } from '@src/store/useLoading';
-
+import { notification } from 'antd';
 
 import React, { useState, useEffect } from 'react';
 import { socket } from '@src/utils/socketClient';
 import { useAuth } from '@src/store/useAuth';
+import { useMiddleware } from '@src/services/useMiddleware';
+
 const DashboardPage = () => {
   const [headerContent, setHeaderContent] = useState<string>('Dashboard'); // type string and default Dashboard
   const { setLoading } = useLoading(); // get loading state
   const { logout, setLogout } = useAuth();
-
+  const [messageApi, contextHolder] = notification.useNotification();
+  const { isAuthenticated } = useMiddleware();
   const menuPages = [
     <div key="dashboard"><h1>Dashboard </h1></div>,
     <div key="student"><Students /></div>,
@@ -45,7 +48,14 @@ const DashboardPage = () => {
   useEffect(() => {
     socket.on('user-logout', (message: string) => { // receiver -> receives email in a message
       console.log(`>>>>>>>>>>>> <<<<<<<<<<<<<<<`);
-      alert(message);
+      messageApi.info({
+        message: '🔔 Signout out... ',  // Title
+        description: message,  // Detailed message
+        placement: 'topRight',  // Notification position
+      });
+
+      
+      // alert(message);
 
       setLogout(false);
     })
@@ -55,10 +65,28 @@ const DashboardPage = () => {
     };
   }, [logout])
 
+  
+  useEffect(() => {
+    socket.on('user-joined', (message: string, activeUsers: string[]) => {
+      // alert(`${message}`);
+      alert(activeUsers);
+      messageApi.info({
+        message: `🔔 Signing in...`,  // Title
+        description: message,  // Detailed message
+        placement: 'topRight',  // Notification position
+      });
+  
+    })
+
+    return () => {
+      socket.off('user-joined');
+    };
+  }, [isAuthenticated])
+
   // useStates 
   return(
     <ProtectedRoute>
-
+      {contextHolder}
       <Dashboard 
         menuItems={menuItems} 
         
