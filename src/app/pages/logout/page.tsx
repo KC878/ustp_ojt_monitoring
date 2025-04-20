@@ -4,17 +4,30 @@ import { useAuth } from '@src/store/useAuth';
 import { useEffect } from 'react';
 import { socket } from '@src/utils/socketClient';
 import { useLoading } from '@src/store/useLoading';
+import { postData } from '@src/services/usePostData';
 const LogoutPage = () => {
   const { logout, setLogout } = useAuth();
   const { setRefreshWindow } = useLoading();
   
   const email = localStorage.getItem('email')
+
+  
+
+  const dbLogout = async () => {
+    await postData(
+      '/api/auth/logout',
+      ['email'],
+      [email],
+    )
+  }; // no more message
+
+
   useEffect(() => {
 
     if (logout) {
-      socket.emit('logout', email); // refers to the curren email of user
-
+      socket.emit('logout', email); // refers to the curren email of use
       
+      dbLogout(); // CALL THE LOGOUT
       setRefreshWindow(true);
     }
     return () => {

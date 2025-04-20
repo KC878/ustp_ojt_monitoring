@@ -10,6 +10,8 @@ interface StudentType {
   userID: string;
   name: string;
   email: string;
+  timeRenderd: number;
+  status: string;
 }
 
 
@@ -51,7 +53,6 @@ const Userslist: React.FC<Props>= ( { data } ) => {
   const renderedPercent = ((totalSeconds - timeLeft) / totalSeconds) * 100; // fetch from database -
   
 
-  const status = 'Offline';
   // Get status color
   const getStatusColor = (status: string) => {
     if (status === 'Active') return 'green';
@@ -84,7 +85,7 @@ const Userslist: React.FC<Props>= ( { data } ) => {
                       <Badge
                         dot
                         // fix that later 
-                        status={'Offline' === 'Active' ? 'success' : 'error'} // error is for offline
+                        status={ data[index].status === 'active' ? 'success' : 'error'} // error is for offline
                         style={{
                           position: 'absolute',
                           bottom: -6,
@@ -96,8 +97,8 @@ const Userslist: React.FC<Props>= ( { data } ) => {
                         }}
                       />
                     </div>
-                  <Text type="secondary" style={{ marginTop: 8, color: 'Offline' === 'Active' ? 'green' : 'red'}}>
-                        Offline
+                  <Text type="secondary" style={{ marginTop: 8, color: data[index].status === 'active' ? 'green' : 'red'}}>
+                        {data[index].status === 'active' ? 'Active' : 'Offline'}
                   </Text> 
                   {/* Color text */}
                 </div>

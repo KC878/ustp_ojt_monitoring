@@ -3,7 +3,7 @@
 
 export const getRoles = "SELECT roleID, role FROM Roles";
 
-export const getUserStatus = `SELECT userID, name, email, timeRendered FROM User_Status`;
+export const getUserStatus = `SELECT userID, name, email, timeRendered, status FROM User_Status`;
 
 
 // post
@@ -19,3 +19,15 @@ export const checkEmailExist = 'SELECT email FROM Users WHERE email = ?';
 //// auth login 
 
 export const loginQuery = 'SELECT userID, name, email, password, roleID FROM Users WHERE email = ?';
+
+export const updateStatus = `
+  UPDATE User_Status
+  SET status = 'active'
+  WHERE email = ?
+`;
+
+export const updateStatusLogout = `
+  UPDATE User_Status
+  SET status = 'offline'
+  WHERE email = ?
+`;
