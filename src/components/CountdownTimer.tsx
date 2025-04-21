@@ -1,14 +1,14 @@
-'use client';
 
 import { useEffect, useState } from 'react';
 import { Progress, Typography } from 'antd';
 import React from 'react';
 
+
 interface Props {
   timerKey: string;
 }
 
-const CountdownProgressCircle: React.FC<Props> = ({ timerKey }) => {
+const CountdownTimer: React.FC<Props> = ({ timerKey }) => {
   const [percent, setPercent] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
   const { Text } = Typography;
@@ -76,4 +76,4 @@ const CountdownProgressCircle: React.FC<Props> = ({ timerKey }) => {
   );
 };
 
-export default CountdownProgressCircle;
+export default CountdownTimer;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, List, Progress, Typography, Badge } from 'antd';
 import VirtualList from 'rc-virtual-list';
 import type { ProgressProps } from 'antd';
-import Item from 'antd/es/list/Item';
+import CountdownTimer from './CountdownTimer';
 
 const { Text } = Typography;
 
@@ -59,6 +59,8 @@ const Userslist: React.FC<Props>= ( { data } ) => {
     else return 'red';
   };
 
+
+  const nameTimer = localStorage.getItem('email') + 'Timer';
   return (
     <List>
       <VirtualList data={data} itemHeight={180} itemKey="userID">
@@ -164,18 +166,8 @@ const Userslist: React.FC<Props>= ( { data } ) => {
               <div style={{ marginLeft: '120px', display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
                 {/* Display current date */}
                 <Text type="secondary">Today</Text>
-                <div style={{ display: 'flex', gap: 20 }}>
-                  <Progress type="circle" percent={30} size={80} strokeColor="#ff4d4f" />
-                  <Progress
-                    type="circle"
-                    percent={0}
-                    size={80}
-                    format={() => '100%'}
-                    strokeColor={conicColors}
-                  />
-                  <Progress type="circle" percent={90} size={80} strokeColor="#52c41a" />
-                </div>
-                <Text type="secondary">{formatTime(timeLeft)}</Text>
+                <CountdownTimer timerKey={nameTimer}/>
+                
               </div>
             </div>
           </List.Item>
