@@ -8,6 +8,7 @@ import { Button, Checkbox, Form, Input, Row, Col } from 'antd';
 
 import { useAuth, useAuthMiddleware } from '@src/store/useAuth';
 import { useFinish } from '@src/store/useFinish';
+import Clock from './Clock';
 
 
 const Login: React.FC = () => {
@@ -104,7 +105,20 @@ const Login: React.FC = () => {
               No account? <a onClick={() => setAuthAction('signup')}>Register now!</a>
             </div>
           </Form.Item>
+          <div
+            style={{
+              position: 'absolute',
+              bottom: 12,
+              right: 24,
+              fontSize: 14,
+              color: '#888'
+            }}
+          >
+            <Clock />
+          </div>
+                    
         </Form>
+        
       </Col>
     </Row>
   );

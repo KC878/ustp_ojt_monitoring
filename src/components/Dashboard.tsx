@@ -14,6 +14,7 @@ import { Button, Layout, Menu, theme } from "antd";
 import Profile from "./Profile";
 import LogoutPage from "@src/app/pages/logout/page";
 import { useAuth } from "@src/store/useAuth";
+import Clock from './Clock';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -47,6 +48,7 @@ const Dashboard: React.FC<DashboardProps> = ({
   const [email, setEmail] = useState("");
 
   const { showLogoutPage } = useAuth();
+
 
   useEffect(() => {
     setMounted(true); // Mark the component as mounted
@@ -171,8 +173,19 @@ const Dashboard: React.FC<DashboardProps> = ({
               fontWeight: "bold",
               whiteSpace: "nowrap",
             }}
-          >
-            {headerContent}
+          > 
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 12,
+                left: 24,
+                fontSize: 14,
+                color: '#888'
+              }}
+            >
+              <Clock />
+            </div>
+            
           </div>
 
           <div
@@ -212,14 +225,37 @@ const Dashboard: React.FC<DashboardProps> = ({
 
         <Footer
           style={{
-            textAlign: "center",
             background: "#F3F4F6",
             padding: "12px 20px",
             fontSize: "14px",
           }}
         >
-          {footerContent}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              position: "relative",
+              width: "100%",
+            }}
+          >
+            {/* Centered footer content */}
+            <div style={{ textAlign: "center", flex: 1 }}>{footerContent}</div>
+
+            {/* Clock on the right */}
+            <div
+              style={{
+                position: "absolute",
+                right: 20,
+                top: "50%",
+                transform: "translateY(-50%)",
+              }}
+            >
+              <Clock />
+            </div>
+          </div>
         </Footer>
+
       </Layout>
     </Layout>
   );

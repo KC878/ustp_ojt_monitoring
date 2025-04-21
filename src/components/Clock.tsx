@@ -1,5 +1,3 @@
-'use client'
-
 import { useEffect, useState } from "react";
 
 const Clock = () => {
@@ -33,9 +31,9 @@ const Clock = () => {
   }).format(getPhilippineTime());
 
   return (
-    <div className="text-center p-4 rounded-lg shadow-md bg-white max-w-xs mx-auto">
-      <div className="text-2xl font-semibold text-gray-800">{formattedTime}</div>
-      <div className="text-lg text-gray-500">{formattedDate}</div>
+    <div>
+      <div style={{color: 'black'}}><strong>{formattedTime}</strong></div>
+      <div>{formattedDate}</div>
     </div>
   );
 };
