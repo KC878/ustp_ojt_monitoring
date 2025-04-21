@@ -2,19 +2,50 @@
 
 import Userslist from '@src/components/UsersList';
 import { useFetchData } from '@src/services/useFetchData';
+import { postData } from '@src/services/usePostData';
+
 import Loading from '@src/components/Loading';
 import { useLoading } from '@src/store/useLoading';
 import { socket } from '@src/utils/socketClient';
 import { useEffect } from 'react';
 import { useFinish } from '@src/store/useFinish';
-
 export default function Students() {
   const { data } = useFetchData<any>('/api/tasks/GET/getUserStatus');
   const { loading } = useLoading();
-  const { reload, setReload } = useFinish();
+
+  const { 
+    setReload,
+    signOut, setSignOut, // listener if the Duty Time is finished 
+
+   } = useFinish(); // save to database
 
 
+   
+  const email = localStorage.getItem('email');
+   //
+  const dbSignout = async () => {
+    await postData(
+      '/api/tasks/POST/updateDutyStatus',
+      ['email'],
+      [email],
+    )
+  }; // no more message
 
+  // signout listener
+  useEffect(() => {
+    let hasRun = false;
+  
+    const runSignOut = async () => {
+      if (signOut && !hasRun) {
+        hasRun = true;
+        await dbSignout();
+        setSignOut(false); // reset trigger
+      }
+    };
+  
+    runSignOut();
+  }, [signOut]);
+  
 
   useEffect(() => {
     

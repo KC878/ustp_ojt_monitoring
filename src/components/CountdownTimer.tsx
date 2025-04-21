@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Progress, Typography } from 'antd';
+import { useFinish } from '@src/store/useFinish';
 
 interface Props {
   timerKey: string;  // Not really needed anymore but can keep for uniqueness if reused
@@ -9,11 +10,14 @@ interface Props {
 const CountdownTimer: React.FC<Props> = ({ timeIn }) => {
   const [percent, setPercent] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
+  const { setSignOut } = useFinish();
+
   const { Text } = Typography;
 
   const COUNTDOWN_HOURS = 8;
-  const COUNTDOWN_SECONDS = COUNTDOWN_HOURS * 60 //* 60; // 8 hours = 28800 seconds // 8 minutes
-
+  const COUNTDOWN_SECONDS = COUNTDOWN_HOURS * 10 // 60 //* 60; // 8 hours = 28800 seconds 
+                                                // 8 minutes
+                                              // 40 SECONDS
   useEffect(() => {
     const startTime = Number(timeIn); // make sure this is a valid timestamp
     const expiryTime = startTime + COUNTDOWN_SECONDS * 1000;
@@ -57,8 +61,16 @@ const CountdownTimer: React.FC<Props> = ({ timeIn }) => {
     if (percent <= 60) return '#ffeb3b';    // Yellow
     if (percent <= 70) return '#cddc39';    // Lime Yellow-Green
     if (percent <= 80) return '#a4d144';    // Soft Lime Green
-    if (percent <= 90) return '#7cb342';    // Mid-Green
-    return '#52c41a';                       // Final Green
+    if (percent <= 90) return '#7cb342';     // Mid-Green 
+    if (percent <= 100){
+
+      if(percent === 100){
+        setSignOut(true);
+        return '#52c41a'; // Final Green
+      }
+      
+
+    }                                                         
   };
   
   return (

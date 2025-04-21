@@ -9,7 +9,7 @@ const LogoutPage = () => {
   const { logout, setLogout } = useAuth();
   const { setRefreshWindow } = useLoading();
   
-  const email = localStorage.getItem('email')
+  const email = localStorage.getItem('email');
 
   
 

@@ -37,15 +37,15 @@ export const updateTimeIn = `
   WHERE email = ?
 `;
 
-export const updateTimeOut = `
-  UPDATE User_Status
-  SET timeOut = ?
-  WHERE email = ?
-`;
+// export const updateTimeOut = `
+//   UPDATE User_Status
+//   SET timeOut = ?
+//   WHERE email = ?
+// `;
 
 export const updateDuty = `
   UPDATE User_Status
-  SET duty = 'ongoing'
+  SET duty = ?
   WHERE email = ?
 `; // set ongoing duty if user first Signed in
 
