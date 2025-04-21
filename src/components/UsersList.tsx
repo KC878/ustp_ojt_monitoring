@@ -61,6 +61,7 @@ const Userslist: React.FC<Props>= ( { data } ) => {
 
 
   const nameTimer = localStorage.getItem('email') + 'Timer';
+  
   return (
     <List>
       <VirtualList data={data} itemHeight={180} itemKey="userID">
@@ -123,7 +124,14 @@ const Userslist: React.FC<Props>= ( { data } ) => {
               <div style={{ marginLeft: '120px', display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
                 {/* Display current date */}
                 <Text type="secondary">Today</Text>
-                <CountdownTimer timerKey={nameTimer}/>
+                {
+                  data[index].status === 'active' ? (
+                    <CountdownTimer timerKey={nameTimer}/>
+                  ) : (
+                    'User Is Offline'
+                  )
+                }
+                
                 
               </div>
             </div>
