@@ -52,7 +52,7 @@ app.prepare().then(() => {
 
       socket.to(room).emit('user-joined', `${name} has signed in ${room}`, activeUsers);
 
-      socket.to(room).emit('user-status', activeUsers) // ADD EMIT FOR ACTIVE USERS HERE sender
+      io.emit('user-status', 'Signing in...') // trigger emitt after signing in
       
       
     });
@@ -60,6 +60,8 @@ app.prepare().then(() => {
       // Logout handler
     socket.on('logout', (userEmail: string) => {
       // socket.to('Logicbase').emit('logout');
+
+      io.emit('user-status', 'Loggin out...')
       for (const room in usersInRooms) {
         const index = usersInRooms[room].findIndex(user => user.id === socket.id);
 
@@ -70,6 +72,10 @@ app.prepare().then(() => {
           console.log(`🛑 ${removedUser.name} logged out from room ${room}
           Email: ${userEmail}`);
           socket.to(room).emit('user-logout', `${userEmail} has left ${room}`);
+          
+
+          io.emit('user-status', 'Loggin out...')
+
           
           // ADD EMIT FOR ACTIVE USERS HERE sender
           socket.leave(room);

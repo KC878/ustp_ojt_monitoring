@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 
 import { useLoading } from '@src/store/useLoading';
+import { useFinish } from '@src/store/useFinish';
 
 export const useFetchData = <T,>(apiPage: string) => {
   const [data, setData] = useState<T[]>([]);
   const {loading, setLoading} = useLoading();
   const [error, setError] = useState<string | null>(null);
+  const { reload, setReload } = useFinish();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,11 +26,14 @@ export const useFetchData = <T,>(apiPage: string) => {
       } 
     };
 
+    
+    setReload(false) // turn it off once run 
     fetchData();
-  }, [apiPage]);
+  }, [apiPage, reload]);
 
   return {
     data,
     error,
+    loading,
   };
 };

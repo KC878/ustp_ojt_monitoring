@@ -6,10 +6,12 @@ import Loading from '@src/components/Loading';
 import { useLoading } from '@src/store/useLoading';
 import { socket } from '@src/utils/socketClient';
 import { useEffect } from 'react';
+import { useFinish } from '@src/store/useFinish';
 
 export default function Students() {
   const { data } = useFetchData<any>('/api/tasks/GET/getUserStatus');
   const { loading } = useLoading();
+  const { reload, setReload } = useFinish();
 
 
 
@@ -17,13 +19,14 @@ export default function Students() {
   useEffect(() => {
     
 
-    socket.on('user-status', (activeUsers: string[]) => {
+    socket.on('user-status', (message: string) => {
+      // alert(`${message} Reloading...`);
 
-      localStorage.setItem('active-users', JSON.stringify(activeUsers));
+      // localStorage.setItem('active-users', JSON.stringify(activeUsers));
 
-      const storedUsers = JSON.parse(localStorage.getItem('active-users') || '[]');
+      // const storedUsers = JSON.parse(localStorage.getItem('active-users') || '[]');
 
-
+      setReload(true); // trigger reloading fetch data 
 
       // store active users to localstorage
 

@@ -51,7 +51,7 @@ export default function CountdownTimer() {
 
   return (
     <div className="text-2xl font-bold text-red-600">
-      Time Left: {formatTime(timeLeft)}
+      {formatTime(timeLeft)}
     </div>
   );
 }
