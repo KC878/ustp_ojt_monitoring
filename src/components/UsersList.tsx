@@ -12,6 +12,9 @@ interface StudentType {
   email: string;
   timeRenderd: number;
   status: string;
+  timeIn: string;
+  timeOut: string;
+  duty: string;
 }
 
 
@@ -61,7 +64,7 @@ const Userslist: React.FC<Props>= ( { data } ) => {
 
 
   const nameTimer = localStorage.getItem('email') + 'Timer';
-  
+
   return (
     <List>
       <VirtualList data={data} itemHeight={180} itemKey="userID">

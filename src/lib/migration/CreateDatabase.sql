@@ -45,6 +45,10 @@ CREATE TABLE IF NOT EXISTS User_Status (
   name VARCHAR(50) NOT NULL,
   email VARCHAR(100) NOT NULL,
   timeRendered INT,
+  status VARCHAR(50) NOT NULL,
+  timeIn VARCHAR(50) NOT NULL,
+  timeOut VARCHAR(50) NOT NULL,
+  duty VARCHAR(50) NOT NULL,
   PRIMARY KEY (userID), -- User is the primary key
   FOREIGN KEY (userID) REFERENCES Users(userID) ON DELETE CASCADE
 );
