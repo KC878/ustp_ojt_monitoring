@@ -13,7 +13,8 @@ const CountdownTimer: React.FC<Props> = ({ timerKey }) => {
   const [timeLeft, setTimeLeft] = useState(0);
   const { Text } = Typography;
 
-  const COUNTDOWN_KEY = timerKey;
+  const COUNTDOWN_KEY = timerKey; // make this global st condition -- to run if user logged in
+                                  // also set condition if user is only active RUN THE TIMER -> 
   const COUNTDOWN_HOURS = 8;
   const COUNTDOWN_SECONDS = COUNTDOWN_HOURS * 60;
 
@@ -70,7 +71,7 @@ const CountdownTimer: React.FC<Props> = ({ timerKey }) => {
       <Text type="secondary" style={{ display: 'block', marginTop: 10 }}>
         {percent < 100
           ? `Time left: ${formatTime(timeLeft)}`
-          : 'Countdown Complete!'}
+          : 'Duty Time Rendered!'}
       </Text>
     </div>
   );
