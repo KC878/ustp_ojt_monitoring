@@ -29,23 +29,9 @@ export default function Students() {
       ['email'],
       [email],
     )
-  }; // no more message
+  }; // no more message // run this with an on click --> create modal you have finished rendering --> set modal confirm then complete 
 
-  // signout listener
-  useEffect(() => {
-    let hasRun = false;
-  
-    const runSignOut = async () => {
-      if (signOut && !hasRun) {
-        hasRun = true;
-        await dbSignout();
-        setSignOut(false); // reset trigger
-      }
-    };
-  
-    runSignOut();
-  }, [signOut]);
-  
+  // remove that --> only
 
   useEffect(() => {
     

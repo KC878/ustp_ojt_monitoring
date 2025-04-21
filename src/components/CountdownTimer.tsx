@@ -62,15 +62,8 @@ const CountdownTimer: React.FC<Props> = ({ timeIn }) => {
     if (percent <= 70) return '#cddc39';    // Lime Yellow-Green
     if (percent <= 80) return '#a4d144';    // Soft Lime Green
     if (percent <= 90) return '#7cb342';     // Mid-Green 
-    if (percent <= 100){
-
-      if(percent === 100){
-        setSignOut(true);
-        return '#52c41a'; // Final Green
-      }
-      
-
-    }                                                         
+    
+    return '#52c41a';                                          
   };
   
   return (
