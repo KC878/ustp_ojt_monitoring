@@ -6,7 +6,7 @@ export const getRoles = "SELECT roleID, role FROM Roles";
 export const getUserStatus = `SELECT userID, name, email, timeRendered, status, timeIn, timeOut, duty FROM User_Status ORDER BY name`;
 
 export const getDailyDuty = `
-  SELECT dateIn, timeIn, timeOut, duty FROM User_Status
+  SELECT userID, dateIn, timeIn, timeOut, duty FROM User_Status
   WHERE email = ?
 `;
 
@@ -40,6 +40,8 @@ export const updateLogin = `
   duty = 'ongoing'
   WHERE email = ?
 `;
+
+export const insertDailyLogs = "INSERT INTO Daily_Logs (userID, createdAt, timeIn, timeOut) VALUES (?, ?, ?, ?)";
 
 
 export const updateDuty = `

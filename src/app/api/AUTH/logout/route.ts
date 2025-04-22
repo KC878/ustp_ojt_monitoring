@@ -2,7 +2,6 @@ import { NextResponse, NextRequest } from 'next/server';
 import { RowDataPacket } from 'mysql2'; 
 import db from '../../../../lib/database/db';
 import { updateStatusLogout } from '../../../../lib/querries/querries';
-import { messages } from '@src/utils/messages';
 
 
 
@@ -26,10 +25,11 @@ export async function POST(req: NextRequest){
 
     const { email } = body; // receive the response
      /// UPDATE STATUS FOR USER_STATUS
-
+  
+     const timeOut = Date.now();
      await db.query(
       updateStatusLogout,
-      [email]
+      [timeOut, email]
     );
 
     return NextResponse.json(

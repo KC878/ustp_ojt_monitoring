@@ -3,8 +3,10 @@ import { RowDataPacket } from 'mysql2';
 import db from '../../../../lib/database/db';
 import { 
   loginQuery, 
-  updateStatus, updateTimeIn, updateDuty,
-  getDailyDuty 
+  updateLogin,
+  getDailyDuty,
+  updateStatus,
+  insertDailyLogs
 
 } from '../../../../lib/querries/querries';
 
@@ -86,42 +88,85 @@ export async function POST(req: NextRequest){
 
 
      /// UPDATE STATUS FOR USER_STATUS
-
-     await db.query(
-      updateStatus,
-      [email]
-    );
-
+    
 
     const [resultStatus]: any = await db.query(getDailyDuty, [email]);
+    const inTime = Number(resultStatus[0].timeIn);
+    const newTime = new Date(inTime);
+    console.log('Timestamp: ', newTime.toISOString());
+    console.log(newTime.toISOString().slice(11, 19));
+    console.log('Duty: ', resultStatus[0].duty);
+    const timeIn = newTime.toISOString().slice(0, 10);
 
-    if(resultStatus[0].duty === 'pending' && resultStatus[0].timeIn === 'empty'){ // 
-      // Update timeIn
-      const timeIn = Date.now(); // store numbered Date
-      const dateIn = ymdFormattedDate;
+    const outTime = Number(resultStatus[0].timeIn);
+    const newOut = new Date(outTime);
+
+    // const dateIn = date.toISOString().slice(0, 10);
+    console.log(timeIn);
+    console.log(ymdFormattedDate); // check date 
+    
+
+    // insert daily logs
+    if( timeIn === ymdFormattedDate && resultStatus[0].duty === 'complete'){
+
+      const userID = resultStatus[0].userID;
+      const timeInFormat = newTime.toISOString().slice(11, 19);
+      const timeOutFormat = newOut.toISOString().slice(11, 19);
       
       await db.query(
-        updateTimeIn,
-        [dateIn, timeIn, email],
-      )
-      await db.query(
-        updateDuty,
-        ['ongoing', email]
-      ) // update status to --> ongoing after sign in
+        insertDailyLogs,
+        [
+          userID,
+          ymdFormattedDate, // createdAt
+          timeInFormat, // timeIn
+          timeOutFormat // timeOut     
+        ]
+      );
+
+      console.log(`Finish Insert into Daily_Logs`);
     }
-    
-    // 4. Success login
-    return NextResponse.json(
+
+
+
+    let duty = '';
+    if(resultStatus[0].duty === 'pending') {
+      const dateIn = ymdFormattedDate;
+      const timeIn = Date.now(); // store numbered Date
+
+      duty = 'pending';
+      await db.query(
+        updateLogin,
+        [dateIn, timeIn, email]
+      );
+    }else if (resultStatus[0].duty === 'complete'){ // allow login but display all the user data and is complete
+      await db.query(
+        updateStatus,
+        [email]
+      );
+
+      duty = 'completed'; // to be passed to check in client side 
+    }
+
+    const success = NextResponse.json(
       { message: 'Login Successfully!',
         token, // include the token in Response
         user: {
           id: user.id,
           name: user.name,
           email: user.email,
+          duty: duty,
         }
       },
       { status: 200 }
     );
+
+    if(success.status){
+      console.log(`${email} status updated successfully!`); // log it after login success
+    }
+    
+
+    // 4. Success login
+    return success;
   }catch(error){
     console.error('Database Error: ', error);
     return NextResponse.json(
