@@ -8,8 +8,8 @@ interface GlobalState {
   reload: boolean;
   setReload: (state: boolean) => void;
 
-  signOut: boolean;
-  setSignOut: (state: boolean) => void;
+  finishDuty: boolean;
+  setFinishDuty: (state: boolean) => void;
 }
 
 export const useFinish = create<GlobalState>((set) => ({
@@ -19,6 +19,6 @@ export const useFinish = create<GlobalState>((set) => ({
   reload: false,
   setReload: (state) => set({ reload: state }),
 
-  signOut: false,
-  setSignOut: (state) => set({ signOut: state }),
+  finishDuty: false,
+  setFinishDuty: (state) => set({ finishDuty: state }),
 }))

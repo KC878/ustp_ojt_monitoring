@@ -2,7 +2,7 @@
 
 
 import Dashboard from '../../../components/Dashboard';
-import Students from '@src/app/pages/students/page';
+import Users from '@src/app/pages/users/page';
 
 import ProtectedRoute from '@src/middleware/ProtectedRoute';
 import { useLoading } from '@src/store/useLoading';
@@ -21,14 +21,14 @@ const DashboardPage = () => {
   const { isAuthenticated } = useMiddleware();
   const menuPages = [
     <div key="dashboard"><h1>Dashboard </h1></div>,
-    <div key="student"><Students /></div>,
+    <div key="student"><Users /></div>,
     <div key="supervisor"> <h1> Supervisor </h1></div>,
     <div key="settings"><h1>Settings</h1></div>,
   ];
   // pass Array of components
   const menuItems = [
     'Dashboard',
-    'Student',
+    'Users',
     'Supervisor',
     'Settings',
   ]

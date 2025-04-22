@@ -9,6 +9,7 @@ import {
   SettingOutlined,
   DashboardOutlined,
   LogoutOutlined,
+  UserOutlined
 } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
 import Profile from "./Profile";
@@ -28,8 +29,8 @@ interface DashboardProps {
 
 const menuIcons = [
   <DashboardOutlined key={"dashboard"} />,
-  <SolutionOutlined key={"student"} />,
-  <TeamOutlined key={"supervisor"} />,
+  <TeamOutlined key={"users"} />,
+  <UserOutlined key={"supervisor"} />,
   <SettingOutlined key={"settings"} />,
   <LogoutOutlined key={"logout"} />,
 ];
@@ -174,17 +175,7 @@ const Dashboard: React.FC<DashboardProps> = ({
               whiteSpace: "nowrap",
             }}
           > 
-            <div
-              style={{
-                position: 'absolute',
-                bottom: 12,
-                left: 24,
-                fontSize: 14,
-                color: '#888'
-              }}
-            >
-              <Clock />
-            </div>
+           {headerContent}
             
           </div>
 

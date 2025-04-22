@@ -33,9 +33,9 @@ export const updateStatus = `
 
 export const updateTimeIn = `
   UPDATE User_Status
-  SET timeIn = ?
-  WHERE email = ?
-`;
+  SET dateIn = ?, timeIn = ?
+  WHERE email = ?`;
+
 
 // export const updateTimeOut = `
 //   UPDATE User_Status

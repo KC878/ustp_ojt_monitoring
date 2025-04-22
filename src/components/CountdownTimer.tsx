@@ -10,14 +10,15 @@ interface Props {
 const CountdownTimer: React.FC<Props> = ({ timeIn }) => {
   const [percent, setPercent] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
-  const { setSignOut } = useFinish();
+  const { setFinishDuty } = useFinish();
 
   const { Text } = Typography;
 
   const COUNTDOWN_HOURS = 8;
-  const COUNTDOWN_SECONDS = COUNTDOWN_HOURS * 10 // 60 //* 60; // 8 hours = 28800 seconds 
-                                                // 8 minutes
-                                              // 40 SECONDS
+  const COUNTDOWN_SECONDS = COUNTDOWN_HOURS * 12 //* 60; // 8 hours = 28800 seconds 
+                                                // 30 
+                                                //60 = 8 minutes
+                                              // 10 = 40 SECONDS
   useEffect(() => {
     const startTime = Number(timeIn); // make sure this is a valid timestamp
     const expiryTime = startTime + COUNTDOWN_SECONDS * 1000;
@@ -30,6 +31,8 @@ const CountdownTimer: React.FC<Props> = ({ timeIn }) => {
         setTimeLeft(0);
         setPercent(100);
         clearInterval(interval);
+        alert("Duty time rendered! ✅");
+        setFinishDuty(true); // trigger finish duty --> communicate with auto complete
       } else {
         const elapsedTime = COUNTDOWN_SECONDS - remainingTime;
         const progress = Math.floor((elapsedTime / COUNTDOWN_SECONDS) * 100);

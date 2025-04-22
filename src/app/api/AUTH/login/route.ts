@@ -1,8 +1,14 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { RowDataPacket } from 'mysql2'; 
 import db from '../../../../lib/database/db';
-import { loginQuery } from '../../../../lib/querries/querries';
+import { 
+  loginQuery, 
+  updateStatus, updateTimeIn, updateDuty,
+  getDailyDuty 
 
+} from '../../../../lib/querries/querries';
+
+import { ymdFormattedDate } from '@src/utils/date';
 
 
 import { messages } from '@src/utils/messages';
@@ -78,6 +84,32 @@ export async function POST(req: NextRequest){
     )
      ////////////////////////////////////////////// GENERATE TOKEN 
 
+
+     /// UPDATE STATUS FOR USER_STATUS
+
+     await db.query(
+      updateStatus,
+      [email]
+    );
+
+
+    const [resultStatus]: any = await db.query(getDailyDuty, [email]);
+
+    if(resultStatus[0].duty === 'pending' && resultStatus[0].timeIn === 'empty'){ // 
+      // Update timeIn
+      const timeIn = Date.now(); // store numbered Date
+      const dateIn = ymdFormattedDate;
+      
+      await db.query(
+        updateTimeIn,
+        [dateIn, timeIn, email],
+      )
+      await db.query(
+        updateDuty,
+        ['ongoing', email]
+      ) // update status to --> ongoing after sign in
+    }
+    
     // 4. Success login
     return NextResponse.json(
       { message: 'Login Successfully!',

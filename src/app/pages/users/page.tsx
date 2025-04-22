@@ -9,7 +9,10 @@ import { useLoading } from '@src/store/useLoading';
 import { socket } from '@src/utils/socketClient';
 import { useEffect } from 'react';
 import { useFinish } from '@src/store/useFinish';
-export default function Students() {
+
+
+
+export default function Users() {
   const { data } = useFetchData<any>('/api/tasks/GET/getUserStatus');
   const { loading } = useLoading();
 
