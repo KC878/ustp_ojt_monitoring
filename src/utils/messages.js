@@ -17,7 +17,7 @@ export const messages = {
   ERROR: {
     INVALID_EMAIL: 'Invalid Credential: User not found!',
     INVALID_PASSWORD: 'Invalid Credential: Wrong password!',
-    DONE_DUTY: 'Finished Duty',
+    DONE_DUTY: 'Duty Complete',
   }
 }
 
