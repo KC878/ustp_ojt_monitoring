@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "dev:app": "nodemon --exec ts-node --project tsconfig.server.json server.ts",
-    "build": "next build",
+    "build": "npm run build:server && next build",
+    "build:server": "tsc --project tsconfig.server.json",
     "start": "next start",
     "lint": "next lint"
   },
