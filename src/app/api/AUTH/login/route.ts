@@ -6,7 +6,8 @@ import {
   updateLogin,
   getDailyDuty,
   updateStatus,
-  insertDailyLogs
+  insertDailyLogs,
+  afterLogsUpdateStatus
 
 } from '../../../../lib/querries/querries';
 
@@ -91,43 +92,7 @@ export async function POST(req: NextRequest){
     
 
     const [resultStatus]: any = await db.query(getDailyDuty, [email]);
-    const inTime = Number(resultStatus[0].timeIn);
-    const newTime = new Date(inTime);
-    console.log('Timestamp: ', newTime.toISOString());
-    console.log(newTime.toISOString().slice(11, 19));
-    console.log('Duty: ', resultStatus[0].duty);
-    const timeIn = newTime.toISOString().slice(0, 10);
-
-    const outTime = Number(resultStatus[0].timeIn);
-    const newOut = new Date(outTime);
-
-    // const dateIn = date.toISOString().slice(0, 10);
-    console.log(timeIn);
-    console.log(ymdFormattedDate); // check date 
     
-
-    // insert daily logs
-    if( timeIn === ymdFormattedDate && resultStatus[0].duty === 'complete'){
-
-      const userID = resultStatus[0].userID;
-      const timeInFormat = newTime.toISOString().slice(11, 19);
-      const timeOutFormat = newOut.toISOString().slice(11, 19);
-      
-      await db.query(
-        insertDailyLogs,
-        [
-          userID,
-          ymdFormattedDate, // createdAt
-          timeInFormat, // timeIn
-          timeOutFormat // timeOut     
-        ]
-      );
-
-      console.log(`Finish Insert into Daily_Logs`);
-    }
-
-
-
     let duty = '';
     if(resultStatus[0].duty === 'pending') {
       const dateIn = ymdFormattedDate;

@@ -1,42 +1,22 @@
 'use client'
 
-import { useEffect, useState } from "react";
 
 const Clock = () => {
-  const [dateTime, setDateTime] = useState(new Date());
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setDateTime(new Date());
-    }, 1000);
+  const timeStamp = Date.now();
+  const date = new Date(timeStamp);
 
-    return () => clearInterval(timer);
-  }, []);
+  const manilaTime = date.toLocaleString("en-PH", { timeZone: "Asia/Manila"});
 
-  const getPhilippineTime = () => {
-    return new Date(dateTime.toLocaleString("en-US", { timeZone: "Asia/Manila" }));
-  };
+  const time = manilaTime.slice(10);
 
-  const formattedTime = new Intl.DateTimeFormat("en-US", {
-    timeZone: "Asia/Manila",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: true,
-  }).format(getPhilippineTime());
 
-  const formattedDate = new Intl.DateTimeFormat("en-US", {
-    timeZone: "Asia/Manila",
-    month: "long",
-    day: "2-digit",
-    year: "numeric",
-  }).format(getPhilippineTime());
+
 
   return (
-    <div className="text-center p-4 rounded-lg shadow-md bg-white max-w-xs mx-auto">
-      <div className="text-2xl font-semibold text-gray-800">{formattedTime}</div>
-      <div className="text-lg text-gray-500">{formattedDate}</div>
-    </div>
+    <h1> 
+      {time}
+    </h1>
   );
 };
 
