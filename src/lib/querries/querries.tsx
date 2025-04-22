@@ -41,7 +41,7 @@ export const updateLogin = `
   WHERE email = ?
 `;
 
-export const insertDailyLogs = "INSERT INTO Daily_Logs (userID, createdAt, timeIn, timeOut) VALUES (?, ?, ?, ?)";
+export const insertDailyLogs = "INSERT INTO Daily_Logs (email, userID, createdAt, timeIn, timeOut) VALUES (?, ?, ?, ?, ?)";
 
 
 export const updateDuty = `

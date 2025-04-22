@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS User_Status (
 -- 4. Create Daily_Logs Table
 CREATE TABLE IF NOT EXISTS Daily_Logs (
   logID INT AUTO_INCREMENT,
+  email VARCHAR(100) NOT NULL, 
   userID CHAR(36) NOT NULL,
   createdAt DATE,
   timeIn TIME,
