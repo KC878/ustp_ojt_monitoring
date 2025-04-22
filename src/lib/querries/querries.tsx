@@ -3,10 +3,10 @@
 
 export const getRoles = "SELECT roleID, role FROM Roles";
 
-export const getUserStatus = `SELECT userID, name, email, timeRendered, status, timeIn, timeOut, duty FROM User_Status`;
+export const getUserStatus = `SELECT userID, name, email, timeRendered, status, timeIn, timeOut, duty FROM User_Status ORDER BY name`;
 
 export const getDailyDuty = `
-  SELECT timeIn, timeOut, duty FROM User_Status
+  SELECT dateIn, timeIn, timeOut, duty FROM User_Status
   WHERE email = ?
 `;
 
@@ -59,3 +59,12 @@ export const updateStatusLogout = `
   duty = 'complete'
   WHERE email = ?
 `;
+
+
+// UPDATE TABLE
+//     SET 
+//     dateIn = '0000-00-00',
+//     timeIn = 'empty',
+//     timeOut = 'empty',
+//     duty = 'pending',
+//     WHERE email = 
