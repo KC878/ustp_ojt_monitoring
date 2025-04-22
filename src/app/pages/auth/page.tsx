@@ -143,6 +143,12 @@ const LoginPage = () => {
                 const loginToken = response.data.token;
                 const user = response.data.user;
 
+                if(user.duty === 'completed'){
+                  localStorage.setItem('allow-logout', 'true'); // so that when user signs in and also log out directly is allowed 
+                }
+
+                
+
                 messageApi.success({
                   message: messages.SUCCESS.LOGIN,  // Title
                   description: `
