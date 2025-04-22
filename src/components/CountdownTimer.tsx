@@ -3,11 +3,11 @@ import { Progress, Typography } from 'antd';
 import { useFinish } from '@src/store/useFinish';
 
 interface Props {
-  timerKey: string;  // Not really needed anymore but can keep for uniqueness if reused
   timeIn: string;    // Expecting this to be a timestamp (in ms)
+  email: string;
 }
 
-const CountdownTimer: React.FC<Props> = ({ timeIn }) => {
+const CountdownTimer: React.FC<Props> = ({ timeIn, email }) => {
   const [percent, setPercent] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
   const { setFinishDuty } = useFinish();
@@ -27,11 +27,16 @@ const CountdownTimer: React.FC<Props> = ({ timeIn }) => {
       const now = Date.now();
       const remainingTime = Math.floor((expiryTime - now) / 1000);
 
+      const userEmail = localStorage.getItem('email');
       if (remainingTime <= 0) {
         setTimeLeft(0);
         setPercent(100);
         clearInterval(interval);
-        setFinishDuty(true); // trigger finish duty 
+        if(email === userEmail){
+          setFinishDuty(true); // trigger finish duty 
+          alert(`${userEmail} finished Duty!`);
+        }
+       
       } else {
         const elapsedTime = COUNTDOWN_SECONDS - remainingTime;
         const progress = Math.floor((elapsedTime / COUNTDOWN_SECONDS) * 100);

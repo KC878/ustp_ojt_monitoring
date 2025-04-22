@@ -129,7 +129,10 @@ const Userslist: React.FC<Props>= ( { data } ) => {
                 <Text type="secondary">Today</Text>
                 {
                   data[index].status === 'active' ? (
-                    <CountdownTimer timerKey={nameTimer} timeIn={data[index].timeIn}/>
+                    <CountdownTimer 
+                      timeIn={data[index].timeIn}
+                      email={data[index].email}
+                    />
                   ) : (
                     'User Is Offline'
                   )
