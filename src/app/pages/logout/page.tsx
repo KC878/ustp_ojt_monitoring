@@ -6,12 +6,10 @@ import { socket } from '@src/utils/socketClient';
 import { useLoading } from '@src/store/useLoading';
 import { postData } from '@src/services/usePostData';
 const LogoutPage = () => {
-  const { logout, setLogout } = useAuth();
+  const { logout } = useAuth();
   const { setRefreshWindow } = useLoading();
   
   const email = localStorage.getItem('email');
-
-  
 
   const dbLogout = async () => {
     await postData(

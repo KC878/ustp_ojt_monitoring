@@ -47,6 +47,9 @@ export const updateDuty = `
 
 export const updateStatusLogout = `
   UPDATE User_Status
-  SET status = 'offline'
+  SET 
+  status = 'offline',
+  timeOut = ?,
+  duty = 'complete'
   WHERE email = ?
 `;

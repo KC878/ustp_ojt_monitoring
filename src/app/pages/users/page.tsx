@@ -2,11 +2,9 @@
 
 import Userslist from '@src/components/UsersList';
 import { useFetchData } from '@src/services/useFetchData';
-import { postData } from '@src/services/usePostData';
 
 import Loading from '@src/components/Loading';
 import { useLoading } from '@src/store/useLoading';
-import { socket } from '@src/utils/socketClient';
 import { useEffect } from 'react';
 import { useFinish } from '@src/store/useFinish';
 
@@ -21,8 +19,10 @@ export default function Users() {
    } = useFinish(); // save to database
 
 
-   
-  
+  useEffect(() => {
+    setReload(true);
+  }, []) // to reload other page
+
   return (
     <> 
       {loading ? (
