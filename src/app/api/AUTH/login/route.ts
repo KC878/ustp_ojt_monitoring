@@ -6,8 +6,7 @@ import {
   updateLogin,
   getDailyDuty,
   updateStatus,
-  insertDailyLogs,
-  afterLogsUpdateStatus
+  getDailyLogs,
 
 } from '../../../../lib/querries/querries';
 
@@ -87,10 +86,18 @@ export async function POST(req: NextRequest){
     )
      ////////////////////////////////////////////// GENERATE TOKEN 
 
+     const [resultLogs]: any = await db.query(getDailyLogs, [email, ymdFormattedDate]);
 
-     /// UPDATE STATUS FOR USER_STATUS
-    
+     if(resultLogs.length > 0){
+      console.log(resultLogs[0]);
+      console.log(messages.ERROR.DONE_DUTY);
+      return NextResponse.json(
+        { message: messages.ERROR.DONE_DUTY},
+        { status: 401 }
+      )
+     }
 
+     /// UPDATE STATUS FOR USER_STATU
     const [resultStatus]: any = await db.query(getDailyDuty, [email]);
     
     let duty = '';

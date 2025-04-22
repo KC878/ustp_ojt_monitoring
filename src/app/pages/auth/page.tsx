@@ -170,8 +170,6 @@ const LoginPage = () => {
                 router.push('/pages/dashboard'); // redirect the page after login
                 // setLoading set loading logic in this par
 
-                
-
               } else if (response.message === messages.ERROR.INVALID_EMAIL){
                   messageApi.error({
                     message: messages.ERROR.INVALID_EMAIL,
@@ -182,8 +180,14 @@ const LoginPage = () => {
                   message: messages.ERROR.INVALID_PASSWORD,
                   placement: 'topRight',
                 })
+              } else if (response.message === messages.ERROR.DONE_DUTY){
+                messageApi.error({
+                  message: `${name} ${messages.ERROR.DONE_DUTY}`,
+                  placement: 'topRight',
+                })
+
               } else {
-                // Fallback in case no message is provided
+                // // Fallback in case no message is provided
                 messageApi.error({
                   message: 'An unexpected error occurred.',
                   placement: 'topRight',

@@ -10,6 +10,14 @@ export const getDailyDuty = `
   WHERE email = ?
 `;
 
+export const getDailyLogs = `
+  SELECT email, userID, createdAt
+  FROM Daily_Logs
+  WHERE email = ? AND 
+  createdAt = ? 
+`;
+
+
 
 // post
 export const addUser = "INSERT INTO Users (userID, name, email, password, roleID, created_at) VALUES (?, ?, ?, ?, ?, ?)";
