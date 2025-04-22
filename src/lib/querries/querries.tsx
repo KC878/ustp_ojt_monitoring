@@ -25,23 +25,16 @@ export const checkEmailExist = 'SELECT email FROM Users WHERE email = ?';
 
 export const loginQuery = 'SELECT userID, name, email, password, roleID FROM Users WHERE email = ?';
 
-export const updateStatus = `
+
+
+export const updateLogin = `
   UPDATE User_Status
-  SET status = 'active'
+  SET status = 'active',
+  dateIn = ?, timeIn = ?,
+  duty = 'ongoing'
   WHERE email = ?
 `;
 
-export const updateTimeIn = `
-  UPDATE User_Status
-  SET dateIn = ?, timeIn = ?
-  WHERE email = ?`;
-
-
-// export const updateTimeOut = `
-//   UPDATE User_Status
-//   SET timeOut = ?
-//   WHERE email = ?
-// `;
 
 export const updateDuty = `
   UPDATE User_Status

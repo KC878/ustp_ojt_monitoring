@@ -31,8 +31,7 @@ const CountdownTimer: React.FC<Props> = ({ timeIn }) => {
         setTimeLeft(0);
         setPercent(100);
         clearInterval(interval);
-        alert("Duty time rendered! ✅");
-        setFinishDuty(true); // trigger finish duty --> communicate with auto complete
+        setFinishDuty(true); // trigger finish duty 
       } else {
         const elapsedTime = COUNTDOWN_SECONDS - remainingTime;
         const progress = Math.floor((elapsedTime / COUNTDOWN_SECONDS) * 100);

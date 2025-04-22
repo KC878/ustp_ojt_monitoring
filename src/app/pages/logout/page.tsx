@@ -21,7 +21,6 @@ const LogoutPage = () => {
     )
   }; // no more message
 
-
   useEffect(() => {
 
     if (logout) {
