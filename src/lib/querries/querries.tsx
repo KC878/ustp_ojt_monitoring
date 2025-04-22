@@ -43,6 +43,16 @@ export const updateLogin = `
 
 export const insertDailyLogs = "INSERT INTO Daily_Logs (email, userID, createdAt, timeIn, timeOut) VALUES (?, ?, ?, ?, ?)";
 
+export const afterLogsUpdateStatus = `
+  UPDATE User_Status
+  SET
+  dateIn = '0000-00-00',
+  timeIn = 'empty',
+  timeOut = 'empty',
+  duty = 'pending'
+  WHERE email = ?
+`;
+
 
 export const updateDuty = `
   UPDATE User_Status
