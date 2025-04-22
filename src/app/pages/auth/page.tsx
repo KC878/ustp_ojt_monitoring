@@ -182,7 +182,7 @@ const LoginPage = () => {
                 })
               } else if (response.message === messages.ERROR.DONE_DUTY){
                 messageApi.error({
-                  message: `${name} ${messages.ERROR.DONE_DUTY}`,
+                  message: `${email} has ${messages.ERROR.DONE_DUTY}`,
                   placement: 'topRight',
                 })
 

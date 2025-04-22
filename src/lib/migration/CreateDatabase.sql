@@ -53,8 +53,8 @@ CREATE TABLE IF NOT EXISTS Daily_Logs (
   email VARCHAR(100) NOT NULL, 
   userID CHAR(36) NOT NULL,
   createdAt DATE,
-  timeIn TIME,
-  timeOut TIME,
+  timeIn VARCHAR(50),
+  timeOut VARCHAR(50),
   PRIMARY KEY(logID),
   FOREIGN KEY (userID) REFERENCES Users(userID) ON DELETE CASCADE
 );
