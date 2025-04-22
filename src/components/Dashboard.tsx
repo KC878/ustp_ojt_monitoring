@@ -82,8 +82,16 @@ const Dashboard: React.FC<DashboardProps> = ({
           color: "white",
         }}
         onClick={() => {
-          const setShowLogoutPage = useAuth.getState().setShowLogoutPage;
-          setShowLogoutPage(true);
+          
+          const allowLogout = localStorage.getItem('allow-logout');
+
+          if(allowLogout === 'true'){
+            const setShowLogoutPage = useAuth.getState().setShowLogoutPage;
+            setShowLogoutPage(true);
+          }else{
+            alert(`Finish rendering your time!`)
+          }
+          
         }}
       />
     </div>

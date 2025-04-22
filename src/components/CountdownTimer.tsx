@@ -34,7 +34,9 @@ const CountdownTimer: React.FC<Props> = ({ timeIn, email }) => {
         clearInterval(interval);
         if(email === userEmail){
           setFinishDuty(true); // trigger finish duty 
-          alert(`${userEmail} finished Duty!`);
+          alert(`${userEmail} Great! You have finished your duty!`);
+          
+          localStorage.setItem('allow-logout', 'true');
         }
        
       } else {
