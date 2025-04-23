@@ -38,7 +38,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     }
 
     
-    if (logout && typeof window !== 'undefined'){
+    if (logout){
       // alert(`LogoutComponent: ${logout}`)
       // remove item then re direct
       localStorage.clear();
