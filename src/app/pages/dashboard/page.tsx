@@ -19,18 +19,13 @@ const DashboardPage = () => {
   const { logout, setLogout } = useAuth();
   const [messageApi, contextHolder] = notification.useNotification();
   const { isAuthenticated } = useMiddleware();
+
   const menuPages = [
-    <div key="dashboard"><h1>Dashboard </h1></div>,
-    <div key="users"><Users /></div>,
-    <div key="supervisor"> <h1> Supervisor </h1></div>,
-    <div key="settings"><h1>Settings</h1></div>,
+    <div key="users"><Users /></div>
   ];
   // pass Array of components
   const menuItems = [
     'Dashboard',
-    'Users',
-    'Supervisor',
-    'Settings',
   ]
  
   const footerContent = 'OJT Monitoring System - Cagadas USTP';

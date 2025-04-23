@@ -5,11 +5,8 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   TeamOutlined,
-  SolutionOutlined,
-  SettingOutlined,
   DashboardOutlined,
   LogoutOutlined,
-  UserOutlined
 } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
 import Profile from "./Profile";
@@ -29,10 +26,6 @@ interface DashboardProps {
 
 const menuIcons = [
   <DashboardOutlined key={"dashboard"} />,
-  <TeamOutlined key={"users"} />,
-  <UserOutlined key={"supervisor"} />,
-  <SettingOutlined key={"settings"} />,
-  <LogoutOutlined key={"logout"} />,
 ];
 
 const Dashboard: React.FC<DashboardProps> = ({
