@@ -1,6 +1,8 @@
-
+import { RowDataPacket } from 'mysql2';
 // get
 
+
+export const selectEmail = "SELECT email FROM USERS WHERE email = ?"
 export const getRoles = "SELECT roleID, role FROM Roles";
 
 export const getUserStatus = `SELECT userID, name, email, timeRendered, status, timeIn, timeOut, duty FROM User_Status ORDER BY name`;
@@ -50,6 +52,8 @@ export const updateLogin = `
 `;
 
 export const insertDailyLogs = "INSERT INTO Daily_Logs (email, userID, createdAt, timeIn, timeOut) VALUES (?, ?, ?, ?, ?)";
+
+
 
 export const afterLogsUpdateStatus = `
   UPDATE User_Status

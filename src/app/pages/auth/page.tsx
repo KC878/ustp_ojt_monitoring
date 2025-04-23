@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { useLoading } from '@src/store/useLoading';
 import { useRouter } from 'next/navigation';
@@ -196,7 +196,7 @@ const LoginPage = () => {
                 }); //////
               }
           } 
-        }catch (error){
+        }catch{
           messageApi.error({
             message: 'Something went wrong during submission.',
             placement: 'topRight',
