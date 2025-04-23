@@ -11,17 +11,18 @@ const LogoutPage = () => {
   const { logout } = useAuth();
   const { setRefreshWindow } = useLoading();
   
-  const email = localStorage.getItem('email');
-
-  const dbLogout = async () => {
-    await postData(
-      '/api/auth/logout',
-      ['email'],
-      [email],
-    )
-  }; // no more message
+ 
 
   useEffect(() => {
+    const email = localStorage.getItem('email');
+
+    const dbLogout = async () => {
+      await postData(
+        '/api/auth/logout',
+        ['email'],
+        [email],
+      )
+    }; // no more message
 
     if (logout) {
       socket.emit('logout', email); // refers to the curren email of use
@@ -35,6 +36,8 @@ const LogoutPage = () => {
     };
   }, [logout]);
   
+
+
   return (
     <>
       <ProtectedRoute>

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Avatar, List, Progress, Typography, Badge } from 'antd';
+
+import { Avatar, List, Typography, Badge } from 'antd';
 import VirtualList from 'rc-virtual-list';
-import type { ProgressProps } from 'antd';
 import CountdownTimer from './CountdownTimer';
 import { GetUserStatus } from '@src/utils/interfaces';
 
@@ -14,45 +13,6 @@ interface Props {
 
 
 const Userslist: React.FC<Props>= ( { data } ) => {
-
-
-  
-  const [timeLeft, setTimeLeft] = useState(8 * 60 * 60); // 8 hours in seconds
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const formatTime = (seconds: number) => {
-    const hrs = Math.floor(seconds / 3600);
-    const mins = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-    return `${hrs.toString().padStart(2, '0')}:${mins
-      .toString()
-      .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  };
-
-  const conicColors: ProgressProps['strokeColor'] = {
-    '0%': '#87d068',
-    '50%': '#ffe58f',
-    '100%': '#ffccc7',
-  };
-
-  const totalSeconds = 8 * 60 * 60;
-  const renderedPercent = ((totalSeconds - timeLeft) / totalSeconds) * 100; // fetch from database -
-  
-
-  // Get status color
-  const getStatusColor = (status: string) => {
-    if (status === 'Active') return 'green';
-    else return 'red';
-  };
-
-
-  const nameTimer = localStorage.getItem('email') + 'Timer';
 
   return (
     <List>

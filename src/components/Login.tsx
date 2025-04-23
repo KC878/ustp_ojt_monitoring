@@ -1,5 +1,4 @@
 import React from 'react';
-import { useState } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 
 import Spinner from '@src/components/Spinner'; 
@@ -20,7 +19,7 @@ const Login: React.FC = () => {
   const { setAuthAction } = useAuthMiddleware();
   const { finishSubmit, setFinishSubmit } = useFinish();
 
-  const onFinish = (values: any) => {
+  const onFinish = () => {
     setFinishSubmit(true);
   };
 

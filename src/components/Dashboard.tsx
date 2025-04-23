@@ -5,7 +5,6 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   TeamOutlined,
-  SolutionOutlined,
   SettingOutlined,
   DashboardOutlined,
   LogoutOutlined,

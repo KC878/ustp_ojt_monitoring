@@ -1,6 +1,4 @@
-import { RowDataPacket } from 'mysql2';
 // get
-
 
 export const selectEmail = "SELECT email FROM USERS WHERE email = ?"
 export const getRoles = "SELECT roleID, role FROM Roles";

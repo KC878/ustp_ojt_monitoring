@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useState } from 'react';
 import { LockOutlined, SafetyCertificateOutlined , UserOutlined, MailOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Row, Col } from 'antd';
@@ -23,7 +23,7 @@ const Signup: React.FC = () => {
     name, setName,
     email, setEmail,
     password, setPassword,
-    roleID, setRoleID,
+    setRoleID,
     setCreated_At,
 
   } = useAuth();
@@ -32,7 +32,7 @@ const Signup: React.FC = () => {
   const { id, setID } = useGenerateID();
   const { finishSubmit, setFinishSubmit } = useFinish();
 
-  const { form, setForm } = useForm();
+  const { setForm } = useForm();
 
   const [signupForm] = Form.useForm();
 
@@ -47,19 +47,6 @@ const Signup: React.FC = () => {
 
     setFinishSubmit(true);
     setForm(signupForm);
-
-    // return (
-    //   // alert(`
-    //   //   UserID: ${id}  // display directly the changed ID
-    //   //   RoleID: ${roleID}
-    //   //   TimeStamp: ${timeStamp()} // display current Time stamp 
-    //   //   Name: ${name}
-    //   //   Password: ${password}
-    //   //   Email: ${email}
-
-    //   // `)
-
-    // )
     
   };
 
