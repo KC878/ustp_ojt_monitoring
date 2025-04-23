@@ -33,13 +33,13 @@ app.prepare().then(() => {
             console.log('🧍 Users in rooms:', usersInRooms);
             // push existing email to users //
             activeUsers.push(email);
-            socket.to(room).emit('user-joined', `${name} has signed in ${room}`, activeUsers);
+            socket.to(room).emit('user-joined', `${name} has signed in ${room}`);
             io.emit('user-status', 'Signing in...'); // trigger emitt after signing in
         });
         // Logout handler
         socket.on('logout', (userEmail) => {
             // socket.to('Logicbase').emit('logout');
-            io.emit('user-status', 'Loggin out...');
+            io.emit('user-status');
             for (const room in usersInRooms) {
                 const index = usersInRooms[room].findIndex(user => user.id === socket.id);
                 // const newUsers = users.filter(user => user.id !== idToRemove); syntax to remove

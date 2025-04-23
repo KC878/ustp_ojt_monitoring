@@ -30,3 +30,13 @@ export interface InsertDailyLogs extends RowDataPacket {
   timeOut: string;
 }
 
+export interface GetUserStatus extends RowDataPacket {
+  userID: string;
+  name: string;
+  email: string;
+  timeRendered: number;
+  status: string;
+  timeIn: string;
+  timeOut: string;
+  duty: string;
+}

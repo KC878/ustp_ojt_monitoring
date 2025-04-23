@@ -35,10 +35,6 @@ const LogoutPage = () => {
     };
   }, [logout]);
   
-
-  const handleLogout = (message: string) => {
-    alert(message);
-  }
   return (
     <>
       <ProtectedRoute>

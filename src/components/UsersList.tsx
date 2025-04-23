@@ -3,23 +3,12 @@ import { Avatar, List, Progress, Typography, Badge } from 'antd';
 import VirtualList from 'rc-virtual-list';
 import type { ProgressProps } from 'antd';
 import CountdownTimer from './CountdownTimer';
+import { GetUserStatus } from '@src/utils/interfaces';
 
 const { Text } = Typography;
 
-interface StudentType {
-  userID: string;
-  name: string;
-  email: string;
-  timeRenderd: number;
-  status: string;
-  timeIn: string;
-  timeOut: string;
-  duty: string;
-}
-
-
 interface Props {
-  data: StudentType[]
+  data: GetUserStatus[]
 }
 
 

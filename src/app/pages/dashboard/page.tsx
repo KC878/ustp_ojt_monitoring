@@ -65,7 +65,7 @@ const DashboardPage = () => {
 
   
   useEffect(() => {
-    socket.on('user-joined', (message: string, activeUsers: string[]) => {
+    socket.on('user-joined', (message: string) => {
       // alert(`${message}`);
       // alert(activeUsers);
       messageApi.info({

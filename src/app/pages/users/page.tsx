@@ -8,19 +8,21 @@ import { useLoading } from '@src/store/useLoading';
 import { useEffect } from 'react';
 import { useFinish } from '@src/store/useFinish';
 import { socket } from '@src/utils/socketClient';
+import { GetUserStatus } from '@src/utils/interfaces';
+
 
 export default function Users() {
-  const { data } = useFetchData<any>('/api/tasks/GET/getUserStatus');
+  const { data } = useFetchData<GetUserStatus>('/api/tasks/GET/getUserStatus');
   const { loading } = useLoading();
 
   const { 
-    reload, setReload,
+    setReload,
    } = useFinish(); // save to database
 
   
   // crucial 
   useEffect(() => {
-    socket.on('user-status', (message: string) => {
+    socket.on('user-status', () => {
       setReload(true);
     })
     
