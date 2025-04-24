@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { useLoading } from '@src/store/useLoading';
 import { useRouter } from 'next/navigation';
@@ -100,7 +100,7 @@ const LoginPage = () => {
         try{
           if(authAction === 'signup') {
             const response = await postData(
-              '/api/auth/signup',
+              '/api/AUTH/signup',
               [
                 'userID',
                 'name',
@@ -133,7 +133,7 @@ const LoginPage = () => {
 
           } else if (authAction === 'login'){
               const response = await postData(
-                '/api/auth/login',
+                '/api/AUTH/login',
                 ['email', 'password'],
                 [email, password],
               )

@@ -6,8 +6,8 @@ AFTER INSERT ON Users
 FOR EACH ROW
 BEGIN
 
-    INSERT INTO User_Status (userID, name, email, timeRendered, status, timeIn, timeOut, duty)
-    VALUES (NEW.userID, NEW.name, NEW.email, 486, 'offline', 'empty', 'empty', 'pending');
+    INSERT INTO User_Status (userID, name, email, timeRendered, status, dateIn, timeIn, timeOut, duty)
+    VALUES (NEW.userID, NEW.name, NEW.email, 486, 'offline', '1970-01-01', 'empty',  'empty', 'pending');
 END $$
 
 DELIMITER ;

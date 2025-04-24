@@ -20,7 +20,7 @@ export const getDailyLogs = `
 
 
 // post
-export const addUser = "INSERT INTO Users (userID, name, email, password, roleID, created_at) VALUES (?, ?, ?, ?, ?, ?)";
+export const addUser = "INSERT INTO Users (userID, name, email, password, roleID) VALUES (?, ?, ?, ?, ?)";
 
 
 // VALIDATOR 

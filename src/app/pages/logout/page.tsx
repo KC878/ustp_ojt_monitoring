@@ -17,7 +17,7 @@ const LogoutPage = () => {
 
     const dbLogout = async () => {
       await postData(
-        '/api/auth/logout',
+        '/api/AUTH/logout',
         ['email'],
         [email],
       )
