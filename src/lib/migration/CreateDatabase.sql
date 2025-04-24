@@ -1,6 +1,6 @@
 -- CREATE DATABASE
-CREATE DATABASE IF NOT EXISTS logicbase_ojt_monitoring;
-USE logicbase_ojt_monitoring;
+-- CREATE DATABASE IF NOT EXISTS logicbase_ojt_monitoring;
+-- USE logicbase_ojt_monitoring;
 
 -- ✅ Disable foreign key checks to allow table dropping
 SET FOREIGN_KEY_CHECKS = 0;
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS User_Status (
   email VARCHAR(100) NOT NULL,
   timeRendered INT,
   status VARCHAR(50) NOT NULL,
-  dateIn DATE NOT NULL,
+  dateIn VARCHAR(50) NOT NULL,
   timeIn VARCHAR(50) NOT NULL,
   timeOut VARCHAR(50) NOT NULL,
   duty VARCHAR(50) NOT NULL,
