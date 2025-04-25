@@ -53,7 +53,7 @@ const CardUser: React.FC = () => {
 
   
   return (
-    <div style={{ display: 'flex', gap: 16, position: 'relative' }}>
+    <div style={{ display: 'flex', gap: 16, position: 'relative',  width: '350px', maxWidth: '100%'}}>
       <Card
         hoverable={true}
         style={{

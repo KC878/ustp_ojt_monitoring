@@ -6,7 +6,17 @@ import CardUser from '@src/components/CardUser';
 import CardProgress from '@src/components/CardProgress';
 import CardLogs from '@src/components/CardLogs';
 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
+
 import { Button } from 'antd';
 import { useLoading } from '@src/store/useLoading';
 
@@ -80,62 +90,80 @@ const StatisticsPage: React.FC = () => {
               gap: '16px',
               border: '1px solid #ccc',
               borderRadius: '12px',
-              padding: '24px',
+              
               backgroundColor: 'white',
             }}
           >
+            
             {/* LEFT SIDE */}
-            <div style={{ flex: 3, display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              {/* Card Row */}
+            <div style={{ flex: 3, display: 'flex', flexDirection: 'column', gap: '16px', marginLeft: '16px', marginTop: '16px' }}>
+
+              {/* Top 2x2 Grid */}
               <div
                 style={{
-                  display: 'flex',
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(2, 1fr)',
                   gap: '16px',
-                  flexWrap: 'wrap',
-                  justifyContent: 'space-between', // Ensures cards are spaced properly
                 }}
               >
-                <div style={{ flex: '1 1 32%', minWidth: '250px', marginBottom: '16px' }}>
-                  <CardUser />
+                <CardUser />
+                <CardLogs />
+              </div>
+
+              {/* Chart + Progress side-by-side */}
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr',
+                  gap: '16px',
+                }}
+              >
+                {/* Chart Section */}
+                <div
+                  style={{
+                    width: '100%',
+                    height: '300px',
+                    backgroundColor: '#f9f9f9',
+                    borderRadius: '8px',
+                    padding: '16px',
+                    border: '1px solid #ddd',
+                  }}
+                >
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={dummyData[user.id]}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="absences" fill="#8884d8" />
+                      <Bar dataKey="leave" fill="#82ca9d" />
+                      <Bar dataKey="present" fill="#ffc658" />
+                    </BarChart>
+                  </ResponsiveContainer>
                 </div>
 
-                <div style={{ flex: '1 1 32%', minWidth: '250px', marginBottom: '16px' }}>
-                  <CardLogs />
-                </div>
-
-                <div style={{ flex: '1 1 32%', minWidth: '250px', marginBottom: '16px' }}>
+                {/* Progress Section */}
+                <div
+                  style={{
+                    width: '100%',
+                    backgroundColor: '#f9f9f9',
+                    borderRadius: '8px',
+                    padding: '16px',
+                    border: '1px solid #ddd',
+                  }}
+                >
                   <CardProgress />
                 </div>
               </div>
 
-              {/* Statistics Graph */}
-              <div
-                style={{
-                  width: '100%',
-                  height: '300px',
-                  backgroundColor: '#f9f9f9',
-                  borderRadius: '8px',
-                  padding: '16px',
-                  border: '1px solid #ddd',
-                }}
-              >
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={dummyData[user.id]}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="absences" fill="#8884d8" />
-                    <Bar dataKey="leave" fill="#82ca9d" />
-                    <Bar dataKey="present" fill="#ffc658" />
-                  </BarChart>
-                </ResponsiveContainer>
+              {/* Date Selector */}
+              <div>
+                <Button type="primary" style={{marginBottom: '16px'}}>Select Date</Button>
               </div>
-              <Button> Select Date </Button>
             </div>
 
-            {/* DIVIDER */}
+            {/* Divider */}
             <div
               style={{
                 width: '1px',
@@ -145,7 +173,7 @@ const StatisticsPage: React.FC = () => {
             />
 
             {/* RIGHT SIDE */}
-            <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div style={{ flex: 1, marginRight: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <DummyComponent />
             </div>
           </div>

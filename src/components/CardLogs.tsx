@@ -24,7 +24,7 @@ const CardLogs =  () => {
   return (
     <div
       style={{
-        width: '400px',
+        width: '370px',
         border: '1px solid #d9d9d9',
         borderRadius: 8,
         overflow: 'hidden',
@@ -52,7 +52,7 @@ const CardLogs =  () => {
       {/* Data Rows */}
       <div
         style={{
-          maxHeight: '250px',
+          maxHeight: '340px',
           overflowY: 'auto',
         }}
       >
@@ -73,13 +73,9 @@ const CardLogs =  () => {
               <Text style={{ flex: 1 }}>{log.date}</Text>
               <Text style={{ flex: 1, textAlign: 'center' }}>{log.timeIn || '-'}</Text>
               <Text style={{ flex: 1, textAlign: 'center' }}>{log.timeOut || '-'}</Text>
-              {isLastItem ? (
-                <Text style={{ flex: 1, textAlign: 'right', fontWeight: 'bold' }}>Total</Text>
-              ) : (
-                <Text style={{ flex: 1, textAlign: 'right' }}>
+              <Text style={{ flex: 1, textAlign: 'right' }}>
                   {log.renderedHours || log.status || '-'}
                 </Text>
-              )}
             </div>
           );
         })}
@@ -95,16 +91,6 @@ const CardLogs =  () => {
           flexDirection: 'column', // Ensure elements stack vertically
         }}
       >
-        {/* Progress bar aligned with other elements */}
-        <Progress percent={49} strokeColor="#1890ff" showInfo={false} style={{ marginBottom: 8 }} />
-
-        {/* Text for time rendered and percentage */}
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Text type="secondary">Total 49 / 100 Hrs</Text>
-          <Text type="secondary" style={{ fontWeight: 'bold' }}>
-            49%
-          </Text>
-        </div>
       </div>
     </div>
   );

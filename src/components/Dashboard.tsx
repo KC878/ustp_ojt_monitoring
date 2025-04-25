@@ -37,7 +37,7 @@ const Dashboard: React.FC<DashboardProps> = ({
   menuPages,
 }) => {
   const [collapsed, setCollapsed] = useState(false);
-  const [pageIndex, setPageIndex] = useState(0);
+  const [pageIndex, setPageIndex] = useState(1); // show the second page by default for devpradtive 
   const [mounted, setMounted] = useState(false); // Prevent hydration mismatch
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -136,7 +136,7 @@ const Dashboard: React.FC<DashboardProps> = ({
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={["1"]}
+          defaultSelectedKeys={['statistics']}
           items={menuItems.map((item, index) => ({
             key: item.toLowerCase(),
             icon: menuIcons[index],
