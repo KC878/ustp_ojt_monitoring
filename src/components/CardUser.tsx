@@ -30,7 +30,7 @@ const logsData = [
 ];
 
 const CardUser: React.FC = () => {
-  const [showLogs, setShowLogs] = useState(false);
+  const [showLogs, setShowLogs] = useState(true);
   const [activeKey, setActiveKey] = useState<string[]>(['1']);
 
   const handleOpenPDFWindow = () => {

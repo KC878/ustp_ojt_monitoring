@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import CardSkeleton from '@src/components/CardSkeloton';
 import CardUser from '@src/components/CardUser';
 
 
@@ -21,11 +20,7 @@ const TestPage: React.FC = () => {
 
 
   return(
-    loading ? (
-      <CardSkeleton />
-    ) : (
-      <CardUser />
-    )
+    <CardUser />
   );
 };
 
