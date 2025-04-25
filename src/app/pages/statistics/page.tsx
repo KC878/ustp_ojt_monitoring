@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Loading from '@src/components/Loading';
 import CardUser from '@src/components/CardUser';
 import CardProgress from '@src/components/CardProgress';
-
+import CardLogs from '@src/components/CardLogs';
 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Button } from 'antd';
@@ -51,7 +51,7 @@ const DummyComponent = () => (
 );
 
 const StatisticsPage: React.FC = () => {
-  const {loading, setLoading} = useLoading();
+  const { loading, setLoading } = useLoading();
   const [users, setUsers] = useState<Array<any>>([]);
 
   useEffect(() => {
@@ -86,25 +86,28 @@ const StatisticsPage: React.FC = () => {
           >
             {/* LEFT SIDE */}
             <div style={{ flex: 3, display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              {/* Card */}
-
-              <div style={{ display: 'flex', gap: '24px' }}>
-                <div style={{ width: '70%' }}>
-                  <div style={{ width: '100%' }}>
-                    <CardUser />
-                  </div>
+              {/* Card Row */}
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '16px',
+                  flexWrap: 'wrap',
+                  justifyContent: 'space-between', // Ensures cards are spaced properly
+                }}
+              >
+                <div style={{ flex: '1 1 32%', minWidth: '250px', marginBottom: '16px' }}>
+                  <CardUser />
                 </div>
 
-                <div style={{ width: '1px', backgroundColor: '#ddd' }} />
+                <div style={{ flex: '1 1 32%', minWidth: '250px', marginBottom: '16px' }}>
+                  <CardLogs />
+                </div>
 
-                <div style={{ width: '30%' }}>
-                    <CardProgress />
+                <div style={{ flex: '1 1 32%', minWidth: '250px', marginBottom: '16px' }}>
+                  <CardProgress />
                 </div>
               </div>
 
-
-
-            {/*  */}
               {/* Statistics Graph */}
               <div
                 style={{
@@ -115,7 +118,7 @@ const StatisticsPage: React.FC = () => {
                   padding: '16px',
                   border: '1px solid #ddd',
                 }}
-              > 
+              >
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={dummyData[user.id]}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -127,9 +130,7 @@ const StatisticsPage: React.FC = () => {
                     <Bar dataKey="leave" fill="#82ca9d" />
                     <Bar dataKey="present" fill="#ffc658" />
                   </BarChart>
-                  
                 </ResponsiveContainer>
-                
               </div>
               <Button> Select Date </Button>
             </div>
