@@ -22,7 +22,7 @@ const CardProgress = () => {
       <Progress
         type="circle"
         percent={49}
-        width={120}  // Increase width for a larger circle
+        size={120}  // Increase width for a larger circle
         strokeColor="#1890ff"
         format={percent => `${percent}%`}
       />
