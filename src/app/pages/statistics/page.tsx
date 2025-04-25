@@ -3,6 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import Loading from '@src/components/Loading';
 import CardUser from '@src/components/CardUser';
+import CardProgress from '@src/components/CardProgress';
+
+
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Button } from 'antd';
 import { useLoading } from '@src/store/useLoading';
@@ -84,8 +87,24 @@ const StatisticsPage: React.FC = () => {
             {/* LEFT SIDE */}
             <div style={{ flex: 3, display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {/* Card */}
-              <CardUser />
 
+              <div style={{ display: 'flex', gap: '24px' }}>
+                <div style={{ width: '70%' }}>
+                  <div style={{ width: '100%' }}>
+                    <CardUser />
+                  </div>
+                </div>
+
+                <div style={{ width: '1px', backgroundColor: '#ddd' }} />
+
+                <div style={{ width: '30%' }}>
+                    <CardProgress />
+                </div>
+              </div>
+
+
+
+            {/*  */}
               {/* Statistics Graph */}
               <div
                 style={{
