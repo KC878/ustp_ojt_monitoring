@@ -79,7 +79,13 @@ const StatisticsPage: React.FC = () => {
   return loading ? (
     <Loading />
   ) : (
-    <div style={{ minHeight: '100vh', backgroundColor: 'white', padding: '40px 24px' }}>
+    <div
+      style={{
+        minHeight: '100vh',
+        backgroundColor: 'white',
+        padding: '40px 24px',
+      }}
+    >
       <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         {users.map((user) => (
           <div
@@ -90,46 +96,47 @@ const StatisticsPage: React.FC = () => {
               gap: '16px',
               border: '1px solid #ccc',
               borderRadius: '12px',
-              
+              padding: '24px',
               backgroundColor: 'white',
+              flexWrap: 'wrap',
             }}
           >
-            
             {/* LEFT SIDE */}
-            <div style={{ flex: 3, display: 'flex', flexDirection: 'column', gap: '16px', marginLeft: '16px', marginTop: '16px' }}>
-
-              {/* Top 2x2 Grid */}
+            <div
+              style={{
+                flex: 2,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '16px',
+                minWidth: '300px',
+              }}
+            >
+              {/* Card + Chart Row */}
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(2, 1fr)',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
                   gap: '16px',
+                  width: '100%',
+                  alignItems: 'stretch',
                 }}
               >
-                <CardUser />
-                <CardLogs />
-              </div>
-
-              {/* Chart + Progress side-by-side */}
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
-                  gap: '16px',
-                }}
-              >
-                {/* Chart Section */}
+                <div>
+                  <CardUser />
+                </div>
+                <div>
+                  <CardLogs />
+                </div>
                 <div
                   style={{
-                    width: '100%',
-                    height: '300px',
                     backgroundColor: '#f9f9f9',
                     borderRadius: '8px',
                     padding: '16px',
                     border: '1px solid #ddd',
+                    height: '100%',
                   }}
                 >
-                  <ResponsiveContainer width="100%" height="100%">
+                  <ResponsiveContainer width="100%" height={250}>
                     <BarChart data={dummyData[user.id]}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="name" />
@@ -142,38 +149,36 @@ const StatisticsPage: React.FC = () => {
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
-
-                {/* Progress Section */}
-                <div
-                  style={{
-                    width: '100%',
-                    backgroundColor: '#f9f9f9',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    border: '1px solid #ddd',
-                  }}
-                >
+                <div>
                   <CardProgress />
                 </div>
               </div>
 
-              {/* Date Selector */}
-              <div>
-                <Button type="primary" style={{marginBottom: '16px'}}>Select Date</Button>
+              <div style={{ marginTop: '16px' }}>
+                <Button>Select Date</Button>
               </div>
             </div>
 
-            {/* Divider */}
+            {/* DIVIDER */}
             <div
               style={{
                 width: '1px',
                 backgroundColor: '#ddd',
                 margin: '0 8px',
+                minHeight: '100%',
               }}
             />
 
             {/* RIGHT SIDE */}
-            <div style={{ flex: 1, marginRight: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div
+              style={{
+                flex: 1,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                minWidth: '300px',
+              }}
+            >
               <DummyComponent />
             </div>
           </div>
