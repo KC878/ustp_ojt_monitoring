@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  TeamOutlined,
+  LineChartOutlined,
   DashboardOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
@@ -26,6 +26,7 @@ interface DashboardProps {
 
 const menuIcons = [
   <DashboardOutlined key={"dashboard"} />,
+  <LineChartOutlined key={'statistics'} />,
 ];
 
 const Dashboard: React.FC<DashboardProps> = ({

@@ -1,8 +1,9 @@
 'use client'
 
 
-import Dashboard from '../../../components/Dashboard';
+import Dashboard from '@src/components/Dashboard';
 import Users from '@src/app/pages/users/page';
+import StatisticsPage from '@src/app/pages/statistics/page';
 
 import ProtectedRoute from '@src/middleware/ProtectedRoute';
 import { useLoading } from '@src/store/useLoading';
@@ -21,11 +22,13 @@ const DashboardPage = () => {
   const { isAuthenticated } = useMiddleware();
 
   const menuPages = [
-    <div key="users"><Users /></div>
+    <div key="users"><Users /></div>, // default display
+    <div key="satistics"><StatisticsPage/></div>
   ];
   // pass Array of components
   const menuItems = [
     'Dashboard',
+    'Statistics',
   ]
  
   const footerContent = 'OJT Monitoring System - Cagadas USTP';
