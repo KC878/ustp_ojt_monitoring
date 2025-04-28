@@ -1,27 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import CardUser from '@src/components/CardUser';
+
+import InitialSteps from '@src/components/InitialSteps';
 
 
-const TestPage: React.FC = () => {
-  const [loading, setLoading] = useState(false);
-
-
-
-  useEffect(() => {
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000) // listen two seconds 
-  }, [])
-
-
-
+const Page = () => {
   return(
-    <CardUser />
-  );
-};
+    <InitialSteps />
+  )
+}
 
-export default TestPage;
+export default Page;

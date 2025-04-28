@@ -107,7 +107,7 @@ const CardUser: React.FC = () => {
             style={{ backgroundColor: '#87d068' }}
           />
           <Title level={4} style={{ margin: 0 }}>
-            Kent Cagadas
+            {localStorage.getItem('name')}
           </Title>
           <Text type="secondary">4th Year IT Student</Text>
         </Space>
