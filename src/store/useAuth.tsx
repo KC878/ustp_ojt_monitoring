@@ -32,7 +32,14 @@ interface GlobalState {
   showLogoutPage: boolean;
   setShowLogoutPage: (action: boolean) => void;
 
+  numValue: string;
+  setNumValue: (value: string) => void;
+
+  schoolValue: string;
+  setSchoolValue: (value: string) => void;
+
 }
+
 
 export const useAuth = create<GlobalState>((set) => ({
   userID: '',
@@ -61,6 +68,14 @@ export const useAuth = create<GlobalState>((set) => ({
 
   showLogoutPage: false,
   setShowLogoutPage: (action) => set({ showLogoutPage: action }),
+
+
+  numValue: '',
+  setNumValue: (value) => set({ numValue: value }),
+
+  schoolValue: '',
+  setSchoolValue: (value) => set({ schoolValue: value}),
+
 }));
 
 

@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import {
-  UserOutlined, LoadingOutlined,
-  SmileOutlined, ClockCircleOutlined,
-  BookOutlined
+  CheckCircleOutlined,
+  LoadingOutlined,
+  ClockCircleOutlined,
+  BookOutlined,
 } from '@ant-design/icons';
-import { Steps, StepProps, Modal, Button, Input, Form, Select } from 'antd';
+import { Steps, Modal, Button, Input, Form, Select, Result, Typography } from 'antd';
+import { useAuth } from '@src/store/useAuth';
+
 
 type StepStatusMap = {
-  requiredHours: StepProps['status'];
-  school: StepProps['status'];
-  done: StepProps['status'];
+  requiredHours: 'wait' | 'process' | 'finish' | 'error';
+  school: 'wait' | 'process' | 'finish' | 'error';
 };
 
 type IconLoading = {
@@ -17,11 +20,14 @@ type IconLoading = {
   school: boolean;
 };
 
+const { Text } = Typography;
+
+
+// component
 const InitialSteps: React.FC = () => {
   const [status, setStatus] = useState<StepStatusMap>({
     requiredHours: 'process',
     school: 'wait',
-    done: 'wait',
   });
 
   const [iconLoading, setIconLoading] = useState<IconLoading>({
@@ -29,99 +35,95 @@ const InitialSteps: React.FC = () => {
     school: false,
   });
 
-  const [open, setOpen] = useState<boolean>(false); // Modal state
-  const [form] = Form.useForm(); // Ant Design Form hook for the fields
+  const [open, setOpen] = useState<boolean>(false);
+  const [form] = Form.useForm();
 
-  const [formData, setFormData] = useState({
-    requiredHours: '',
-    school: '',
-  });
 
-  const [isSelect, setIsSelect] = useState(false); // State to toggle Input or Select
+  const [isSelect, setIsSelect] = useState(false);
+  const [disabledStatus, setDisabledStatus] = useState(true);
 
-  // Handle form submission for "Required Hours"
-  const handleFinish = (values: any) => {
-    console.log('Required Hours:', values.requiredHours); // Handle the required hours value
-    setFormData(prev => ({
-      ...prev,
-      requiredHours: values.requiredHours,
-    }));
-    setStatus(prev => ({
-      ...prev,
-      requiredHours: 'finish', // Mark as complete after form submission
-      school: 'process', // Move to the next step
-    }));
+
+  const {
+    numValue, setNumValue,
+    schoolValue, setSchoolValue
+  } = useAuth();
+
+
+  const [finish, setFinish] = useState(false);
+  const [loading, setLoading] = useState(false);
+  
+
+  const handleFinish = () => {  
+    setLoading(true);
+    setTimeout(() => {
+      setFinish(true);
+      setStatus({
+        requiredHours: 'finish',
+        school: 'finish',
+      });
+    }, 3000); 
   };
 
-  // Handle form submission for "School"
-  const handleSchoolSubmit = (values: any) => {
-    console.log('School Name:', values.school); // Handle the school value
-    setFormData(prev => ({
-      ...prev,
-      school: values.school,
-    }));
-    setStatus(prev => ({
-      ...prev,
-      school: 'finish', // Mark as complete after school form submission
-      done: 'process', // Move to the done step
-    }));
+  const handleSchoolSubmit = () => {
+    if (!schoolValue.trim()) {
+      return;
+    }
+
+    handleFinish(); // Complete the process
   };
 
-  // Handle Next step
   const handleNext = () => {
-    if (status.requiredHours === 'finish') {
-      setStatus(prev => ({
-        ...prev,
-        school: 'process', // Move to "School" step
-      }));
-    } else if (status.school === 'finish') {
-      setStatus(prev => ({
-        ...prev,
-        done: 'finish', // Complete the flow
-      }));
-    } // logic here for next and prev
+    setStatus(prev => ({
+      ...prev,
+      requiredHours: 'finish',
+      school: 'process',
+    }));
+
+    setIconLoading({
+      hours: false,
+      school: true,
+    });
+    setDisabledStatus(false);
   };
 
-  // Handle Previous step
   const handlePrev = () => {
     if (status.school === 'process') {
-      setStatus(prev => ({
-        ...prev,
-        requiredHours: 'process', // Go back to "Required Hours"
+      setStatus({
+        requiredHours: 'process',
         school: 'wait',
-      }));
-    } else if (status.done === 'process') {
-      setStatus(prev => ({
-        ...prev,
-        school: 'finish', // Go back to "School"
-        done: 'wait',
-      }));
+      });
+
+      setIconLoading({
+        hours: true,
+        school: false,
+      });
+      setDisabledStatus(true);
     }
   };
 
-  // Trigger to show the Select field (this can be toggled by some logic)
   const handleSelectChange = () => {
-    setIsSelect(!isSelect); // Toggle between Input and Select
+    setIsSelect(!isSelect);
+    setSchoolValue(''); // Clear value when switching
   };
 
-  return (
-    <>
-      {/* Button to Open Modal */}
-      <Button type="primary" onClick={() => setOpen(true)}>
-        Open Steps Modal
-      </Button>
 
-      {/* Centered Modal */}
+
+  //// mount and open the modal here
+  useEffect(() => {
+    setOpen(true);
+  }, [])
+
+  return (
+    
+    <> 
       <Modal
         open={open}
-        onCancel={() => {}}
         footer={null}
         centered
-        width={600} // Adjust the modal width
+        width={600}
         closable={false}
-        maskClosable={false} // Prevent closing the modal when clicking outside
+        maskClosable={false}
       >
-        {/* Steps Displayed Horizontally */}
         <Steps
           direction="horizontal"
           size="small"
@@ -131,96 +133,103 @@ const InitialSteps: React.FC = () => {
             {
               title: 'Login',
               status: 'finish',
-              icon: <UserOutlined />,
+              icon: <CheckCircleOutlined />,
             },
             {
               title: 'Required Hours',
               status: status.requiredHours,
-              icon: iconLoading.hours ? <LoadingOutlined /> : <ClockCircleOutlined />,
+              icon:
+                status.requiredHours === 'finish' ? (
+                  <CheckCircleOutlined />
+                ) : iconLoading.hours ? (
+                  <LoadingOutlined />
+                ) : (
+                  <ClockCircleOutlined />
+                ),
             },
             {
               title: 'School',
               status: status.school,
-              icon: iconLoading.school ? <LoadingOutlined /> : <BookOutlined />,
-            },
-            {
-              title: 'Done',
-              status: status.done,
-              icon: <SmileOutlined />,
+              icon:
+                status.school === 'finish' ? (
+                  <CheckCircleOutlined />
+                ) : iconLoading.school ? (
+                  <LoadingOutlined />
+                ) : (
+                  <BookOutlined />
+                ),
             },
           ]}
         />
 
-        {/* Form for "Required Hours" */}
-        {status.requiredHours === 'process' && (
-          <Form
-            form={form}
-            layout="vertical"
-            onFinish={handleFinish}
-            style={{ marginTop: 20 }}
-          >
-            <Form.Item
-              label="Enter Required Hours"
-              name="requiredHours"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please enter the required hours!',
-                },
-                {
-                  pattern: /^[0-9]+$/,
-                  message: 'Only numbers are allowed!',
-                },
-              ]}
-            >
-              <Input
-                style={{
-                  fontSize: 24,
-                  padding: '10px 15px',
-                  width: '100%',
-                }}
-                placeholder="e.g. 40"
-                type="number"
-              />
-            </Form.Item>
-
-            <Form.Item>
-              {/* Add Next and Previous Buttons */}
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Button
-                  type="default"
-                  onClick={handlePrev}
-                  block
-                  style={{
-                    width: '45%', // Make it leftmost
-                    fontWeight: 'bold',
-                    fontSize: 16,
-                  }}
-                >
-                  Previous
-                </Button>
-
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  block
-                  style={{
-                    width: '45%', // Make it rightmost
-                    backgroundColor: '#1890ff',
-                    borderColor: '#1890ff',
-                    fontWeight: 'bold',
-                    fontSize: 16,
-                  }}
-                >
-                  Next
-                </Button>
+        {/* Show Result after finish */}
+        {finish ? (
+          <Result
+            status="success"
+            title="Successfully Completed!"
+            subTitle="Your required hours and school have been successfully recorded."
+            extra={[
+              <div key={'container-result'}> 
+                <div>
+                  <Text>Required Hours: {numValue}</Text>
+                </div>
+                <div> 
+                  <Text>School: {schoolValue}</Text>
+                </div>
+                <div> 
+                  <Button type="primary" key="console">
+                    Go to Dashboard
+                  </Button>
+                </div>
               </div>
-            </Form.Item>
-          </Form>
+            ]}
+          />
+        ) : (
+          // Show form for Required Hours if not finished yet
+          status.requiredHours === 'process' && status.school === 'wait' && (
+            <Form
+              form={form}
+              layout="vertical"
+              onFinish={handleNext}
+              style={{ marginTop: 20 }}
+            >
+              <Form.Item
+                label="Enter Required Hours"
+                name="requiredHours"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please enter the required hours!',
+                  },
+                  {
+                    pattern: /^[0-9]+$/,
+                    message: 'Only numbers are allowed!',
+                  },
+                ]}
+              >
+                <Input
+                  style={{
+                    fontSize: 24,
+                    padding: '10px 15px',
+                    width: '100%',
+                  }}
+                  value={numValue}
+                  onChange={e => setNumValue(e.target.value)}
+                  onKeyDown={e => {
+                    if (e.key === 'e' || e.key === 'E') {
+                      e.preventDefault();
+                    }
+                  }}
+                  placeholder="e.g. 40"
+                  type="number"
+                />
+              </Form.Item>
+            </Form>
+          )
         )}
 
-        {/* Form for "School" */}
-        {status.school === 'process' && (
+        {/* Form for School if Required Hours are finished */}
+        {status.school === 'process' && status.requiredHours === 'finish' && (
           <Form
             form={form}
             layout="vertical"
@@ -238,7 +247,6 @@ const InitialSteps: React.FC = () => {
               ]}
             >
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                {/* Select or Input Field */}
                 {isSelect ? (
                   <Select
                     style={{
@@ -246,10 +254,15 @@ const InitialSteps: React.FC = () => {
                       width: '100%',
                     }}
                     placeholder="Select your school"
+                    value={schoolValue || undefined}
+                    onChange={value => setSchoolValue(value)}
                   >
-                    <Select.Option value="abc_university">ABC University</Select.Option>
-                    <Select.Option value="xyz_university">XYZ University</Select.Option>
-                    {/* Add more options as needed */}
+                    <Select.Option value="ABC University">
+                      ABC University
+                    </Select.Option>
+                    <Select.Option value="XYZ University">
+                      XYZ University
+                    </Select.Option>
                   </Select>
                 ) : (
                   <Input
@@ -257,20 +270,23 @@ const InitialSteps: React.FC = () => {
                       fontSize: 24,
                       padding: '10px 15px',
                       width: '100%',
+                      textTransform: 'uppercase',
                     }}
                     placeholder="Ex: ABC University"
+                    value={schoolValue}
+                    onChange={e => setSchoolValue(e.target.value.toUpperCase())}
+                    autoFocus // focus field after next
                   />
                 )}
 
-                {/* Switch button below the Select/Input and aligned to the right */}
                 <Button
                   type="link"
                   onClick={handleSelectChange}
                   style={{
-                    marginTop: '10px', // Space between the input/select and the button
+                    marginTop: '10px',
                     fontSize: 16,
                     textAlign: 'right',
-                    alignSelf: 'flex-end', // Aligns the button to the right side
+                    alignSelf: 'flex-end',
                   }}
                 >
                   Switch to {isSelect ? 'Input' : 'Select'}
@@ -280,11 +296,13 @@ const InitialSteps: React.FC = () => {
           </Form>
         )}
 
-        {/* Buttons below the form (Next/Previous) */}
-        {(status.requiredHours === 'finish' || status.school === 'finish') && (
+        {/* Buttons */}
+
+        {!finish && 
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button
               type="default"
+              disabled={disabledStatus}
               onClick={handlePrev}
               block
               style={{
@@ -298,7 +316,13 @@ const InitialSteps: React.FC = () => {
 
             <Button
               type="primary"
-              onClick={handleNext}
+              onClick={() => {
+                if (status.requiredHours === 'process') {
+                  form.submit();
+                } else if (status.school === 'process') {
+                  form.submit();
+                }
+              }}
               block
               style={{
                 width: '45%',
@@ -307,11 +331,13 @@ const InitialSteps: React.FC = () => {
                 fontWeight: 'bold',
                 fontSize: 16,
               }}
+              loading={loading}
             >
-              {status.done === 'finish' ? 'Submit' : 'Next'}
+              {status.requiredHours === 'process' ? 'Next' : 'Submit'}
             </Button>
           </div>
-        )}
+        }
+        
       </Modal>
     </>
   );
