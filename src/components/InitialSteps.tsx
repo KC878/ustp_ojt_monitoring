@@ -9,6 +9,7 @@ import {
 import { Steps, Modal, Button, Input, Form, Select, Result, Typography } from 'antd';
 import { useAuth } from '@src/store/useAuth';
 import { useRouter } from 'next/navigation';
+import { useFinish } from '@src/store/useFinish';
 
 type StepStatusMap = {
   requiredHours: 'wait' | 'process' | 'finish' | 'error';
@@ -26,6 +27,7 @@ const { Text } = Typography;
 // component
 const InitialSteps: React.FC = () => {
   const router = useRouter();
+  const { setFinishInitial } = useFinish();
   const [pushLoad, setPushLoad] = useState(false);  
 
   const [status, setStatus] = useState<StepStatusMap>({
@@ -66,6 +68,7 @@ const InitialSteps: React.FC = () => {
         school: 'finish',
       });
     }, 3000); 
+    setFinishInitial(true);
   };
 
   const handleSchoolSubmit = () => {

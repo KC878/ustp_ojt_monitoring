@@ -7,6 +7,7 @@ import {
   getDailyDuty,
   updateStatus,
   getDailyLogs,
+  
 
 } from '../../../../lib/querries/querries';
 
@@ -119,6 +120,9 @@ export async function POST(req: NextRequest){
       duty = 'completed'; // to be passed to check in client side 
     }
 
+
+    console.log('SCHOOOOL ID: ',user.schoolID);
+    console.log(user.duration);
     const success = NextResponse.json(
       { message: 'Login Successfully!',
         token, // include the token in Response
@@ -127,6 +131,8 @@ export async function POST(req: NextRequest){
           name: user.name,
           email: user.email,
           duty: duty,
+          duration: user.duration,
+          schoolID: user.schoolID,
         }
       },
       { status: 200 }

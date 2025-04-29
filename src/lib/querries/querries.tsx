@@ -34,12 +34,20 @@ export const checkEmailExist = 'SELECT email FROM Users WHERE email = ?';
 export const loginQuery = 'SELECT userID, name, email, password, roleID, duration, schoolID FROM Users WHERE email = ?'; // login query
 
 
+// first time login
+export const updateInitial = `
+  UPDATE Users
+  SET duration = ?,
+  schoolID = ?
+  WHERE email = ?
+`;
+
 // separate query if the user duty === complete
 export const updateStatus = `
   UPDATE User_Status
   SET status = 'active'
   WHERE email = ?
-`
+`;
 
 export const updateLogin = `
   UPDATE User_Status

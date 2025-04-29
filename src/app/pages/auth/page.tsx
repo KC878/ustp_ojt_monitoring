@@ -168,10 +168,9 @@ const LoginPage = () => {
                 localStorage.setItem('name', user.name);
 
 
-
-                
+                alert(`${user.duration} ${user.schoolID}`);
                 setLoading(true);
-                if(user.duration === undefined && user.schoolID === undefined){
+                if(user.duration === null && user.schoolID === null){
                   setFirstLogin(true);
                 }else{
                   setFirstLogin(false);

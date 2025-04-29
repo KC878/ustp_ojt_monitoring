@@ -10,6 +10,9 @@ interface GlobalState {
 
   finishDuty: boolean;
   setFinishDuty: (state: boolean) => void;
+
+  finishInitial: boolean;
+  setFinishInitial: (state: boolean) => void;
 }
 
 export const useFinish = create<GlobalState>((set) => ({
@@ -21,4 +24,7 @@ export const useFinish = create<GlobalState>((set) => ({
 
   finishDuty: false,
   setFinishDuty: (state) => set({ finishDuty: state }),
+
+  finishInitial: false,
+  setFinishInitial: (state) => set({ finishInitial: state }),
 }))
