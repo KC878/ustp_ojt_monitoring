@@ -11,7 +11,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const pathName = usePathname();
   const { isAuthenticated } = useMiddleware();
   const { setAuthAction } = useAuthMiddleware();
-  const { logout, setLogout } = useAuth();
+  const { logout, setLogout, isFirstLogin } = useAuth();
 
   useRouteLoading(); // call the useRouteLoading custom hook to listen if the route is being changed
 
@@ -30,8 +30,11 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
       router.push('/pages/auth'); // push to the auth page
     }
 
+    if(isFirstLogin){
+      router.push('/pages/initialSteps');  // push here if first login 
+    }
     // If authenticated and trying to access /auth, redirect to /dashboard
-    if (isAuthenticated && pathName === '/pages/auth') {
+    if (isAuthenticated && pathName === '/pages/auth' && !isFirstLogin) {
       console.log(`route: '/pages/auth' === ${pathName}`);
 
       router.push('/pages/dashboard'); 

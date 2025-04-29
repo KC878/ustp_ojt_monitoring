@@ -38,6 +38,9 @@ interface GlobalState {
   schoolValue: string;
   setSchoolValue: (value: string) => void;
 
+  isFirstLogin: boolean;
+  setFirstLogin: (value: boolean) => void;
+
 }
 
 
@@ -75,6 +78,9 @@ export const useAuth = create<GlobalState>((set) => ({
 
   schoolValue: '',
   setSchoolValue: (value) => set({ schoolValue: value}),
+
+  isFirstLogin: false,
+  setFirstLogin: (value) => set({ isFirstLogin: value }),
 
 }));
 

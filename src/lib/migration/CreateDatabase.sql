@@ -6,13 +6,21 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ✅ Drop tables in any order, no constraint errors
+DROP TABLE IF EXISTS Schools;
 DROP TABLE IF EXISTS Daily_Logs;
 DROP TABLE IF EXISTS User_Status;
 DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Roles;
 
+
 -- ✅ Re-enable foreign key checks
 SET FOREIGN_KEY_CHECKS = 1;
+
+-- 0. Table for Scools 
+CREATE TABLE IF NOT EXISTS Schools (
+	schoolID VARCHAR(25) NOT NULL PRIMARY KEY,
+    schoolName VARCHAR(100) UNIQUE
+);
 
 -- 1. Create Roles Table
 CREATE TABLE IF NOT EXISTS Roles (
@@ -28,8 +36,10 @@ CREATE TABLE IF NOT EXISTS Users (
   password TEXT NOT NULL,
   roleID INT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  duration INT,
-  FOREIGN KEY (roleID) REFERENCES Roles(roleID) ON DELETE CASCADE 
+  duration INT, -- requiredHours
+  schoolID VARCHAR(25), 
+  FOREIGN KEY (roleID) REFERENCES Roles(roleID) ON DELETE CASCADE,
+  FOREIGN KEY (schoolID) REFERENCES Schools(schoolID) ON DELETE CASCADE
 );
 
 -- 3. Create User_Status Table

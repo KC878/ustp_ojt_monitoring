@@ -48,6 +48,8 @@ const LoginPage = () => {
       roleID,
       created_at,
 
+      setFirstLogin,
+
 
     } = useAuth();
   
@@ -165,9 +167,17 @@ const LoginPage = () => {
                 localStorage.setItem('email', user.email);
                 localStorage.setItem('name', user.name);
 
-              
+
+
+                
                 setLoading(true);
-                router.push('/pages/dashboard'); // redirect the page after login
+                if(user.duration === undefined && user.schoolID === undefined){
+                  setFirstLogin(true);
+                }else{
+                  setFirstLogin(false);
+                  router.push('/pages/dashboard'); // redirect the page after login
+                }
+                
                 // setLoading set loading logic in this par
 
               } else if (response.message === messages.ERROR.INVALID_EMAIL){

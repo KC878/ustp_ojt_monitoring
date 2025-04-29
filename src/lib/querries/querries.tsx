@@ -31,7 +31,7 @@ export const checkEmailExist = 'SELECT email FROM Users WHERE email = ?';
 
 //// auth login 
 
-export const loginQuery = 'SELECT userID, name, email, password, roleID FROM Users WHERE email = ?';
+export const loginQuery = 'SELECT userID, name, email, password, roleID, duration, schoolID FROM Users WHERE email = ?'; // login query
 
 
 // separate query if the user duty === complete
