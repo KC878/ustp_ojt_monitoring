@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 import { Steps, Modal, Button, Input, Form, Select, Result, Typography } from 'antd';
 import { useAuth } from '@src/store/useAuth';
-
+import { useRouter } from 'next/navigation';
 
 type StepStatusMap = {
   requiredHours: 'wait' | 'process' | 'finish' | 'error';
@@ -25,6 +25,9 @@ const { Text } = Typography;
 
 // component
 const InitialSteps: React.FC = () => {
+  const router = useRouter();
+  const [pushLoad, setPushLoad] = useState(false);  
+
   const [status, setStatus] = useState<StepStatusMap>({
     requiredHours: 'process',
     school: 'wait',
@@ -45,7 +48,8 @@ const InitialSteps: React.FC = () => {
 
   const {
     numValue, setNumValue,
-    schoolValue, setSchoolValue
+    schoolValue, setSchoolValue,
+    setFirstLogin,
   } = useAuth();
 
 
@@ -177,7 +181,11 @@ const InitialSteps: React.FC = () => {
                   <Text>School: {schoolValue}</Text>
                 </div>
                 <div> 
-                  <Button type="primary" key="console">
+                  <Button type="primary" key="console" loading={pushLoad} onClick={() => {
+                      setPushLoad(true);
+                      setFirstLogin(false)
+                      router.push('/pages/dashboard');
+                    }}>
                     Go to Dashboard
                   </Button>
                 </div>

@@ -2,11 +2,14 @@
 
 
 import InitialSteps from '@src/components/InitialSteps';
-
+import ProtectedRoute from '@src/middleware/ProtectedRoute';
 
 const StepsPage = () => {
+  
   return(
-    <InitialSteps />
+    <ProtectedRoute>
+      <InitialSteps />
+    </ProtectedRoute>
   )
 }
 
