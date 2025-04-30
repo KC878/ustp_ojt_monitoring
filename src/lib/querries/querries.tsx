@@ -23,10 +23,10 @@ export const getSchools = `
 `;
 
 
-
 // post
 export const addUser = "INSERT INTO Users (userID, name, email, password, roleID) VALUES (?, ?, ?, ?, ?)";
 
+export const registerSchool = `INSERT INTO Schools (schoolID, schoolName) VALUES (?, ?)`;
 
 // VALIDATOR 
 

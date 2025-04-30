@@ -347,6 +347,8 @@ const InitialSteps: React.FC<Props>= ( { schools, schoolsLoading }) => {
                     onChange={(e) => {
                       const upperName = e.target.value;
                       const titleSchoolName = toSmartTitleCase(upperName);
+
+                      
                       setSchoolValue(titleSchoolName);
                     }}
                   />

@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { RowDataPacket } from 'mysql2'; 
 import db from '@src/lib/database/db';
-import { updateInitial } from '@src/lib/querries/querries';
+import { updateInitial, getSchools, registerSchool } from '@src/lib/querries/querries';
 
 
 interface User extends RowDataPacket {
@@ -10,6 +10,10 @@ interface User extends RowDataPacket {
   email: string;
 }
 
+interface School extends RowDataPacket{
+  schoolID: string;
+  schoolName: string;
+}
 export async function POST(req: NextRequest){
   try{
     let body: User;
@@ -27,13 +31,25 @@ export async function POST(req: NextRequest){
     const { 
       duration,
       schoolID,
-      schoolValue,
+      schoolName,
       email
     } = body; // receive the response
 
-      // have logic here if schoolID exist in school if not then enter first the ID then ententer the school ID 
 
-     // when updating make it so that receive only the capital letters of the school
+    const [schools] = await db.query<School[]>(getSchools); // get the Schools from database
+
+    const schoolExist = schools.find((s) => s.schoolID === schoolID); // a boolean value
+
+    if (schoolExist){
+      console.log(`School ID: ${schoolID} --> Exist`)
+    }else{
+      console.log(`School ID: ${schoolID} --> Does Not Exist`);
+      console.log('School Name: ', schoolName);
+      await db.query<School[]>(registerSchool, [schoolID, schoolName]); // Insert your school data if it 
+      console.log('Registered School Successfully!');
+      //does not exist 
+    }
+
      const [result] = await db.query(
       updateInitial,
       [
