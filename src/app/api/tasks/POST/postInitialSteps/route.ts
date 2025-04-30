@@ -27,22 +27,11 @@ export async function POST(req: NextRequest){
     const { 
       duration,
       schoolID,
+      schoolValue,
       email
     } = body; // receive the response
 
-    
-      // check schoolID exist before adding if not then register it to school 
-      // insert statement
-
-
-    // const [schoolExist] = await db.query(
-    //   findSchool,
-    //   [
-    //     schoolID,
-    //     email
-    //   ]
-    // )
-     // Update
+      // have logic here if schoolID exist in school if not then enter first the ID then ententer the school ID 
 
      // when updating make it so that receive only the capital letters of the school
      const [result] = await db.query(

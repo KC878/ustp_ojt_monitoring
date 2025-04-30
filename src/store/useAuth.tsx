@@ -35,6 +35,9 @@ interface GlobalState {
   numValue: string;
   setNumValue: (value: string) => void;
 
+  schoolID: string,
+  setSchoolID: (value: string) => void;
+  
   schoolValue: string;
   setSchoolValue: (value: string) => void;
 
@@ -75,6 +78,9 @@ export const useAuth = create<GlobalState>((set) => ({
 
   numValue: '',
   setNumValue: (value) => set({ numValue: value }),
+
+  schoolID: '',
+  setSchoolID: (value) => set({ schoolID: value }),
 
   schoolValue: '',
   setSchoolValue: (value) => set({ schoolValue: value}),

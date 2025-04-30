@@ -18,6 +18,11 @@ export const getDailyLogs = `
 `;
 
 
+export const getSchools = `
+  SELECT schoolID, schoolName FROM Schools
+`;
+
+
 
 // post
 export const addUser = "INSERT INTO Users (userID, name, email, password, roleID) VALUES (?, ?, ?, ?, ?)";

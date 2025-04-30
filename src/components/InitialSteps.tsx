@@ -10,6 +10,7 @@ import { Steps, Modal, Button, Input, Form, Select, Result, Typography } from 'a
 import { useAuth } from '@src/store/useAuth';
 import { useRouter } from 'next/navigation';
 import { useFinish } from '@src/store/useFinish';
+import { toSmartTitleCase } from '@src/utils/generateTitleCase';
 
 type StepStatusMap = {
   requiredHours: 'wait' | 'process' | 'finish' | 'error';
@@ -21,11 +22,20 @@ type IconLoading = {
   school: boolean;
 };
 
+interface School {
+  schoolID: string;
+  schoolName: string;
+}
+
+interface Props {
+  schools: School[];
+  schoolsLoading: boolean;
+}
 const { Text } = Typography;
 
 
 // component
-const InitialSteps: React.FC = () => {
+const InitialSteps: React.FC<Props>= ( { schools, schoolsLoading }) => {
   const router = useRouter();
   const { setFinishInitial } = useFinish();
   const [pushLoad, setPushLoad] = useState(false);  
@@ -44,13 +54,15 @@ const InitialSteps: React.FC = () => {
   const [form] = Form.useForm();
 
 
-  const [isSelect, setIsSelect] = useState(false);
+  const [isSelect, setIsSelect] = useState(true);
   const [disabledStatus, setDisabledStatus] = useState(true);
 
 
   const {
     numValue, setNumValue,
+    schoolID, setSchoolID,
     schoolValue, setSchoolValue,
+
     setFirstLogin,
   } = useAuth();
 
@@ -178,12 +190,11 @@ const InitialSteps: React.FC = () => {
             extra={[
               <div key={'container-result'}> 
                 <div>
-                  <Text>Required Hours: {numValue}</Text>
+                  <Text style={{ display: 'block' }}>Required Hours: <b>{numValue}</b></Text>
+                  <Text style={{ display: 'block' }}>School ID: <b>{schoolID}</b></Text>
+                  <Text style={{ display: 'block' }}>School Name: <b>{schoolValue}s</b></Text>
                 </div>
-                <div> 
-                  <Text>School: {schoolValue}</Text>
-                </div>
-                <div> 
+                <div style={{marginTop: '10px'}}> 
                   <Button type="primary" key="console" loading={pushLoad} onClick={() => {
                       setPushLoad(true);
                       setFirstLogin(false)
@@ -242,70 +253,122 @@ const InitialSteps: React.FC = () => {
         {/* Form for School if Required Hours are finished */}
         {status.school === 'process' && status.requiredHours === 'finish' && (
           <Form
-            form={form}
-            layout="vertical"
-            onFinish={handleSchoolSubmit}
-            style={{ marginTop: 20 }}
-          >
-            <Form.Item
-              label="Enter School Name"
-              name="school"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please enter your school name!',
-                },
-              ]}
-            >
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                {isSelect ? (
+          form={form}
+          layout="vertical"
+          onFinish={handleSchoolSubmit}
+          style={{ marginTop: 20 }}
+          initialValues={{
+            schoolId: '',
+            school: schoolValue,
+          }}
+        >
+          <div style={{ display: 'flex', gap: '10px' }}>
+            {isSelect ? (
+              <>
+                {/* School Name - SELECT dropdown */}
+                <Form.Item
+                  label="School Name"
+                  name="school"
+                  rules={[{ required: true, message: 'Please select your school name!' }]}
+                  style={{ flex: 2 }}
+                >
                   <Select
+                    labelInValue
                     style={{
-                      fontSize: 24,
+                      fontSize: 18,
                       width: '100%',
                     }}
+                    loading={schoolsLoading}
                     placeholder="Select your school"
-                    value={schoolValue || undefined}
-                    onChange={value => setSchoolValue(value)}
+                    value={
+                      schoolValue
+                        ? { key: schoolID, label: schoolValue }
+                        : undefined
+                    }
+                    onChange={(selectedSchool) => {
+                      setSchoolValue(selectedSchool.label); // e.g., "USTP CDO"
+                      setSchoolID(selectedSchool.key);      // e.g., "USTP"
+
+                      form.setFieldsValue({
+                        school: selectedSchool.label,
+                        schoolId: selectedSchool.key,
+                      });
+                    }}
                   >
-                    <Select.Option value="ABC University">
-                      ABC University
-                    </Select.Option>
-                    <Select.Option value="XYZ University">
-                      XYZ University
-                    </Select.Option>
+                    {schools.map((school) => (
+                      <Select.Option key={school.schoolID} value={school.schoolID}>
+                        {school.schoolName}
+                      </Select.Option>
+                    ))}
                   </Select>
-                ) : (
+
+                </Form.Item>
+              </>
+            ) : (
+              <>
+                {/* Manual Input Mode */}
+                
+                <Form.Item
+                  label="School ID (Acronym)"
+                  name="schoolId"
+                  rules={[
+                    { required: true, message: 'Please enter your school ID (acronym)!' },
+                    { max: 10, message: 'Max 10 characters only!' },
+                  ]}
+                  style={{ flex: 1 }}
+                  
+                >
                   <Input
+                    placeholder="e.g. USTP"
                     style={{
-                      fontSize: 24,
+                      fontSize: 18,
                       padding: '10px 15px',
-                      width: '100%',
                       textTransform: 'uppercase',
                     }}
-                    placeholder="Ex: ABC University"
-                    value={schoolValue}
-                    onChange={e => setSchoolValue(e.target.value.toUpperCase())}
-                    autoFocus // focus field after next
+                    onChange={(e) =>
+                      setSchoolID(e.target.value.toUpperCase(),) // value schoolID
+                    }
                   />
-                )}
-
-                <Button
-                  type="link"
-                  onClick={handleSelectChange}
-                  style={{
-                    marginTop: '10px',
-                    fontSize: 16,
-                    textAlign: 'right',
-                    alignSelf: 'flex-end',
-                  }}
+                </Form.Item>
+        
+                <Form.Item
+                  label="School Name"
+                  name="school"
+                  rules={[{ required: true, message: 'Please enter your school name!' }]}
+                  style={{ flex: 2 }}
                 >
-                  Switch to {isSelect ? 'Input' : 'Select'}
-                </Button>
-              </div>
-            </Form.Item>
-          </Form>
+                  <Input
+                    placeholder="e.g. ABC University"
+                    style={{
+                      fontSize: 18,
+                      padding: '10px 15px',
+                    }}
+                    value={schoolValue}
+                    onChange={(e) => {
+                      const upperName = e.target.value;
+                      const titleSchoolName = toSmartTitleCase(upperName);
+                      setSchoolValue(titleSchoolName);
+                    }}
+                  />
+                </Form.Item>
+              </>
+            )}
+          </div>
+        
+          {/* Toggle Button */}
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 5 }}>
+            <Button
+              type="link"
+              onClick={handleSelectChange}
+              style={{ fontSize: 14, padding: 10, marginBottom: '10px'}}
+            >
+              {isSelect ? 'Register School' : 'Select School'}
+            </Button>
+          </div>
+        </Form>
+        
         )}
+
 
         {/* Buttons */}
 
@@ -329,9 +392,10 @@ const InitialSteps: React.FC = () => {
               type="primary"
               onClick={() => {
                 if (status.requiredHours === 'process') {
-                  form.submit();
+                  form.submit(); // next
                 } else if (status.school === 'process') {
-                  form.submit();
+                  form.submit(); // next 
+                  handleFinish()
                 }
               }}
               block
