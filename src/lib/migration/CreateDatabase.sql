@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS Users (
   password TEXT NOT NULL,
   roleID INT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  duration INT, -- requiredHours
+  duration VARCHAR(25), -- requiredHours
   schoolID VARCHAR(25), 
   FOREIGN KEY (roleID) REFERENCES Roles(roleID) ON DELETE CASCADE,
   FOREIGN KEY (schoolID) REFERENCES Schools(schoolID) ON DELETE CASCADE

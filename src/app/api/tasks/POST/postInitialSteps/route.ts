@@ -14,6 +14,13 @@ interface School extends RowDataPacket{
   schoolID: string;
   schoolName: string;
 }
+
+function convertHoursToTimeString(hours: number) {
+  const pad = (num: number) => String(num).padStart(2, "0");
+  return `${pad(hours)}:00:00`;
+} // function to convert to string
+
+
 export async function POST(req: NextRequest){
   try{
     let body: User;
@@ -50,10 +57,16 @@ export async function POST(req: NextRequest){
       //does not exist 
     }
 
+
+    // convert to string 
+    const requiredTime = convertHoursToTimeString(duration);
+
+
+
      const [result] = await db.query(
       updateInitial,
       [
-        duration,
+        requiredTime,
         schoolID,
         email
       ]
