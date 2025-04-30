@@ -51,7 +51,6 @@ const DummyComponent = () => (
       backgroundColor: '#f0f0f0',
       padding: '16px',
       borderRadius: '8px',
-      boxSizing: 'border-box',
       height: '100%',
       width: '100%',
     }}
@@ -59,23 +58,19 @@ const DummyComponent = () => (
     <h3>Dummy Component</h3>
     <p>This is a placeholder for any additional content.</p>
   </div>
-); // additional vcomponent form
+);
 
 const StatisticsPage: React.FC = () => {
   const { loading, setLoading } = useLoading();
-  const { data } = useFetchData<any>('/api/tasks/GET/getStatistics'); // get the user data 
+  const { data } = useFetchData<any>('/api/tasks/GET/getStatistics');
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   setTimeout(() => {
-  //     setUsers([
-  //       { id: 1, name: 'User 1' },
-  //       { id: 2, name: 'User 2' },
-  //       { id: 3, name: 'User 3' },
-  //     ]);
-  //     setLoading(false);
-  //   }, 2000);
-  // }, []);
+  useEffect(() => {
+    setLoading(true);
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+    return () => clearTimeout(timeout);
+  }, []);
 
   return loading ? (
     <Loading />
@@ -88,106 +83,118 @@ const StatisticsPage: React.FC = () => {
       }}
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-        {data.map((user) => (
-          <div
-            key={user.userID}
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              gap: '16px',
-              border: '1px solid #ccc',
-              borderRadius: '12px',
-              padding: '24px',
-              backgroundColor: 'white',
-              flexWrap: 'wrap',
-            }}
-          >
-            {/* LEFT SIDE */}
+        {data.map((user, index) => {// define later
+          const userChartData = dummyData[1] || [];
+
+          return (
             <div
+              key={user.id}
               style={{
-                flex: 2,
                 display: 'flex',
-                flexDirection: 'column',
+                flexDirection: 'row',
                 gap: '16px',
-                minWidth: '300px',
+                border: '1px solid #ccc',
+                borderRadius: '12px',
+                padding: '24px',
+                backgroundColor: 'white',
+                flexWrap: 'wrap',
               }}
             >
-              {/* Card + Chart Row */}
+              {/* LEFT SIDE */}
               <div
                 style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                  flex: 2,
+                  display: 'flex',
+                  flexDirection: 'column',
                   gap: '16px',
-                  width: '100%',
-                  alignItems: 'stretch',
+                  minWidth: '300px',
                 }}
               >
-                <div>
-                  <CardUser 
-                    name={user.name}
-                    schoolID={user.schoolID}
-                  /> 
-                  {/* Props ^ */}
-                </div>
-                <div>
-                  <CardLogs />
-                </div>
+                {/* Card + Chart Row */}
                 <div
                   style={{
-                    backgroundColor: '#f9f9f9',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    border: '1px solid #ddd',
-                    height: '100%',
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                    gap: '16px',
+                    width: '100%',
+                    alignItems: 'stretch',
                   }}
                 >
-                  <ResponsiveContainer width="100%" height={250}>
-                    <BarChart data={dummyData[user.id]}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" />
-                      <YAxis />
-                      <Tooltip />
-                      <Legend />
-                      <Bar dataKey="absences" fill="#8884d8" />
-                      <Bar dataKey="leave" fill="#82ca9d" />
-                      <Bar dataKey="present" fill="#ffc658" />
-                    </BarChart>
-                  </ResponsiveContainer>
+                  <div>
+                    <CardUser
+                      name={user.name}
+                      schoolID={user.schoolID}
+                    />
+                  </div>
+
+                  <div>
+                    <CardLogs />
+                  </div>
+
+                  <div
+                    style={{
+                      backgroundColor: '#f9f9f9',
+                      borderRadius: '8px',
+                      padding: '16px',
+                      border: '1px solid #ddd',
+                      height: '100%',
+                    }}
+                  >
+                    {userChartData.length ? (
+                      <ResponsiveContainer width="100%" height={250}>
+                        <BarChart data={userChartData}>
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis dataKey="name" />
+                          <YAxis />
+                          <Tooltip />
+                          <Legend />
+                          <Bar dataKey="absences" fill="#8884d8" />
+                          <Bar dataKey="leave" fill="#82ca9d" />
+                          <Bar dataKey="present" fill="#ffc658" />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    ) : (
+                      <div style={{ padding: '12px', textAlign: 'center' }}>
+                        <p>No chart data available</p>
+                      </div>
+                    )}
+                  </div>
+
+                  <div>
+                    <CardProgress />
+                  </div>
                 </div>
-                <div>
-                  <CardProgress />
+
+                <div style={{ marginTop: '16px' }}>
+                  <Button>Select Date</Button>
                 </div>
               </div>
 
-              <div style={{ marginTop: '16px' }}>
-                <Button>Select Date</Button>
+              {/* DIVIDER */}
+              <div
+                style={{
+                  width: '1px',
+                  backgroundColor: '#ddd',
+                  margin: '0 8px',
+                  minHeight: '100%',
+                }}
+              />
+
+              {/* RIGHT SIDE */}
+              <div
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  minWidth: '300px',
+                }}
+              >
+                <DummyComponent />
               </div>
             </div>
-
-            {/* DIVIDER */}
-            <div
-              style={{
-                width: '1px',
-                backgroundColor: '#ddd',
-                margin: '0 8px',
-                minHeight: '100%',
-              }}
-            />
-
-            {/* RIGHT SIDE */}
-            <div
-              style={{
-                flex: 1,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                minWidth: '300px',
-              }}
-            >
-              <DummyComponent />
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

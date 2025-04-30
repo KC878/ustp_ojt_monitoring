@@ -46,7 +46,7 @@ const CardLogs =  () => {
         <Text style={{ flex: 1, textAlign: 'left' }}>Date</Text>
         <Text style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>Time In</Text>
         <Text style={{ flex: 1, textAlign: 'center' }}>Time Out</Text>
-        <Text style={{ flex: 1, textAlign: 'right' }}>Hours</Text>
+        <Text style={{ flex: 1, textAlign: 'right' }}>Duration</Text>
       </div>
 
       {/* Data Rows */}
