@@ -192,7 +192,7 @@ const InitialSteps: React.FC<Props>= ( { schools, schoolsLoading }) => {
                 <div>
                   <Text style={{ display: 'block' }}>Required Hours: <b>{numValue}</b></Text>
                   <Text style={{ display: 'block' }}>School ID: <b>{schoolID}</b></Text>
-                  <Text style={{ display: 'block' }}>School Name: <b>{schoolValue}s</b></Text>
+                  <Text style={{ display: 'block' }}>School Name: <b>{schoolValue}</b></Text>
                 </div>
                 <div style={{marginTop: '10px'}}> 
                   <Button type="primary" key="console" loading={pushLoad} onClick={() => {
@@ -312,7 +312,7 @@ const InitialSteps: React.FC<Props>= ( { schools, schoolsLoading }) => {
                   name="schoolId"
                   rules={[
                     { required: true, message: 'Please enter your school ID (acronym)!' },
-                    { max: 10, message: 'Max 10 characters only!' },
+                    { max: 30, message: 'Max 30 characters only!' },
                   ]}
                   style={{ flex: 1 }}
                   

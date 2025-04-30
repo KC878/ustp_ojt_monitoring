@@ -3,6 +3,7 @@ import { RowDataPacket } from 'mysql2';
 import db from '../../../../lib/database/db';
 import { updateStatusLogout, getDailyDuty, insertDailyLogs, afterLogsUpdateStatus } from '../../../../lib/querries/querries';
 import { ymdFormattedDate } from '@src/utils/date';
+import { timeRendered } from '@src/utils/timeRendered';
 
 interface User extends RowDataPacket {
   email: string;
@@ -46,14 +47,28 @@ export async function POST(req: NextRequest){
     if(resultStatus[0].duty === 'complete'){
       const inTime = Number(resultStatus[0].timeIn);
       const newTime = new Date(inTime);
-      const manilaTimeIn = newTime.toLocaleString("en-PH", { timeZone: "Asia/Manila"});
+      const manilaTimeIn = newTime.toLocaleString("en-US", { timeZone: "Asia/Manila"});
 
       const outTime = Number(resultStatus[0].timeOut);
       const newOut = new Date(outTime);
-      const manilaTimeOut = newOut.toLocaleString("en-PH", { timeZone: "Asia/Manila"});
+      const manilaTimeOut = newOut.toLocaleString("en-US", { timeZone: "Asia/Manila"});
 
 
-      const timeIn = newTime.toISOString().slice(0, 10); // this is date for time In
+      // Convert to YYYY-MM-DD using Asia/Manila timezone
+      const options: Intl.DateTimeFormatOptions = { 
+        timeZone: 'Asia/Manila', 
+        year: 'numeric', 
+        month: '2-digit', 
+        day: '2-digit' 
+      };
+      
+      const [month, day, year] = new Intl.DateTimeFormat('en-US', options)
+        .format(newTime)
+        .split('/');
+      
+      const timeIn = `${year}-${month}-${day}`;
+      
+
       // const dateIn = date.toISOString().slice(0, 10);
       console.log(timeIn);
       console.log(ymdFormattedDate); // check date 
@@ -66,6 +81,8 @@ export async function POST(req: NextRequest){
         const timeInFormat = manilaTimeIn.slice(10); // register only the time + Pm or Am 
         const timeOutFormat = manilaTimeOut.slice(10);
         
+        const renderedTime: string = timeRendered(timeInFormat, timeOutFormat);
+        console.log('Rendered Time: ', renderedTime);
         await db.query(
           insertDailyLogs,
           [
@@ -73,7 +90,8 @@ export async function POST(req: NextRequest){
             userID,
             ymdFormattedDate, // createdAt
             timeInFormat, // timeIn
-            timeOutFormat // timeOut     
+            timeOutFormat, // timeOut
+            renderedTime    
           ]
         );
 

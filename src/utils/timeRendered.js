@@ -1,4 +1,4 @@
-function computeExactRenderedTime(timeIn, timeOut) {
+export const timeRendered = (timeIn, timeOut) => {
   // Helper to convert 12-hour time string to Date object
   function parseTime(timeStr) {
     const [time, modifier] = timeStr.split(" ");

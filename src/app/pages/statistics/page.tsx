@@ -88,7 +88,7 @@ const StatisticsPage: React.FC = () => {
 
           return (
             <div
-              key={user.id}
+              key={user.userID}
               style={{
                 display: 'flex',
                 flexDirection: 'row',

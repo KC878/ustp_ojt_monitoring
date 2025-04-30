@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS Daily_Logs (
   createdAt DATE,
   timeIn VARCHAR(50),
   timeOut VARCHAR(50),
-  renderedTime INT,
+  renderedTime VARCHAR(50),
   PRIMARY KEY(logID),
   FOREIGN KEY (userID) REFERENCES Users(userID) ON DELETE CASCADE
 );
