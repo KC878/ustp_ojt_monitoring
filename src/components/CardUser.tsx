@@ -13,7 +13,12 @@ import {
 
 const { Title, Text } = Typography;
 
-const CardUser: React.FC = () => {
+interface Props {
+  name: string;
+  schoolID: string;
+}
+
+const CardUser: React.FC<Props> = ({ name, schoolID}) => {
   // const [showLogs, setShowLogs] = useState(true);
   const [activeKey, setActiveKey] = useState<string[]>(['1']);
 
@@ -107,9 +112,9 @@ const CardUser: React.FC = () => {
             style={{ backgroundColor: '#87d068' }}
           />
           <Title level={4} style={{ margin: 0 }}>
-            {localStorage.getItem('name')}
+            {name}
           </Title>
-          <Text type="secondary">4th Year IT Student</Text>
+          <Text type="secondary">{schoolID}</Text>
         </Space>
       </Card>
 

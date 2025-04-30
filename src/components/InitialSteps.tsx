@@ -273,34 +273,33 @@ const InitialSteps: React.FC<Props>= ( { schools, schoolsLoading }) => {
                   style={{ flex: 2 }}
                 >
                   <Select
-                    labelInValue
-                    style={{
-                      fontSize: 18,
-                      width: '100%',
-                    }}
+                    labelInValue={true}
+                    style={{ fontSize: 18, width: '100%' }}
                     loading={schoolsLoading}
                     placeholder="Select your school"
                     value={
-                      schoolValue
-                        ? { key: schoolID, label: schoolValue }
+                      schoolID && schoolValue
+                        ? { value: schoolID, label: schoolValue }
                         : undefined
                     }
                     onChange={(selectedSchool) => {
-                      setSchoolValue(selectedSchool.label); // e.g., "USTP CDO"
-                      setSchoolID(selectedSchool.key);      // e.g., "USTP"
+                      setSchoolID(selectedSchool.value);  // Access value (schoolID)
+                      setSchoolValue(selectedSchool.label);  // Access label (schoolName)
 
                       form.setFieldsValue({
-                        school: selectedSchool.label,
-                        schoolId: selectedSchool.key,
+                        school: selectedSchool.label,  // Updates the form field for 'school'
+                        schoolId: selectedSchool.value,  // Use schoolID here if needed elsewhere
                       });
                     }}
                   >
-                    {schools.map((school) => (
+                    {schools?.map((school) => (
                       <Select.Option key={school.schoolID} value={school.schoolID}>
                         {school.schoolName}
                       </Select.Option>
                     ))}
                   </Select>
+
+
 
                 </Form.Item>
               </>
@@ -348,7 +347,7 @@ const InitialSteps: React.FC<Props>= ( { schools, schoolsLoading }) => {
                       const upperName = e.target.value;
                       const titleSchoolName = toSmartTitleCase(upperName);
 
-                      
+
                       setSchoolValue(titleSchoolName);
                     }}
                   />

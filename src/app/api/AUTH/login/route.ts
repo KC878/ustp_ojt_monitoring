@@ -89,16 +89,18 @@ export async function POST(req: NextRequest){
 
      const [resultLogs]: any = await db.query(getDailyLogs, [email, ymdFormattedDate]);
 
-     if(resultLogs.length > 0){
-      console.log(resultLogs[0]);
-      console.log(messages.ERROR.DONE_DUTY);
-      return NextResponse.json(
-        { message: messages.ERROR.DONE_DUTY},
-        { status: 401 }
-      )
-     }
 
-     /// UPDATE STATUS FOR USER_STATU
+     // uncomment later
+    //  if(resultLogs.length > 0){
+    //   console.log(resultLogs[0]);
+    //   console.log(messages.ERROR.DONE_DUTY);
+    //   return NextResponse.json(
+    //     { message: messages.ERROR.DONE_DUTY},
+    //     { status: 401 }
+    //   )
+    //  }
+
+     /// UPDATE STATUS FOR USER_STATUs
     const [resultStatus]: any = await db.query(getDailyDuty, [email]);
     
     let duty = '';

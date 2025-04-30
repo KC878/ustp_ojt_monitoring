@@ -19,6 +19,7 @@ import {
 
 import { Button } from 'antd';
 import { useLoading } from '@src/store/useLoading';
+import { useFetchData } from '@src/services/useFetchData';
 
 const dummyData = {
   1: [
@@ -58,23 +59,23 @@ const DummyComponent = () => (
     <h3>Dummy Component</h3>
     <p>This is a placeholder for any additional content.</p>
   </div>
-);
+); // additional vcomponent form
 
 const StatisticsPage: React.FC = () => {
   const { loading, setLoading } = useLoading();
-  const [users, setUsers] = useState<Array<any>>([]);
+  const { data } = useFetchData<any>('/api/tasks/GET/getStatistics'); // get the user data 
 
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setUsers([
-        { id: 1, name: 'User 1' },
-        { id: 2, name: 'User 2' },
-        { id: 3, name: 'User 3' },
-      ]);
-      setLoading(false);
-    }, 2000);
-  }, []);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   setTimeout(() => {
+  //     setUsers([
+  //       { id: 1, name: 'User 1' },
+  //       { id: 2, name: 'User 2' },
+  //       { id: 3, name: 'User 3' },
+  //     ]);
+  //     setLoading(false);
+  //   }, 2000);
+  // }, []);
 
   return loading ? (
     <Loading />
@@ -87,9 +88,9 @@ const StatisticsPage: React.FC = () => {
       }}
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-        {users.map((user) => (
+        {data.map((user) => (
           <div
-            key={user.id}
+            key={user.userID}
             style={{
               display: 'flex',
               flexDirection: 'row',
@@ -122,7 +123,11 @@ const StatisticsPage: React.FC = () => {
                 }}
               >
                 <div>
-                  <CardUser />
+                  <CardUser 
+                    name={user.name}
+                    schoolID={user.schoolID}
+                  /> 
+                  {/* Props ^ */}
                 </div>
                 <div>
                   <CardLogs />

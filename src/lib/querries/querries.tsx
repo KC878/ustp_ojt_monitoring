@@ -1,5 +1,8 @@
 
 // get
+export const getStatistics = `
+  SELECT userID, name, schoolID FROM Users
+`; // dummy 
 
 export const getRoles = "SELECT roleID, role FROM Roles";
 
