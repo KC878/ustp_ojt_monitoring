@@ -93,7 +93,7 @@ const CardUser: React.FC<Props> = ({ name, schoolID}) => {
               cursor: 'pointer',
             }}
             key="logs"
-            onClick={() => setShowLogs(!showLogs)}
+            // onClick={() => setShowLogs(!showLogs)}
           >
             <EllipsisOutlined
               style={{
@@ -114,7 +114,7 @@ const CardUser: React.FC<Props> = ({ name, schoolID}) => {
           <Title level={4} style={{ margin: 0 }}>
             {name}
           </Title>
-          <Text type="secondary">{schoolID}</Text>
+          <Text type="secondary">{schoolID !== null ? schoolID : 'Not Set'}</Text>
         </Space>
       </Card>
 

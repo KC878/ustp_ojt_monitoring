@@ -1,25 +1,14 @@
 
 import React from 'react';
 import { Progress, Typography } from 'antd'; // Assuming you are using Ant Design
-
+import { Logs } from '@src/utils/interfaces';
 
 const { Title, Text } = Typography;
 
-const CardLogs =  () => {
-
-  const logsData = [
-    { date: '2025-04-01', timeIn: '09:05 AM', timeOut: '10:00 AM', status: '8 Hrs' },
-    { date: '2025-04-02', timeIn: '09:05 AM', timeOut: '10:00 AM', status: '8 Hrs' },
-    { date: '2025-04-03', timeIn: '09:05 AM', timeOut: '10:00 AM', status: '8 Hrs' },
-    { date: '2025-04-04', timeIn: '09:05 AM', timeOut: '10:00 AM', status: '8 Hrs' },
-    { date: '2025-04-03', timeIn: '09:05 AM', timeOut: '10:00 AM', status: '8 Hrs' },
-    { date: '2025-04-04', timeIn: '09:05 AM', timeOut: '10:00 AM', status: '8 Hrs' },
-    { date: '2025-04-03', timeIn: '09:05 AM', timeOut: '10:00 AM', status: '8 Hrs' },
-    { date: '2025-04-04', timeIn: '09:05 AM', timeOut: '10:00 AM', status: '8 Hrs' },
-    { date: '2025-04-03', timeIn: '09:05 AM', timeOut: '10:00 AM', status: '8 Hrs' },
-    { date: '2025-04-04', timeIn: '09:05 AM', timeOut: '10:00 AM', status: '8 Hrs' },
-  ];
-
+interface Props {
+  logs: Logs[];
+}
+const CardLogs:  React.FC<Props> =  ({ logs }) => {
 
   return (
     <div
@@ -56,8 +45,8 @@ const CardLogs =  () => {
           overflowY: 'auto',
         }}
       >
-        {logsData.map((log, index) => {
-          const isLastItem = index === logsData.length - 1;
+        {logs.map((log, index) => {
+          const isLastItem = index === logs.length - 1;
 
           return (
             <div
@@ -70,11 +59,12 @@ const CardLogs =  () => {
                 boxSizing: 'border-box',
               }}
             >
-              <Text style={{ flex: 1 }}>{log.date}</Text>
+              {/* now create */}
+              <Text style={{ flex: 1 }}>{log.createdAt.slice(0, 10)}</Text>
               <Text style={{ flex: 1, textAlign: 'center' }}>{log.timeIn || '-'}</Text>
               <Text style={{ flex: 1, textAlign: 'center' }}>{log.timeOut || '-'}</Text>
               <Text style={{ flex: 1, textAlign: 'right' }}>
-                  {log.renderedHours || log.status || '-'}
+                  {log.renderedTime}
                 </Text>
             </div>
           );

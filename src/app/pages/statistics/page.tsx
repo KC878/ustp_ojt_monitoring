@@ -20,6 +20,7 @@ import {
 import { Button } from 'antd';
 import { useLoading } from '@src/store/useLoading';
 import { useFetchData } from '@src/services/useFetchData';
+import { getLogs } from '@src/utils/getLogs';
 
 const dummyData = {
   1: [
@@ -62,7 +63,8 @@ const DummyComponent = () => (
 
 const StatisticsPage: React.FC = () => {
   const { loading, setLoading } = useLoading();
-  const { data } = useFetchData<any>('/api/tasks/GET/getStatistics');
+  const { data: Users } = useFetchData<any>('/api/tasks/GET/getStatistics');
+  const { data: Logs } = useFetchData<any>('/api/tasks/GET/getStatLogs');
 
   useEffect(() => {
     setLoading(true);
@@ -71,6 +73,9 @@ const StatisticsPage: React.FC = () => {
     }, 1000);
     return () => clearTimeout(timeout);
   }, []);
+
+
+
 
   return loading ? (
     <Loading />
@@ -83,9 +88,9 @@ const StatisticsPage: React.FC = () => {
       }}
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-        {data.map((user, index) => {// define later
+        {Users.map((user, index) => {// define later
           const userChartData = dummyData[1] || [];
-
+          // alert(user.email);
           return (
             <div
               key={user.userID}
@@ -126,9 +131,12 @@ const StatisticsPage: React.FC = () => {
                       schoolID={user.schoolID}
                     />
                   </div>
-
+                  
                   <div>
-                    <CardLogs />
+                  <CardLogs logs={
+                    getLogs({ logs: Logs, userEmail: user.email })
+                  }/>
+
                   </div>
 
                   <div

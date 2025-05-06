@@ -1,8 +1,13 @@
 
 // get
 export const getStatistics = `
-  SELECT userID, name, schoolID FROM Users
-`; // dummy 
+  SELECT email, userID, name, schoolID FROM Users
+  ORDER BY name
+`;
+export const getStatLogs = `
+  SELECT email, createdAt, timeIn, timeOut, renderedTime
+  FROM Daily_Logs
+`;
 
 export const getRoles = "SELECT roleID, role FROM Roles";
 
@@ -19,6 +24,8 @@ export const getDailyLogs = `
   WHERE email = ? AND 
   createdAt = ? 
 `;
+
+
 
 
 export const getSchools = `
