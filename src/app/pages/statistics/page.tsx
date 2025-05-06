@@ -130,6 +130,7 @@ const StatisticsPage: React.FC = () => {
                     <CardUser
                       name={user.name}
                       schoolID={user.schoolID}
+                      dataLogs={getLogs({ logs: Logs, userEmail: user.email })}
                     />
                   </div>
                   
@@ -157,9 +158,11 @@ const StatisticsPage: React.FC = () => {
                           <YAxis />
                           <Tooltip />
                           <Legend />
-                          <Bar dataKey="absences" fill="#8884d8" />
-                          <Bar dataKey="leave" fill="#82ca9d" />
-                          <Bar dataKey="present" fill="#ffc658" />
+                          <Bar dataKey="present" fill="#52c41a" />     {/* green */}
+                          <Bar dataKey="leave" fill="#ffa500" />      {/* orange */}
+                          <Bar dataKey="absences" fill="#ff4d4f" />   {/* red */}
+                          
+
                         </BarChart>
                       </ResponsiveContainer>
                     ) : (
