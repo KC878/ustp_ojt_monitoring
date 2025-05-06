@@ -21,6 +21,7 @@ import { Button } from 'antd';
 import { useLoading } from '@src/store/useLoading';
 import { useFetchData } from '@src/services/useFetchData';
 import { getLogs } from '@src/utils/getLogs';
+import { timeRendredTotal } from '@src/utils/timeRenderedTotal';
 
 const dummyData = {
   1: [
@@ -169,7 +170,9 @@ const StatisticsPage: React.FC = () => {
                   </div>
 
                   <div>
-                    <CardProgress />
+                    <CardProgress timeAccumulated={
+                      timeRendredTotal({ logs: Logs, userEmail: user.email})
+                    }duration={user.duration}/>
                   </div>
                 </div>
 

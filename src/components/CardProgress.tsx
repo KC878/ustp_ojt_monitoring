@@ -1,9 +1,17 @@
 import React from 'react';
 import { Progress, Typography } from 'antd';
+import { getRenderedPercentage } from '@src/utils/getRenderedPercentage';
 
 const { Text } = Typography;
 
-const CardProgress = () => {
+interface Props {
+  timeAccumulated: string;
+  duration: string;
+
+}
+const CardProgress: React.FC<Props> = ({ timeAccumulated, duration }) => {
+
+
   return (
     <div
       style={{
@@ -21,19 +29,19 @@ const CardProgress = () => {
       {/* Circular progress */}
       <Progress
         type="circle"
-        percent={49}
+        percent={getRenderedPercentage(timeAccumulated, duration)}
         size={120}  // Increase width for a larger circle
-        strokeColor="#1890ff"
+        strokeColor= {getRenderedPercentage(timeAccumulated, duration) >= 100 ? '#00FF00' : "#1890ff"}
         format={percent => `${percent}%`}
       />
 
       {/* Text Labels below the circle */}
       <div style={{ marginTop: '16px' }}>
         <Text type="secondary" style={{ display: 'block' }}>
-          Total 49 / 100 Hrs
+          {timeAccumulated} / {duration}
         </Text>
         <Text strong type="secondary">
-          49% Completed
+          HH:MM:SS 
         </Text>
       </div>
     </div>

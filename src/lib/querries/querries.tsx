@@ -1,12 +1,13 @@
 
 // get
 export const getStatistics = `
-  SELECT email, userID, name, schoolID FROM Users
+  SELECT email, userID, name, schoolID, duration FROM Users
   ORDER BY name
 `;
 export const getStatLogs = `
   SELECT email, createdAt, timeIn, timeOut, renderedTime
   FROM Daily_Logs
+  ORDER BY createdAt
 `;
 
 export const getRoles = "SELECT roleID, role FROM Roles";
