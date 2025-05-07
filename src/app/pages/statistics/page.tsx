@@ -29,7 +29,8 @@ const dummyData = {
     { name: 'Tue', absences: 5, leave: 1, present: 7 },
     { name: 'Wed', absences: 3, leave: 2, present: 9 },
     { name: 'Thu', absences: 6, leave: 1, present: 6 },
-    { name: 'Fri', absences: 2, leave: 4, present: 10 },
+    { name: 'Fri', absences: 2, leave: 4, present: 10},
+    { name: 'Sat', absences: 5, leave: 4, present: 40},
   ],
   2: [
     { name: 'Mon', absences: 2, leave: 1, present: 10 },
@@ -37,6 +38,7 @@ const dummyData = {
     { name: 'Wed', absences: 4, leave: 1, present: 7 },
     { name: 'Thu', absences: 5, leave: 3, present: 6 },
     { name: 'Fri', absences: 1, leave: 2, present: 11 },
+    { name: 'Sat', absences: 53, leave: 44, present: 40},
   ],
   3: [
     { name: 'Mon', absences: 6, leave: 1, present: 7 },
@@ -44,6 +46,7 @@ const dummyData = {
     { name: 'Wed', absences: 3, leave: 3, present: 6 },
     { name: 'Thu', absences: 2, leave: 2, present: 9 },
     { name: 'Fri', absences: 5, leave: 1, present: 8 },
+    { name: 'Sat', absences: 54, leave: 54, present: 40},
   ],
 };
 
@@ -179,9 +182,9 @@ const StatisticsPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div style={{ marginTop: '16px' }}>
+                {/* <div style={{ marginTop: '16px' }}>
                   <Button>Select Date</Button>
-                </div>
+                </div> */}
               </div>
 
               {/* DIVIDER */}

@@ -23,7 +23,7 @@ interface Props {
 const CardUser: React.FC<Props> = ({ name, schoolID, dataLogs}) => {
   // const [showLogs, setShowLogs] = useState(true);
   const [activeKey, setActiveKey] = useState<string[]>(['1']);
-  const [showPDF, setShowPDF] = useState<Boolean>(false);
+  const [showPDF, setShowPDF] = useState<boolean>(false);
 
   const handleOpenPDFWindow = () => { 
     setTimeout(() => {
