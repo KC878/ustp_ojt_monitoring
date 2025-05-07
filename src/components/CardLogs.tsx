@@ -10,7 +10,14 @@ interface Props {
   logs: Logs[];
 }
 const CardLogs:  React.FC<Props> =  ({ logs }) => {
+ 
 
+  const getStatusColor = (status: string) => {
+    if (status === 'absent') return '#e74c3c';     // soft red
+    if (status === 'onLeave') return '#f1c40f';    // soft yellow
+    return 'black';                              // soft green
+  };
+  
   return (
     <div
       style={{
@@ -37,6 +44,7 @@ const CardLogs:  React.FC<Props> =  ({ logs }) => {
           borderBottom: '1px solid #d9d9d9',
           paddingRight: '30px', // for scrollbar alignment
           boxSizing: 'border-box',
+          
         }}
       >
         <Text style={{ flex: 1, textAlign: 'left' }}>Date</Text>
@@ -69,15 +77,19 @@ const CardLogs:  React.FC<Props> =  ({ logs }) => {
                 backgroundColor: '#fff',
                 boxSizing: 'border-box',
               }}
+              
             >
-              {/* now create */}
-              <Text style={{ flex: 1 }}>{toManilaYYMMDD(log.createdAt)}</Text>
-              <Text style={{ flex: 1, textAlign: 'center' }}>{log.timeIn || '-'}</Text>
-              <Text style={{ flex: 1, textAlign: 'center' }}>{log.timeOut || '-'}</Text>
-              <Text style={{ flex: 1, textAlign: 'right' }}>
-                  {log.renderedTime}
-                </Text>
-            </div>
+            <Text style={{ 
+              flex: 1, textAlign: 'left', color: getStatusColor(log.attendanceStatus),
+            }}>{toManilaYYMMDD(log.createdAt)}</Text>
+            <Text style={{ flex: 1, textAlign: 'center', color: getStatusColor(log.attendanceStatus),
+            }}>{log.timeIn || '-'}</Text>
+            <Text style={{ flex: 1, textAlign: 'center', color: getStatusColor(log.attendanceStatus),
+            }}>{log.timeOut || '-'}</Text>
+            <Text style={{ flex: 1, textAlign: 'right',color: getStatusColor(log.attendanceStatus),  
+            }}>{log.renderedTime}</Text>
+          </div>
+
           );
         })}
       </div>
