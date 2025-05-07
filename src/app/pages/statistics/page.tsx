@@ -29,11 +29,10 @@ const StatisticsPage: React.FC = () => {
   }, []);
 
 
-
-
   return loading ? (
     <Loading />
   ) : (
+    
     <div
       style={{
         minHeight: '100vh',
@@ -43,105 +42,108 @@ const StatisticsPage: React.FC = () => {
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         {Users.map((user, index) => {// define later
-        
-          // alert(user.email);
-          return (
-            <div
-              key={user.userID}
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                gap: '16px',
-                border: '1px solid #ccc',
-                borderRadius: '12px',
-                padding: '24px',
-                backgroundColor: 'white',
-                flexWrap: 'wrap',
-              }}
-            >
-              {/* LEFT SIDE */}
+
+          if(user.roleID === 1) {
+              // alert(user.email);
+            return (
               <div
+                key={user.userID}
                 style={{
-                  flex: 2,
                   display: 'flex',
-                  flexDirection: 'column',
+                  flexDirection: 'row',
                   gap: '16px',
-                  minWidth: '300px',
+                  border: '1px solid #ccc',
+                  borderRadius: '12px',
+                  padding: '24px',
+                  backgroundColor: 'white',
+                  flexWrap: 'wrap',
                 }}
               >
-             
+                {/* LEFT SIDE */}
                 <div
                   style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                    flex: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
                     gap: '16px',
-                    width: '100%',
-                    alignItems: 'stretch',
+                    minWidth: '300px',
                   }}
                 >
-                  <div>
-                    <CardUser
-                      name={user.name}
-                      schoolID={user.schoolID}
-                      dataLogs={getLogs({ logs: Logs, userEmail: user.email })}
-                    />
-                  </div>
-                  
-                  <div>
-                  <CardLogs logs={
-                    getLogs({ logs: Logs, userEmail: user.email })
-                  }/>
-
-                  </div>
-
+              
                   <div
                     style={{
-                      backgroundColor: 'white',
-                      borderRadius: '8px',
-                      padding: '16px',
-                      border: '1px solid #ddd',
-                      height: '100%',
-                      boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                      gap: '16px',
+                      width: '100%',
+                      alignItems: 'stretch',
                     }}
                   >
-                    {/* Graph Component */}
-                    <CardGraph userChartData={getLogsPerDay({ logs: Logs, userEmail: user.email })}/>
-                  </div>
+                    <div>
+                      <CardUser
+                        name={user.name}
+                        schoolID={user.schoolID}
+                        dataLogs={getLogs({ logs: Logs, userEmail: user.email })}
+                      />
+                    </div>
+                    
+                    <div>
+                    <CardLogs logs={
+                      getLogs({ logs: Logs, userEmail: user.email })
+                    }/>
 
-                  <div>
-                    <CardProgress timeAccumulated={
-                      timeRendredTotal({ logs: Logs, userEmail: user.email})
-                    }duration={user.duration}/>
+                    </div>
+
+                    <div
+                      style={{
+                        backgroundColor: 'white',
+                        borderRadius: '8px',
+                        padding: '16px',
+                        border: '1px solid #ddd',
+                        height: '100%',
+                        boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                      }}
+                    >
+                      {/* Graph Component */}
+                      <CardGraph userChartData={getLogsPerDay({ logs: Logs, userEmail: user.email })}/>
+                    </div>
+
+                    <div>
+                      <CardProgress timeAccumulated={
+                        timeRendredTotal({ logs: Logs, userEmail: user.email})
+                      }duration={user.duration}/>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* DIVIDER */}
-              {/* <div
-                style={{
-                  width: '1px',
-                  backgroundColor: '#ddd',
-                  margin: '0 8px',
-                  minHeight: '100%',
-                }}
-              /> */}
+                {/* DIVIDER */}
+                {/* <div
+                  style={{
+                    width: '1px',
+                    backgroundColor: '#ddd',
+                    margin: '0 8px',
+                    minHeight: '100%',
+                  }}
+                /> */}
 
-              {/* RIGHT SIDE */}
-              <div
-                style={{
-                  flex: 1,
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  minWidth: '300px',
-                  backgroundColor: 'white',
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
-                }}
-              >
-                <AttendanceControl />
+                {/* RIGHT SIDE */}
+                <div
+                  style={{
+                    flex: 1,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    minWidth: '300px',
+                    backgroundColor: 'white',
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+                  }}
+                >
+                  <AttendanceControl/>
+                </div>
               </div>
-            </div>
-          );
+            );
+          }
+          
         })}
       </div>
     </div>

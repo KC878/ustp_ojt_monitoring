@@ -78,8 +78,8 @@ const Dashboard: React.FC<DashboardProps> = ({
         onClick={() => {
           
           const allowLogout = localStorage.getItem('allow-logout');
-
-          if(allowLogout === 'true'){
+          const roleID = Number(localStorage.getItem('roleID')); // if roleID is 2 which means supervisor
+          if(allowLogout === 'true' || roleID === 2){
             const setShowLogoutPage = useAuth.getState().setShowLogoutPage;
             setShowLogoutPage(true);
           }else{

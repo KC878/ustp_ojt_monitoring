@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, List, Progress, Typography, Badge } from 'antd';
+import { Avatar, List, Typography, Badge } from 'antd';
 import VirtualList from 'rc-virtual-list';
-import type { ProgressProps } from 'antd';
+
 import CountdownTimer from './CountdownTimer';
 
 const { Text } = Typography;
 
-interface StudentType {
+interface UserType {
   userID: string;
   name: string;
   email: string;
@@ -15,11 +15,12 @@ interface StudentType {
   timeIn: string;
   timeOut: string;
   duty: string;
+  roleID: number;
 }
 
 
 interface Props {
-  data: StudentType[]
+  data: UserType[]
 }
 
 
@@ -37,33 +38,33 @@ const Userslist: React.FC<Props>= ( { data } ) => {
     return () => clearInterval(timer);
   }, []);
 
-  const formatTime = (seconds: number) => {
-    const hrs = Math.floor(seconds / 3600);
-    const mins = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-    return `${hrs.toString().padStart(2, '0')}:${mins
-      .toString()
-      .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  };
+  // const formatTime = (seconds: number) => {
+  //   const hrs = Math.floor(seconds / 3600);
+  //   const mins = Math.floor((seconds % 3600) / 60);
+  //   const secs = seconds % 60;
+  //   return `${hrs.toString().padStart(2, '0')}:${mins
+  //     .toString()
+  //     .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  // };
 
-  const conicColors: ProgressProps['strokeColor'] = {
-    '0%': '#87d068',
-    '50%': '#ffe58f',
-    '100%': '#ffccc7',
-  };
+  // const conicColors: ProgressProps['strokeColor'] = {
+  //   '0%': '#87d068',
+  //   '50%': '#ffe58f',
+  //   '100%': '#ffccc7',
+  // };
 
-  const totalSeconds = 8 * 60 * 60;
-  const renderedPercent = ((totalSeconds - timeLeft) / totalSeconds) * 100; // fetch from database -
+  // const totalSeconds = 8 * 60 * 60;
+  // const renderedPercent = ((totalSeconds - timeLeft) / totalSeconds) * 100; // fetch from database -
   
 
   // Get status color
-  const getStatusColor = (status: string) => {
-    if (status === 'Active') return 'green';
-    else return 'red';
-  };
+  // const getStatusColor = (status: string) => {
+  //   if (status === 'Active') return 'green';
+  //   else return 'red';
+  // };
 
 
-  const nameTimer = localStorage.getItem('email') + 'Timer';
+  // const nameTimer = localStorage.getItem('email') + 'Timer';
 
   return (
     <List>
@@ -122,21 +123,27 @@ const Userslist: React.FC<Props>= ( { data } ) => {
               {/* ////////////////////////////////////////////////// */}
 
               
-
+              
               {/* Right side: Progress Circles */}
               <div style={{ marginLeft: '120px', display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
                 {/* Display current date */}
                 <Text type="secondary">Today</Text>
-                {
-                  data[index].status === 'active' ? (
-                    <CountdownTimer 
-                      timeIn={data[index].timeIn}
-                      email={data[index].email}
-                    />
+                { data[index].roleID === 1 ? (
+                    data[index].status === 'active' ? (
+                      
+                      <CountdownTimer 
+                        timeIn={data[index].timeIn}
+                        email={data[index].email}
+                      />
+                    ) : (
+                      'Student'
+                    )
                   ) : (
-                    'User Is Offline'
+                    'Supervisor'
                   )
+                  
                 }
+    
                 
                 
               </div>

@@ -161,13 +161,14 @@ const LoginPage = () => {
                   `,
                   placement: 'topRight',  // Notification position
                 });
-
+                // alert(user.roleID);
                 // store result token and user to localStorage
                 localStorage.setItem('token', loginToken);
                 localStorage.setItem('user', JSON.stringify(user));
                 localStorage.setItem('email', user.email);
                 localStorage.setItem('name', user.name);
-
+                localStorage.setItem('roleID', user.roleID);
+                
 
                 // alert(`${user.duration} ${user.schoolID}`);
                 setLoading(true);

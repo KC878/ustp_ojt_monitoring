@@ -5,8 +5,8 @@ INSERT INTO Roles (role) VALUES
   ('supervisor');
 
 -- Insert data into Users table
-INSERT INTO Users (userID, name, email, password, roleID, duration) VALUES
-  ('123e4567-e89b-12d3-a456-426614174000', 'John Doe', 'johndoe@gmail.com', 'password123', 2, 480);
+INSERT INTO Users (userID, name, email, password, roleID) VALUES
+  ('123e4567-e89b-12d3-a456-426614174000', 'Supervisor A.', 'supervisor@gmail.com', '$2b$10$kdIxAeO5h42QOkxxvCEw0uMPrHpvLrGhfr70w4wet6SeUuozLbHmS', 2);
   
 INSERT INTO Schools (schoolID, schoolName) VALUES
 ('AMA CDO', 'AMA Computer University – Cagayan de Oro Campus'),

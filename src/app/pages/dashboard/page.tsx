@@ -79,6 +79,8 @@ const DashboardPage = () => {
     };
   }, [isAuthenticated])
 
+
+  // alert(localStorage.getItem('roleID'));
   // useStates 
   return(
     <ProtectedRoute>

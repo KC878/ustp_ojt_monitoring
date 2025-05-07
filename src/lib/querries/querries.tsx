@@ -1,7 +1,7 @@
 
 // get
 export const getStatistics = `
-  SELECT email, userID, name, schoolID, duration FROM Users
+  SELECT email, userID, name, schoolID, duration, roleID FROM Users
   ORDER BY name
 `;
 export const getStatLogs = `
@@ -12,7 +12,20 @@ export const getStatLogs = `
 
 export const getRoles = "SELECT roleID, role FROM Roles";
 
-export const getUserStatus = `SELECT userID, name, email, timeRendered, status, timeIn, timeOut, duty FROM User_Status ORDER BY name`;
+export const getUserStatus = `SELECT 
+  us.userID, 
+  u.name, 
+  u.email, 
+  us.timeRendered, 
+  us.status, 
+  us.timeIn, 
+  us.timeOut, 
+  us.duty, 
+  u.roleID
+FROM User_Status us
+JOIN Users u ON us.userID = u.userID
+ORDER BY u.name;
+`;
 
 export const getDailyDuty = `
   SELECT userID, dateIn, timeIn, timeOut, duty FROM User_Status

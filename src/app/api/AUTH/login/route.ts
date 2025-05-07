@@ -125,6 +125,7 @@ export async function POST(req: NextRequest){
 
     console.log('SCHOOOOL ID: ',user.schoolID);
     console.log(user.duration);
+    console.log(user.roleID)
     const success = NextResponse.json(
       { message: 'Login Successfully!',
         token, // include the token in Response
@@ -135,6 +136,7 @@ export async function POST(req: NextRequest){
           duty: duty,
           duration: user.duration,
           schoolID: user.schoolID,
+          roleID: user.roleID,
         }
       },
       { status: 200 }

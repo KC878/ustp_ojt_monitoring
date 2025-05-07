@@ -72,10 +72,10 @@ CREATE TABLE IF NOT EXISTS Daily_Logs (
 );
 
 -- 5 Leave request
-CREATE TABLE IF NOT EXISTS onLeave (
-	leaveID INT AUTO_INCREMENT,
-    leaveDate DATE,
-    userID CHAR(36) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    FOREIGN KEY (userID) REFERENCES Users(userID) ON DELETE CASCADE
-);
+-- CREATE TABLE IF NOT EXISTS onLeave (
+-- 	leaveID INT AUTO_INCREMENT,
+--     leaveDate DATE,
+--     userID CHAR(36) NOT NULL,
+--     email VARCHAR(100) NOT NULL,
+--     FOREIGN KEY (userID) REFERENCES Users(userID) ON DELETE CASCADE
+-- );
