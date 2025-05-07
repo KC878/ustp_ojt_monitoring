@@ -5,8 +5,10 @@ import { QuestionCircleTwoTone } from '@ant-design/icons';
 const { Text } = Typography;
 const { Header } = Layout;
 
-
-const AttendanceControl: React.FC = () => {
+interface Props { 
+  email: string;
+}
+const AttendanceControl: React.FC<Props> = ({ email }) => {
   const roleID = Number(localStorage.getItem('roleID'));
   // alert(roleID);
 
@@ -54,6 +56,9 @@ const AttendanceControl: React.FC = () => {
               }}
               onMouseEnter={() => setHoverOnLeave(true)}
               onMouseLeave={() => setHoverOnLeave(false)}
+              onClick={() => {
+                alert(`Leave:  ${email}`);
+              }}
             >
               On Leave
             </Button>
@@ -73,6 +78,9 @@ const AttendanceControl: React.FC = () => {
               }}
               onMouseEnter={() => setHoverAbsent(true)}
               onMouseLeave={() => setHoverAbsent(false)}
+              onClick={() => {
+                alert(`Absent:  ${email}`);
+              }}
             >
               Absent
             </Button>
