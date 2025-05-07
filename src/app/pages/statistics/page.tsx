@@ -1,54 +1,23 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Loading from '@src/components/Loading';
 import CardUser from '@src/components/CardUser';
 import CardProgress from '@src/components/CardProgress';
 import CardLogs from '@src/components/CardLogs';
-
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts';
-
-import { Button } from 'antd';
+import CardGraph from '@src/components/CardGraph';
 import { useLoading } from '@src/store/useLoading';
 import { useFetchData } from '@src/services/useFetchData';
 import { getLogs } from '@src/utils/getLogs';
 import { timeRendredTotal } from '@src/utils/timeRenderedTotal';
 
-const dummyData = {
-  1: [
+const dummyData = [
     { name: 'Mon', absences: 4, leave: 2, present: 8 },
     { name: 'Tue', absences: 5, leave: 1, present: 7 },
     { name: 'Wed', absences: 3, leave: 2, present: 9 },
-    { name: 'Thu', absences: 6, leave: 1, present: 6 },
     { name: 'Fri', absences: 2, leave: 4, present: 10},
-    { name: 'Sat', absences: 5, leave: 4, present: 40},
-  ],
-  2: [
-    { name: 'Mon', absences: 2, leave: 1, present: 10 },
-    { name: 'Tue', absences: 3, leave: 2, present: 8 },
-    { name: 'Wed', absences: 4, leave: 1, present: 7 },
-    { name: 'Thu', absences: 5, leave: 3, present: 6 },
-    { name: 'Fri', absences: 1, leave: 2, present: 11 },
-    { name: 'Sat', absences: 53, leave: 44, present: 40},
-  ],
-  3: [
-    { name: 'Mon', absences: 6, leave: 1, present: 7 },
-    { name: 'Tue', absences: 4, leave: 2, present: 9 },
-    { name: 'Wed', absences: 3, leave: 3, present: 6 },
-    { name: 'Thu', absences: 2, leave: 2, present: 9 },
-    { name: 'Fri', absences: 5, leave: 1, present: 8 },
-    { name: 'Sat', absences: 54, leave: 54, present: 40},
-  ],
-};
+    { name: 'Sat', absences: 54, leave: 4, present: 40},
+]
 
 const DummyComponent = () => (
   <div
@@ -153,26 +122,8 @@ const StatisticsPage: React.FC = () => {
                       height: '100%',
                     }}
                   >
-                    {userChartData.length ? (
-                      <ResponsiveContainer width="100%" height={250}>
-                        <BarChart data={userChartData}>
-                          <CartesianGrid strokeDasharray="3 3" />
-                          <XAxis dataKey="name" />
-                          <YAxis />
-                          <Tooltip />
-                          <Legend />
-                          <Bar dataKey="present" fill="#52c41a" />     {/* green */}
-                          <Bar dataKey="leave" fill="#ffa500" />      {/* orange */}
-                          <Bar dataKey="absences" fill="#ff4d4f" />   {/* red */}
-                          
-
-                        </BarChart>
-                      </ResponsiveContainer>
-                    ) : (
-                      <div style={{ padding: '12px', textAlign: 'center' }}>
-                        <p>No chart data available</p>
-                      </div>
-                    )}
+                    {/* Graph Component */}
+                    <CardGraph userChartData={dummyData}/>
                   </div>
 
                   <div>
@@ -181,10 +132,6 @@ const StatisticsPage: React.FC = () => {
                     }duration={user.duration}/>
                   </div>
                 </div>
-
-                {/* <div style={{ marginTop: '16px' }}>
-                  <Button>Select Date</Button>
-                </div> */}
               </div>
 
               {/* DIVIDER */}
