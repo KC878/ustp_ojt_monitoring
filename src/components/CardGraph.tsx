@@ -11,15 +11,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-
-
-// One day's record
-interface AttendanceRecord {
-  name: string;       // e.g., 'Mon', 'Tue', etc.
-  absences: number;
-  leave: number;
-  present: number;
-}
+import { AttendanceRecord } from '@src/utils/interfaces';
 
 // Main dummyData object
 interface Props {

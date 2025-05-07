@@ -91,7 +91,8 @@ export async function POST(req: NextRequest){
             ymdFormattedDate, // createdAt
             timeInFormat, // timeIn
             timeOutFormat, // timeOut
-            renderedTime    
+            renderedTime,
+            'present',  
           ]
         );
 

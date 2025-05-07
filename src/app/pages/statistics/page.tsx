@@ -9,15 +9,9 @@ import CardGraph from '@src/components/CardGraph';
 import { useLoading } from '@src/store/useLoading';
 import { useFetchData } from '@src/services/useFetchData';
 import { getLogs } from '@src/utils/getLogs';
+import { getLogsPerDay } from '@src/utils/getLogsPerDay';
 import { timeRendredTotal } from '@src/utils/timeRenderedTotal';
 
-const dummyData = [
-    { name: 'Mon', absences: 4, leave: 2, present: 8 },
-    { name: 'Tue', absences: 5, leave: 1, present: 7 },
-    { name: 'Wed', absences: 3, leave: 2, present: 9 },
-    { name: 'Fri', absences: 2, leave: 4, present: 10},
-    { name: 'Sat', absences: 54, leave: 4, present: 40},
-]
 
 const DummyComponent = () => (
   <div
@@ -62,7 +56,7 @@ const StatisticsPage: React.FC = () => {
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         {Users.map((user, index) => {// define later
-          const userChartData = dummyData[1] || [];
+        
           // alert(user.email);
           return (
             <div
@@ -123,7 +117,7 @@ const StatisticsPage: React.FC = () => {
                     }}
                   >
                     {/* Graph Component */}
-                    <CardGraph userChartData={dummyData}/>
+                    <CardGraph userChartData={getLogsPerDay({ logs: Logs, userEmail: user.email})}/>
                   </div>
 
                   <div>

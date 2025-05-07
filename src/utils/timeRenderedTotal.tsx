@@ -1,6 +1,7 @@
 import { Logs } from "./interfaces";
 
 function timeStringToSeconds(time: string): number {
+  if (!time) return 0; // Handle null, undefined, or empty string
   const [hours, minutes, seconds] = time.split(':').map(Number);
   return hours * 3600 + minutes * 60 + seconds;
 }
@@ -17,14 +18,13 @@ export const timeRendredTotal = ({ logs, userEmail }: { logs: Logs[], userEmail:
   let totalSeconds = 0;
 
   logs.forEach(log => {
-    if (log.email === userEmail) {
+    if (log.email === userEmail && log.renderedTime) { // Check if renderedTime is not null or empty
       filteredLogs.push(log);
       totalSeconds += timeStringToSeconds(log.renderedTime);
     }
   });
 
   const totalRenderedTime = secondsToTimeString(totalSeconds);
-
 
   return totalRenderedTime;
 };

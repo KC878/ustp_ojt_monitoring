@@ -5,7 +5,7 @@ export const getStatistics = `
   ORDER BY name
 `;
 export const getStatLogs = `
-  SELECT email, createdAt, timeIn, timeOut, renderedTime
+  SELECT email, createdAt, timeIn, timeOut, renderedTime, attendanceStatus
   FROM Daily_Logs
   ORDER BY createdAt
 `;
@@ -73,7 +73,7 @@ export const updateLogin = `
   WHERE email = ?
 `;
 
-export const insertDailyLogs = "INSERT INTO Daily_Logs (email, userID, createdAt, timeIn, timeOut, renderedTime) VALUES (?, ?, ?, ?, ?, ?)";
+export const insertDailyLogs = "INSERT INTO Daily_Logs (email, userID, createdAt, timeIn, timeOut, renderedTime, attendanceStatus) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 export const afterLogsUpdateStatus = `
   UPDATE User_Status
