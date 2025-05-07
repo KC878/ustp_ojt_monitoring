@@ -23,7 +23,7 @@ const CardGraph:  React.FC<Props> =  ({ userChartData }) => {
   return(
     <>
       {userChartData.length ? (
-        <ResponsiveContainer width="100%" height={250}>
+        <ResponsiveContainer width="100%" height={250} style={{backgroundColor: 'white'}}>
           <BarChart data={userChartData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />

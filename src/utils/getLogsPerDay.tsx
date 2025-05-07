@@ -41,7 +41,7 @@ export const getLogsPerDay = ({
 
         if (status === 'present') {
           dayStats[dayName].present++;
-        } else if (status === "onLeave") {
+        } else if (status === "onleave") { // since toLowerCase method 
           dayStats[dayName].leave++;
         } else if (status === "absent") {
           dayStats[dayName].absences++;

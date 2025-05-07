@@ -2,6 +2,7 @@
 import React from 'react';
 import { Progress, Typography } from 'antd'; // Assuming you are using Ant Design
 import { Logs } from '@src/utils/interfaces';
+import { toManilaYYMMDD } from '@src/utils/toManilaYYMMDD';
 
 const { Title, Text } = Typography;
 
@@ -13,20 +14,26 @@ const CardLogs:  React.FC<Props> =  ({ logs }) => {
   return (
     <div
       style={{
-        width: '370px',
+        width: '100%', // allow it to be responsive
+        minWidth: '250px', // fallback for small screens
         border: '1px solid #d9d9d9',
         borderRadius: 8,
         overflow: 'hidden',
         fontSize: '14px',
+        backgroundColor: '#fff',
+        boxSizing: 'border-box',
+        flex: 1, // allow flexibility in grid/flex layouts
+        boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
       }}
     >
+
       {/* Header Row */}
       <div
         style={{
           display: 'flex',
           fontWeight: 'bold',
           padding: '10px 16px',
-          backgroundColor: '#f5f5f5',
+          backgroundColor: 'white',
           borderBottom: '1px solid #d9d9d9',
           paddingRight: '30px', // for scrollbar alignment
           boxSizing: 'border-box',
@@ -38,13 +45,17 @@ const CardLogs:  React.FC<Props> =  ({ logs }) => {
         <Text style={{ flex: 1, textAlign: 'right' }}>Duration</Text>
       </div>
 
+  
       {/* Data Rows */}
-      <div
-        style={{
-          maxHeight: '340px',
-          overflowY: 'auto',
-        }}
-      >
+        <div
+          style={{
+            maxHeight: 'calc(100vh - 320px)', // adjust to fit your layout
+            overflowY: 'auto',
+            paddingRight: '8px',
+            boxSizing: 'border-box',
+          }}
+        >
+
         {logs.map((log, index) => {
           const isLastItem = index === logs.length - 1;
 
@@ -60,7 +71,7 @@ const CardLogs:  React.FC<Props> =  ({ logs }) => {
               }}
             >
               {/* now create */}
-              <Text style={{ flex: 1 }}>{log.createdAt.slice(0, 10)}</Text>
+              <Text style={{ flex: 1 }}>{toManilaYYMMDD(log.createdAt)}</Text>
               <Text style={{ flex: 1, textAlign: 'center' }}>{log.timeIn || '-'}</Text>
               <Text style={{ flex: 1, textAlign: 'center' }}>{log.timeOut || '-'}</Text>
               <Text style={{ flex: 1, textAlign: 'right' }}>
@@ -75,7 +86,7 @@ const CardLogs:  React.FC<Props> =  ({ logs }) => {
       <div
         style={{
           padding: '10px 16px',
-          backgroundColor: '#f5f5f5',
+          backgroundColor: 'white',
           borderTop: '1px solid #d9d9d9',
           display: 'flex',
           flexDirection: 'column', // Ensure elements stack vertically

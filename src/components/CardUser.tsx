@@ -20,17 +20,15 @@ interface Props {
   dataLogs: Logs[];
 }
 
-const CardUser: React.FC<Props> = ({ name, schoolID, dataLogs}) => {
-  // const [showLogs, setShowLogs] = useState(true);
+const CardUser: React.FC<Props> = ({ name, schoolID, dataLogs }) => {
   const [activeKey, setActiveKey] = useState<string[]>(['1']);
   const [showPDF, setShowPDF] = useState<boolean>(false);
 
-  const handleOpenPDFWindow = () => { 
+  const handleOpenPDFWindow = () => {
     setTimeout(() => {
       setShowPDF(false);
-    }, 3000)
+    }, 3000);
   };
-  
 
   return (
     <>
@@ -42,16 +40,23 @@ const CardUser: React.FC<Props> = ({ name, schoolID, dataLogs}) => {
             display: 'flex',
             gap: 16,
             position: 'relative',
-            width: '350px',
-            maxWidth: '100%',
+            width: '100%',
+            flex: 1,
+            flexWrap: 'wrap', // Allow wrapping of content
+            justifyContent: 'center', // Center the content
           }}
         >
           <Card
             hoverable={true}
             style={{
-              width: 360,
+              width: '100%', // Full width of container
+              maxWidth: '400px', // Max width for the card
+              minWidth: '250px', // Minimum width for small screens
               borderRadius: 16,
               boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+              minHeight: '455px', // Minimum height for small screens
+              maxHeight: '500px', // Maximum height to avoid overflow
+              height: 'auto', // Allow the height to adjust based on content
             }}
             actions={[
               <div
@@ -62,7 +67,7 @@ const CardUser: React.FC<Props> = ({ name, schoolID, dataLogs}) => {
                   cursor: 'pointer',
                 }}
                 key="pdf"
-                onClick={ () => {
+                onClick={() => {
                   handleOpenPDFWindow();
                   setShowPDF(true);
                 }}
@@ -79,7 +84,7 @@ const CardUser: React.FC<Props> = ({ name, schoolID, dataLogs}) => {
           >
             <Space direction="vertical" align="center" style={{ width: '100%' }}>
               <Avatar
-                size={200}
+                size={250} // Adjusted size for smaller screens
                 icon={<UserOutlined />}
                 style={{ backgroundColor: '#87d068' }}
               />
@@ -94,8 +99,6 @@ const CardUser: React.FC<Props> = ({ name, schoolID, dataLogs}) => {
         </div>
       )}
     </>
-    
-    
   );
 };
 

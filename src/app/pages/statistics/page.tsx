@@ -11,22 +11,9 @@ import { useFetchData } from '@src/services/useFetchData';
 import { getLogs } from '@src/utils/getLogs';
 import { getLogsPerDay } from '@src/utils/getLogsPerDay';
 import { timeRendredTotal } from '@src/utils/timeRenderedTotal';
+import AttendanceControl from '@src/components/AttendanceControl';
 
 
-const DummyComponent = () => (
-  <div
-    style={{
-      backgroundColor: '#f0f0f0',
-      padding: '16px',
-      borderRadius: '8px',
-      height: '100%',
-      width: '100%',
-    }}
-  >
-    <h3>Dummy Component</h3>
-    <p>This is a placeholder for any additional content.</p>
-  </div>
-);
 
 const StatisticsPage: React.FC = () => {
   const { loading, setLoading } = useLoading();
@@ -82,7 +69,7 @@ const StatisticsPage: React.FC = () => {
                   minWidth: '300px',
                 }}
               >
-                {/* Card + Chart Row */}
+             
                 <div
                   style={{
                     display: 'grid',
@@ -109,15 +96,16 @@ const StatisticsPage: React.FC = () => {
 
                   <div
                     style={{
-                      backgroundColor: '#f9f9f9',
+                      backgroundColor: 'white',
                       borderRadius: '8px',
                       padding: '16px',
                       border: '1px solid #ddd',
                       height: '100%',
+                      boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
                     }}
                   >
                     {/* Graph Component */}
-                    <CardGraph userChartData={getLogsPerDay({ logs: Logs, userEmail: user.email})}/>
+                    <CardGraph userChartData={getLogsPerDay({ logs: Logs, userEmail: user.email })}/>
                   </div>
 
                   <div>
@@ -129,14 +117,14 @@ const StatisticsPage: React.FC = () => {
               </div>
 
               {/* DIVIDER */}
-              <div
+              {/* <div
                 style={{
                   width: '1px',
                   backgroundColor: '#ddd',
                   margin: '0 8px',
                   minHeight: '100%',
                 }}
-              />
+              /> */}
 
               {/* RIGHT SIDE */}
               <div
@@ -146,9 +134,11 @@ const StatisticsPage: React.FC = () => {
                   justifyContent: 'center',
                   alignItems: 'center',
                   minWidth: '300px',
+                  backgroundColor: 'white',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
                 }}
               >
-                <DummyComponent />
+                <AttendanceControl />
               </div>
             </div>
           );

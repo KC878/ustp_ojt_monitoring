@@ -31,7 +31,8 @@ const CardProgress: React.FC<Props> = ({ timeAccumulated, duration }) => {
     <div
       style={{
         padding: '16px',
-        backgroundColor: '#f5f5f5',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+        backgroundColor: 'white',
         borderTop: '1px solid #d9d9d9',
         display: 'flex',
         justifyContent: 'center', // Center content horizontally
@@ -45,7 +46,7 @@ const CardProgress: React.FC<Props> = ({ timeAccumulated, duration }) => {
       <Progress
         type="circle"
         percent={percent}
-        size={120}  // Increase width for a larger circle
+        size={250}  // Increase width for a larger circle
         strokeColor={color(percent)}  // Dynamic color based on percentage
         format={percent => `${percent}%`}
       />
