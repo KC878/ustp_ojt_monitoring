@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Loading from '@src/components/Loading';
 import CardUser from '@src/components/CardUser';
 import CardProgress from '@src/components/CardProgress';
@@ -11,17 +11,35 @@ import { getLogsPerDay } from '@src/utils/getLogsPerDay';
 import { timeRendredTotal } from '@src/utils/timeRenderedTotal';
 import AttendanceControl from '@src/components/AttendanceControl';
 import { LeaveAbsentIfo } from '@src/utils/interfaces';
-import { useFetchData } from '@src/services/useFetchData';
 
 const StatisticsPage: React.FC = () => {
-  const [reload, setReload] = useState(false);
+  const { loading, setLoading } = useLoading();
+  
+  const [Users, setUsers] = useState<any[]>([]);
+  const [Logs, setLogs] = useState<any[]>([]);
+  const [statLoading, setStatLoading] = useState(true);
+  const [logLoading, setLogLoading] = useState(true);
 
-  // Fetch Users and Logs data using the custom hook
-  const { data: Users, error: usersError, loading: statLoading } = useFetchData<any>(`/api/tasks/GET/getStatistics?reload=${reload}`);
-  const { data: Logs, error: logsError, loading: logLoading } = useFetchData<any>(`/api/tasks/GET/getStatLogs?reload=${reload}`);
+  // Refetch the data
+  const refetchData = async () => {
+    setStatLoading(true);
+    setLogLoading(true);
 
-  // Combine loading states (either statLoading or logLoading triggers global loading)
-  const loading = statLoading || logLoading;
+    try {
+      const userResponse = await fetch('/api/tasks/GET/getStatistics');
+      const userData = await userResponse.json();
+      setUsers(userData);
+
+      const logResponse = await fetch('/api/tasks/GET/getStatLogs');
+      const logData = await logResponse.json();
+      setLogs(logData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setStatLoading(false);
+      setLogLoading(false);
+    }
+  };
 
   const handleLeaveAbsent = async ({ email, userID, attendanceStatus }: LeaveAbsentIfo) => {
     await postData(
@@ -29,21 +47,48 @@ const StatisticsPage: React.FC = () => {
       ['email', 'userID', 'attendanceStatus'], // columns
       [email, userID, attendanceStatus]  // values
     );
-
+    
     setTimeout(() => {
-      // mimic 3 seconds loading
-      setReload(prevState => !prevState); // Toggle reload to trigger refetch
+      setLoading(false); // mimic 3 seconds loading
+      refetchData(); // Refetch the data after the action is completed
     }, 3000);
   };
 
-  // If data is loading, show the loading spinner
-  if (loading) {
-    return <Loading />;
-  }
+  useEffect(() => {
+    // Fetch Users data
+    const fetchUsers = async () => {
+      setStatLoading(true);
+      try {
+        const response = await fetch('/api/tasks/GET/getStatistics');
+        const data = await response.json();
+        setUsers(data);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      } finally {
+        setStatLoading(false);
+      }
+    };
 
-  // Check if there are any errors
-  if (usersError || logsError) {
-    return <div>Error fetching data: {usersError || logsError}</div>;
+    // Fetch Logs data
+    const fetchLogs = async () => {
+      setLogLoading(true);
+      try {
+        const response = await fetch('/api/tasks/GET/getStatLogs');
+        const data = await response.json();
+        setLogs(data);
+      } catch (error) {
+        console.error('Error fetching logs:', error);
+      } finally {
+        setLogLoading(false);
+      }
+    };
+
+    fetchUsers();
+    fetchLogs();
+  }, []); 
+
+  if (statLoading || logLoading) {
+    return <Loading />;
   }
 
   return (
@@ -55,7 +100,7 @@ const StatisticsPage: React.FC = () => {
       }}
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-        {Users.map((user) => {
+        {Users.map((user, index) => {
           if (user.roleID === 1) {
             return (
               <div

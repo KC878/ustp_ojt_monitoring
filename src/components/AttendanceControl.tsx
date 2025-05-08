@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Layout, Typography, Space } from 'antd';
 import { QuestionCircleTwoTone, ClockCircleTwoTone, CloseCircleTwoTone, CheckCircleTwoTone,     } from '@ant-design/icons';
 import { LeaveAbsentIfo } from '@src/utils/interfaces';
-import { useLoading } from '@src/store/useLoading';
+// import { useLoading } from '@src/store/useLoading';
 
 const { Text } = Typography;
 const { Header } = Layout;
@@ -20,14 +20,14 @@ const AttendanceControl: React.FC<Props> = ({ email, userID, handleLeaveAbsent }
   const [hoverOnLeave, setHoverOnLeave] = useState(false);
   const [hoverAbsent, setHoverAbsent] = useState(false);
   
-  const { setLoading } = useLoading();
+  // const { setLoading } = useLoading();
   const [onLeaveLoad, setOnLeaveLoad] = useState(false);
   const [onAbsentLoad, setOnAbsentLoad] = useState(false);
 
   const [status, setStatus] = useState(''); // to hold attendanceStatus icon
 
   const handleClick = (status: string) => {
-    // setLoading(true);
+    
     handleLeaveAbsent({
       email,
       userID,
@@ -40,6 +40,8 @@ const AttendanceControl: React.FC<Props> = ({ email, userID, handleLeaveAbsent }
       if(status === 'absent'){
         setOnAbsentLoad(false);
       }
+
+      // setLoading(true);
     }, 3000)
   }; // return the value to Page 
 
