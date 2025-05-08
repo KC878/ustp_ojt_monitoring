@@ -19,3 +19,9 @@ export interface LeaveAbsentIfo {
   userID: string;
   attendanceStatus: string;
 }
+
+export interface PresentLog {
+  email: string;
+  createdAt: string; // value yy/mm/dd 
+  attendanceStatus: string;
+}

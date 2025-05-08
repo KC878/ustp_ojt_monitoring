@@ -13,4 +13,5 @@ export const getLogs = ({ logs, userEmail }: { logs: Logs[], userEmail: string }
 
   return filteredLogs;
 };
+// return logs only by specific email
 

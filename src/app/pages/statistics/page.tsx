@@ -7,21 +7,28 @@ import CardGraph from '@src/components/CardGraph';
 import { useLoading } from '@src/store/useLoading';
 import { postData } from '@src/services/usePostData';
 import { getLogs } from '@src/utils/getLogs';
+import { getPresentLogs } from '@src/utils/getPresentLogs';
 import { getLogsPerDay } from '@src/utils/getLogsPerDay';
 import { timeRendredTotal } from '@src/utils/timeRenderedTotal';
 import AttendanceControl from '@src/components/AttendanceControl';
-import { LeaveAbsentIfo } from '@src/utils/interfaces';
+import { LeaveAbsentIfo} from '@src/utils/interfaces';
 import { useFetchData } from '@src/services/useFetchData';
 
+
 const StatisticsPage: React.FC = () => {
-  const [reload, setReload] = useState(false);
+  const [reload, setReload] = useState(true);
+  const { loading } = useLoading();
+
 
   // Fetch Users and Logs data using the custom hook
   const { data: Users, error: usersError, loading: statLoading } = useFetchData<any>(`/api/tasks/GET/getStatistics?reload=${reload}`);
   const { data: Logs, error: logsError, loading: logLoading } = useFetchData<any>(`/api/tasks/GET/getStatLogs?reload=${reload}`);
 
+  
+
   // Combine loading states (either statLoading or logLoading triggers global loading)
-  const loading = statLoading || logLoading;
+  
+  const uiLoading = statLoading || logLoading;
 
   const handleLeaveAbsent = async ({ email, userID, attendanceStatus }: LeaveAbsentIfo) => {
     await postData(
@@ -37,7 +44,7 @@ const StatisticsPage: React.FC = () => {
   };
 
   // If data is loading, show the loading spinner
-  if (loading) {
+  if (uiLoading ) {
     return <Loading />;
   }
 
@@ -140,7 +147,7 @@ const StatisticsPage: React.FC = () => {
                     email={user.email}
                     userID={user.userID}
                     handleLeaveAbsent={handleLeaveAbsent}
-                    dataLogs={getLogs({ logs: Logs, userEmail: user.email })}
+                    dataLogs={getPresentLogs({ logs: Logs, userEmail: user.email })} // filteredOnly Show Logs present today
                   />
                 </div>
               </div>

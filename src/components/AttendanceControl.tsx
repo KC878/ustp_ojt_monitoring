@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Layout, Typography, Space } from 'antd';
 import { QuestionCircleTwoTone, ClockCircleTwoTone, CloseCircleTwoTone, CheckCircleTwoTone,     } from '@ant-design/icons';
 import { LeaveAbsentIfo } from '@src/utils/interfaces';
-// import { useLoading } from '@src/store/useLoading';
-import { Logs } from '@src/utils/interfaces';
+import { useLoading } from '@src/store/useLoading';
+import { Logs, PresentLog } from '@src/utils/interfaces';
 const { Text } = Typography;
 const { Header } = Layout;
 
@@ -11,7 +11,7 @@ interface Props {
   email: string;
   userID: string;
   handleLeaveAbsent: (info: LeaveAbsentIfo) => void;
-  dataLogs: Logs[];
+  dataLogs: PresentLog[];
 }
 const AttendanceControl: React.FC<Props> = ({ email, userID, handleLeaveAbsent, dataLogs}) => {
   const roleID = Number(localStorage.getItem('roleID'));
@@ -21,11 +21,22 @@ const AttendanceControl: React.FC<Props> = ({ email, userID, handleLeaveAbsent, 
   const [hoverOnLeave, setHoverOnLeave] = useState(false);
   const [hoverAbsent, setHoverAbsent] = useState(false);
   
-  // const { setLoading } = useLoading();
+  const { loading, setLoading } = useLoading();
   const [onLeaveLoad, setOnLeaveLoad] = useState(false);
   const [onAbsentLoad, setOnAbsentLoad] = useState(false);
 
   const [status, setStatus] = useState(''); // to hold attendanceStatus icon
+  const [disable, setDisable] = useState(false);
+
+  useEffect(() => {
+    if(dataLogs.length <= 0){
+      setStatus(''); // default 
+    }else{
+      setStatus(dataLogs[0].attendanceStatus);
+      setDisable(true);
+    }
+  }, [loading, dataLogs])
+ 
 
   const handleClick = (status: string) => {
     
@@ -42,11 +53,11 @@ const AttendanceControl: React.FC<Props> = ({ email, userID, handleLeaveAbsent, 
         setOnAbsentLoad(false);
       }
 
-      // setLoading(true);
+      setLoading(true);
     }, 3000)
   }; // return the value to Page 
 
-  
+  // setStatus(dataLogs[0].attendanceStatus); // set status here 
   const iconStyle = {
     fontSize: 'clamp(100px, 15vw, 250px)',
     width: '100%',
@@ -56,6 +67,7 @@ const AttendanceControl: React.FC<Props> = ({ email, userID, handleLeaveAbsent, 
   
    // Map status to icon and text
    const getIconAndText = () => {
+    
     switch (status) {
       case 'onLeave':
         return {
@@ -109,16 +121,22 @@ const AttendanceControl: React.FC<Props> = ({ email, userID, handleLeaveAbsent, 
           <>
             {/* On Leave Button */}
             <Button
+              disabled={disable}
               loading={onLeaveLoad}
               type="default"
               size="large"
               style={{
                 fontSize: 'clamp(16px, 2vw, 20px)',
-                color: '#faad14',
-                borderColor: '#faad14',
+                color: disable
+                ? 'gray': '#faad14',
+                borderColor:  disable
+                ? 'gray': '#faad14',
                 width: 'clamp(150px, 40%, 200px)',
                 height: 'clamp(100px, 150px, 200px)',
-                backgroundColor: hoverOnLeave ? '#fffbe6' : 'white',
+                backgroundColor: hoverOnLeave
+                ? '#fffbe6'
+                : 'white'
+
               }}
               onMouseEnter={() => setHoverOnLeave(true)}
               onMouseLeave={() => setHoverOnLeave(false)}
@@ -133,6 +151,7 @@ const AttendanceControl: React.FC<Props> = ({ email, userID, handleLeaveAbsent, 
 
             {/* Absent Button */}
             <Button
+              disabled={disable}
               loading={onAbsentLoad}
               type="default"
               danger
@@ -141,9 +160,13 @@ const AttendanceControl: React.FC<Props> = ({ email, userID, handleLeaveAbsent, 
                 fontSize: 'clamp(16px, 2vw, 20px)',
                 width: 'clamp(150px, 40%, 200px)',
                 height: 'clamp(100px, 150px, 200px)',
-                backgroundColor: hoverAbsent ? '#fff1f0' : 'white', // Light red background
-                borderColor: hoverAbsent ? '#ff4d4f' : '#ff4d4f',
-                color: hoverAbsent ? '#a8071a' : '#ff4d4f',
+                backgroundColor: hoverOnLeave
+                ? '#fff1f0'
+                : 'white',
+                borderColor:  disable
+                ? 'gray': hoverAbsent ? '#ff4d4f' : '#ff4d4f',
+                color:  disable
+                ? 'gray': hoverAbsent ? '#a8071a' : '#ff4d4f',
               }}
               onMouseEnter={() => setHoverAbsent(true)}
               onMouseLeave={() => setHoverAbsent(false)}
