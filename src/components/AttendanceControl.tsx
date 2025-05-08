@@ -3,7 +3,7 @@ import { Button, Layout, Typography, Space } from 'antd';
 import { QuestionCircleTwoTone, ClockCircleTwoTone, CloseCircleTwoTone, CheckCircleTwoTone,     } from '@ant-design/icons';
 import { LeaveAbsentIfo } from '@src/utils/interfaces';
 // import { useLoading } from '@src/store/useLoading';
-
+import { Logs } from '@src/utils/interfaces';
 const { Text } = Typography;
 const { Header } = Layout;
 
@@ -11,8 +11,9 @@ interface Props {
   email: string;
   userID: string;
   handleLeaveAbsent: (info: LeaveAbsentIfo) => void;
+  dataLogs: Logs[];
 }
-const AttendanceControl: React.FC<Props> = ({ email, userID, handleLeaveAbsent }) => {
+const AttendanceControl: React.FC<Props> = ({ email, userID, handleLeaveAbsent, dataLogs}) => {
   const roleID = Number(localStorage.getItem('roleID'));
   // alert(roleID);
 

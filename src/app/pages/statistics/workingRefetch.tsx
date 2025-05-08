@@ -181,11 +181,11 @@ const StatisticsPage: React.FC = () => {
                     boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
                   }}
                 >
-                  <AttendanceControl
+                  {/* <AttendanceControl
                     email={user.email}
                     userID={user.userID}
                     handleLeaveAbsent={handleLeaveAbsent}
-                  />
+                  /> */}
                 </div>
               </div>
             );

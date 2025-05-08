@@ -140,6 +140,7 @@ const StatisticsPage: React.FC = () => {
                     email={user.email}
                     userID={user.userID}
                     handleLeaveAbsent={handleLeaveAbsent}
+                    dataLogs={getLogs({ logs: Logs, userEmail: user.email })}
                   />
                 </div>
               </div>
