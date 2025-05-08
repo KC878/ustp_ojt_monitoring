@@ -13,3 +13,9 @@ export interface AttendanceRecord {
   leave: number;
   present: number;
 }
+
+export interface LeaveAbsentIfo {
+  email: string;
+  userID: string;
+  attendanceStatus: string;
+}

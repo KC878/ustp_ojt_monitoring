@@ -117,11 +117,9 @@ export const updateStatusLogout = `
   WHERE email = ?
 `;
 
-
-// UPDATE TABLE
-//     SET 
-//     dateIn = '0000-00-00',
-//     timeIn = 'empty',
-//     timeOut = 'empty',
-//     duty = 'pending',
-//     WHERE email = 
+/// ATTENDANCE STATUS 
+export const postLeaveAbsent = `
+  INSERT INTO Daily_Logs (
+    email, userID, createdAt, timeIn, timeOut, renderedTime, attendanceStatus
+  ) VALUES (?, ?, ?, ?, ?, ?, ?)
+`

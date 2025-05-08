@@ -8,11 +8,12 @@ import CardLogs from '@src/components/CardLogs';
 import CardGraph from '@src/components/CardGraph';
 import { useLoading } from '@src/store/useLoading';
 import { useFetchData } from '@src/services/useFetchData';
+import { postData } from '@src/services/usePostData';
 import { getLogs } from '@src/utils/getLogs';
 import { getLogsPerDay } from '@src/utils/getLogsPerDay';
 import { timeRendredTotal } from '@src/utils/timeRenderedTotal';
 import AttendanceControl from '@src/components/AttendanceControl';
-
+import { LeaveAbsentIfo } from '@src/utils/interfaces';
 
 
 const StatisticsPage: React.FC = () => {
@@ -28,6 +29,20 @@ const StatisticsPage: React.FC = () => {
     return () => clearTimeout(timeout);
   }, []);
 
+
+  
+  const handleLeaveAbsent = async ({email, userID, attendanceStatus}: LeaveAbsentIfo) => { // passed as prop
+      await postData(
+        '/api/tasks/POST/postLeaveAbsent',
+        ['email', 'userID', 'attendanceStatus',], // columns
+        [email, userID, attendanceStatus],  // values
+      );
+      
+    setTimeout(() => {
+      setLoading(false); // mimic 3 seconds loading
+    }, 3000)
+    
+  }
 
   return loading ? (
     <Loading />
@@ -138,7 +153,11 @@ const StatisticsPage: React.FC = () => {
                     boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
                   }}
                 >
-                  <AttendanceControl email={user.email}/>
+                  <AttendanceControl 
+                    email={user.email}
+                    userID={user.userID}
+                    handleLeaveAbsent={handleLeaveAbsent} 
+                  />
                 </div>
               </div>
             );

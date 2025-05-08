@@ -1,20 +1,82 @@
 import React, { useState } from 'react';
 import { Button, Layout, Typography, Space } from 'antd';
-import { QuestionCircleTwoTone } from '@ant-design/icons';
+import { QuestionCircleTwoTone, ClockCircleTwoTone, CloseCircleTwoTone, CheckCircleTwoTone,     } from '@ant-design/icons';
+import { LeaveAbsentIfo } from '@src/utils/interfaces';
+import { useLoading } from '@src/store/useLoading';
 
 const { Text } = Typography;
 const { Header } = Layout;
 
 interface Props { 
   email: string;
+  userID: string;
+  handleLeaveAbsent: (info: LeaveAbsentIfo) => void;
 }
-const AttendanceControl: React.FC<Props> = ({ email }) => {
+const AttendanceControl: React.FC<Props> = ({ email, userID, handleLeaveAbsent }) => {
   const roleID = Number(localStorage.getItem('roleID'));
   // alert(roleID);
 
   // Separate hover states for each button
   const [hoverOnLeave, setHoverOnLeave] = useState(false);
   const [hoverAbsent, setHoverAbsent] = useState(false);
+  
+  const { setLoading } = useLoading();
+  const [onLeaveLoad, setOnLeaveLoad] = useState(false);
+  const [onAbsentLoad, setOnAbsentLoad] = useState(false);
+
+  const [status, setStatus] = useState(''); // to hold attendanceStatus icon
+
+  const handleClick = (status: string) => {
+    // setLoading(true);
+    handleLeaveAbsent({
+      email,
+      userID,
+      attendanceStatus: status,
+    });
+    setTimeout(() => {
+      if(status === 'onLeave'){
+        setOnLeaveLoad(false);
+      }
+      if(status === 'absent'){
+        setOnAbsentLoad(false);
+      }
+    }, 3000)
+  }; // return the value to Page 
+
+  
+  const iconStyle = {
+    fontSize: 'clamp(100px, 15vw, 250px)',
+    width: '100%',
+    maxWidth: '250px',
+     height: 'auto',
+  };
+  
+   // Map status to icon and text
+   const getIconAndText = () => {
+    switch (status) {
+      case 'onLeave':
+        return {
+          icon: <ClockCircleTwoTone twoToneColor="#faad14" style={iconStyle} />, // yellow
+          text: 'On Leave',
+        };
+      case 'absent':
+        return {
+          icon: <CloseCircleTwoTone twoToneColor="#ff4d4f" style={iconStyle} />, // red
+          text: 'Absent',
+        };
+      case 'present':
+        return {
+          icon: <CheckCircleTwoTone twoToneColor="#52c41a" style={iconStyle} />, // green
+          text: 'Present',
+        };
+      default:
+        return {
+          icon: <QuestionCircleTwoTone twoToneColor="#d9d9d9" style={iconStyle} />, // gray (idle)
+          text: 'Idle',
+        };
+    }
+  };
+  const { icon, text } = getIconAndText();
 
   return (
     <div
@@ -44,6 +106,7 @@ const AttendanceControl: React.FC<Props> = ({ email }) => {
           <>
             {/* On Leave Button */}
             <Button
+              loading={onLeaveLoad}
               type="default"
               size="large"
               style={{
@@ -57,7 +120,9 @@ const AttendanceControl: React.FC<Props> = ({ email }) => {
               onMouseEnter={() => setHoverOnLeave(true)}
               onMouseLeave={() => setHoverOnLeave(false)}
               onClick={() => {
-                alert(`Leave:  ${email}`);
+                setOnLeaveLoad(true); 
+                handleClick('onLeave');
+                setStatus('onLeave'); // for icon 
               }}
             >
               On Leave
@@ -65,6 +130,7 @@ const AttendanceControl: React.FC<Props> = ({ email }) => {
 
             {/* Absent Button */}
             <Button
+              loading={onAbsentLoad}
               type="default"
               danger
               size="large"
@@ -79,7 +145,9 @@ const AttendanceControl: React.FC<Props> = ({ email }) => {
               onMouseEnter={() => setHoverAbsent(true)}
               onMouseLeave={() => setHoverAbsent(false)}
               onClick={() => {
-                alert(`Absent:  ${email}`);
+                setOnAbsentLoad(true);
+                handleClick('absent');
+                setStatus('absent');
               }}
             >
               Absent
@@ -127,15 +195,7 @@ const AttendanceControl: React.FC<Props> = ({ email }) => {
         }}
       >
         <Space direction="vertical" align="center">
-          <QuestionCircleTwoTone
-            twoToneColor="#d9d9d9"
-            style={{
-              fontSize: 'clamp(100px, 15vw, 250px)',
-              width: '100%',
-              maxWidth: '250px',
-              height: 'auto',
-            }}
-          />
+          {icon}
           <Text
             strong
             style={{
@@ -145,7 +205,7 @@ const AttendanceControl: React.FC<Props> = ({ email }) => {
               wordWrap: 'break-word',
             }}
           >
-            Idle
+            {text}
           </Text>
         </Space>
       </div>
