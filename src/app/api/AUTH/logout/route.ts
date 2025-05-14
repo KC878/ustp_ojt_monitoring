@@ -78,10 +78,12 @@ export async function POST(req: NextRequest){
       if( timeIn === ymdFormattedDate && resultStatus[0].duty === 'complete'){ // only works if the same date && status complete
 
         const userID = resultStatus[0].userID;
-        const timeInFormat = manilaTimeIn.slice(10); // register only the time + Pm or Am 
-        const timeOutFormat = manilaTimeOut.slice(10);
+        const timeInFormat = manilaTimeIn.slice(10).trim(); // register only the time + Pm or Am 
+        const timeOutFormat = manilaTimeOut.slice(10).trim();
         
         const renderedTime: string = timeRendered(timeInFormat, timeOutFormat);
+        console.log('Time IN: ', timeInFormat);
+        console.log('Time Out: ', timeOutFormat);
         console.log('Rendered Time: ', renderedTime);
         await db.query(
           insertDailyLogs,

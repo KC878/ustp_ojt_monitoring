@@ -33,13 +33,11 @@ export const getDailyDuty = `
 `;
 
 export const getDailyLogs = `
-  SELECT email, userID, createdAt
+  SELECT email, userID, createdAt, attendanceStatus
   FROM Daily_Logs
   WHERE email = ? AND 
   createdAt = ? 
 `;
-
-
 
 
 export const getSchools = `

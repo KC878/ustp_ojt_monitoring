@@ -87,7 +87,7 @@ const AttendanceControl: React.FC<Props> = ({ email, userID, handleLeaveAbsent, 
       default:
         return {
           icon: <QuestionCircleTwoTone twoToneColor="#d9d9d9" style={iconStyle} />, // gray (idle)
-          text: 'Idle',
+          text: 'In-progress',
         };
     }
   };

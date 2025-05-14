@@ -9,6 +9,7 @@ export async function GET(){
   try{
     const [rows] = await db.query(getStatistics);
     
+    
     return NextResponse.json(rows, {status: 200}); // add more get here separate -> 
   }catch(error){
     return NextResponse.json({error: error}, {status: 500});
