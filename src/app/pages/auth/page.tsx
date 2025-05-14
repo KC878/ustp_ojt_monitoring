@@ -172,7 +172,7 @@ const LoginPage = () => {
 
                 // alert(`${user.duration} ${user.schoolID}`);
                 setLoading(true);
-                if(user.duration === null && user.schoolID === null){
+                if(user.duration === null && user.schoolID === null && user.roleID === 1){
                   setFirstLogin(true);
                 }else{
                   setFirstLogin(false);
