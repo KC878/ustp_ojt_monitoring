@@ -280,7 +280,7 @@ const InitialSteps: React.FC<Props>= ( { schools, schoolsLoading }) => {
                     value={
                       schoolID && schoolValue
                         ? { value: schoolID, label: schoolValue }
-                        : undefined
+                        : null
                     }
                     onChange={(selectedSchool) => {
                       setSchoolID(selectedSchool.value);  // Access value (schoolID)
