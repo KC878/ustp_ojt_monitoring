@@ -90,7 +90,7 @@ const PDFLogs: React.FC<PDFLogsProps> = ({ name, logs }) => {
           <body>
             <div id="pdf-content">
               <div class="header-section">
-                <img class="header-logo" src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Logo_TV_2015.png" alt="Logo" />
+                <img class="header-logo" src="/logicbaseLogo.jpg">
                 <h2>Daily Attendance Logs</h2>
                 <p class="email">Email: ${name}</p>
               </div>
@@ -110,7 +110,7 @@ const PDFLogs: React.FC<PDFLogsProps> = ({ name, logs }) => {
                       <td>${log.createdAt.slice(0, 10)}</td>
                       <td>${log.timeIn || '-'}</td>
                       <td>${log.timeOut || '-'}</td>
-                      <td>${log.renderedTime}</td>
+                      <td>${log.renderedTime === null ? log.attendanceStatus : log.renderedTime}</td>
                     </tr>`).join('')}
                 </tbody>
               </table>
