@@ -193,14 +193,14 @@ const LoginPage = () => {
                 })
               } else if (response.message === messages.ERROR.DONE_DUTY){
                 messageApi.info({
-                  message: `User Status: ${messages.ERROR.DONE_DUTY} --> ${email}`,
+                  message: `User Status: User [${email}]'s Daily attendance status has been recorded ✅`,
                   placement: 'topRight',
                 })
 
               } else {
                 // // Fallback in case no message is provided
                 const compare = messages.ERROR.DONE_DUTY === 'Duty Complete'; 
-                alert(compare);
+                alert('Triggered the Else Condition');
                 messageApi.error({
                   message: 'An unexpected error occurred.',
                   placement: 'topRight',
