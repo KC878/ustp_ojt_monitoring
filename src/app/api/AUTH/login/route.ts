@@ -90,7 +90,7 @@ export async function POST(req: NextRequest){
      const [resultLogs]: any = await db.query(getDailyLogs, [email, ymdFormattedDate]);
 
     // add other object here --> attendance Status 
-     // uncomment later
+    //  // uncomment later
      if(resultLogs.length > 0){
       console.log(resultLogs[0]);
       console.log(messages.ERROR.DONE_DUTY);

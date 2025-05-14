@@ -92,7 +92,7 @@ const PDFLogs: React.FC<PDFLogsProps> = ({ name, logs }) => {
               <div class="header-section">
                 <img class="header-logo" src="/logicbaseLogo.jpg">
                 <h2>Daily Attendance Logs</h2>
-                <p class="email">Email: ${name}</p>
+                <p class="email">Name: ${name}</p>
               </div>
 
               <table>
